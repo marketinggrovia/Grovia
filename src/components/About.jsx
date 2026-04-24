@@ -22,9 +22,9 @@ const About = () => {
           viewport={{ once: true }}
         >
           <span className="subtitle">Who We Are</span>
-          <h2>Why Choose Dpixels?</h2>
+          <h2>Why Choose Groovia?</h2>
           <p>
-            At Dpixels, we believe in results. Our team of passionate experts is dedicated 
+            At Groovia, we believe in results. Our team of passionate experts is dedicated 
             to navigating the ever-evolving digital landscape on your behalf. We don't 
             just deliver services; we provide tailored solutions designed to meet your 
             unique goals.
