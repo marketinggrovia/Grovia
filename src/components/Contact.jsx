@@ -24,7 +24,7 @@ const Contact = () => {
               <div className="info-icon glass"><Mail size={24} /></div>
               <div>
                 <h4>Email Us</h4>
-                <p>contact@groovia.in</p>
+                <p>contact@grovia.in</p>
               </div>
             </div>
             <div className="info-item">

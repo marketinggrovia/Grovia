@@ -12,7 +12,7 @@ const Footer = () => {
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
-            <span className="logo-text">Groo<span className="primary-color">via</span></span>
+            <span className="logo-text">Gro<span className="primary-color">via</span></span>
             <p>Transforming businesses into digital success stories with innovative marketing strategies.</p>
             <div className="social-links">
               <a href="#" aria-label="Facebook">
@@ -63,7 +63,7 @@ const Footer = () => {
         </div>
         
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Groovia Digital Agency. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Grovia Digital Agency. All rights reserved.</p>
           <button className="scroll-top glass" onClick={scrollToTop}>
             <ArrowUp size={20} />
           </button>

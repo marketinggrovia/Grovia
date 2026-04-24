@@ -14,7 +14,7 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            At Groovia, <br />
+            At Grovia, <br />
             <span className="gradient-text">We Cure Your Business Health</span>
           </motion.h1>
           
@@ -24,7 +24,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Welcome to Groovia, where digital dreams take flight! As a premier digital marketing agency, 
+            Welcome to Grovia, where digital dreams take flight! As a premier digital marketing agency, 
             we specialize in transforming businesses into online success stories. We understand the 
             dynamic landscape of the digital world and craft strategies that ensure your brand 
             not only stands out but thrives.
@@ -49,7 +49,7 @@ const Hero = () => {
           transition={{ duration: 1 }}
           viewport={{ once: true }}
         >
-          <img src={heroImg} alt="Groovia Marketing Illustration" />
+          <img src={heroImg} alt="Grovia Marketing Illustration" />
           <div className="blob blob-1"></div>
           <div className="blob blob-2"></div>
         </motion.div>

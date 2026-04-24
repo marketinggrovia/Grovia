@@ -25,7 +25,7 @@ const Navbar = () => {
           transition={{ duration: 0.5, type: 'spring' }}
         >
           <div className="navbar-logo">
-            <span className="logo-text">Groo<span className="primary-color">via</span></span>
+            <span className="logo-text">Gro<span className="primary-color">via</span></span>
           </div>
 
           <div className="navbar-links desktop-only">
