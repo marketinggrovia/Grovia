@@ -239,7 +239,7 @@ function applyCMS() {
 
         Object.entries(socialMap).forEach(([selector, url]) => {
             document.querySelectorAll(selector).forEach(link => {
-                if (url && url !== '#') {
+                if (url) {
                     link.href = url;
                     link.style.display = '';
                 } else {
