@@ -73,7 +73,7 @@ function loadSection(section) {
     hero:'Hero Section', about:'About', services:'Services', whyus:'Why Choose Us',
     portfolio:'Portfolio', testimonials:'Testimonials', contact:'Contact', footer:'Footer',
     general: 'General Settings', socials: 'Social Media', settings:'Security', blogs: 'Blog Posts',
-    seo: 'SEO Settings', careers: 'Careers Page', faq: 'FAQ Section', socialFeed: 'Social Feed'
+    seo: 'SEO Settings', careers: 'Careers Page', faq: 'FAQ Section', socialFeed: 'Instagram Feed'
   }[section];
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.section === section));
   const area = document.getElementById('contentArea');
@@ -400,7 +400,7 @@ function renderSocialFeed(d) {
   const items = sf.items || [];
   return `
     <div class="admin-card">
-      <h3><i class="fas fa-hashtag"></i> Social Feed Content</h3>
+      <h3><i class="fab fa-instagram"></i> Instagram Feed Content</h3>
       ${fieldHTML('Section Tag', 'tag', sf.tag)}
       ${fieldHTML('Headline', 'headline', sf.headline)}
       ${fieldHTML('Description', 'description', sf.description, 'textarea')}

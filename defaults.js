@@ -142,16 +142,16 @@ const DEFAULTS = {
     ]
   },
   socialFeed: {
-    tag: "Social Connect",
-    headline: 'Follow Our <span class="gradient-text">Journey</span>',
-    description: "Stay updated with our latest projects, insights, and agency life.",
+    tag: "Instagram Connect",
+    headline: 'Our <span class="gradient-text">Instagram</span> Feed',
+    description: "Follow us @groviamarketing for latest updates, tips, and behind-the-scenes.",
     items: [
       { image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80", link: "#", platform: "instagram" },
       { image: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=600&q=80", link: "#", platform: "instagram" },
       { image: "https://images.unsplash.com/photo-1611162618071-b39a2ad055fb?auto=format&fit=crop&w=600&q=80", link: "#", platform: "instagram" },
-      { image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80", link: "#", platform: "linkedin" },
+      { image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80", link: "#", platform: "instagram" },
       { image: "https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80", link: "#", platform: "instagram" },
-      { image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=600&q=80", link: "#", platform: "linkedin" }
+      { image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=600&q=80", link: "#", platform: "instagram" }
     ]
   },
   careers: {
