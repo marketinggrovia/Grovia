@@ -141,6 +141,19 @@ const DEFAULTS = {
       { question: "How do you measure the success of campaigns?", answer: "We use data-driven metrics such as ROI, conversion rates, traffic growth, and lead volume. You will receive monthly reports detailing all key performance indicators." }
     ]
   },
+  socialFeed: {
+    tag: "Social Connect",
+    headline: 'Follow Our <span class="gradient-text">Journey</span>',
+    description: "Stay updated with our latest projects, insights, and agency life.",
+    items: [
+      { image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80", link: "#", platform: "instagram" },
+      { image: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=600&q=80", link: "#", platform: "instagram" },
+      { image: "https://images.unsplash.com/photo-1611162618071-b39a2ad055fb?auto=format&fit=crop&w=600&q=80", link: "#", platform: "instagram" },
+      { image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80", link: "#", platform: "linkedin" },
+      { image: "https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=80", link: "#", platform: "instagram" },
+      { image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=600&q=80", link: "#", platform: "linkedin" }
+    ]
+  },
   careers: {
     tag: "Join Our Team",
     headline: 'Build Your Career with <span class="gradient-text">Grovia</span>',

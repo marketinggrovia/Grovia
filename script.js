@@ -247,6 +247,38 @@ function applyCMS() {
         }
     }
 
+    // Social Feed
+    if (cms.socialFeed) {
+        const sf = cms.socialFeed;
+        const sec = document.getElementById('social-feed');
+        if (sec) {
+            const tag = sec.querySelector('.section-tag');
+            if (tag) tag.textContent = sf.tag;
+            const h2 = sec.querySelector('h2');
+            if (h2) h2.innerHTML = sf.headline;
+            const desc = sec.querySelector('.section-desc');
+            if (desc) desc.textContent = sf.description;
+            if (sf.items) {
+                const grid = sec.querySelector('.social-grid');
+                if (grid) {
+                    grid.innerHTML = sf.items.map((item, i) => `
+                        <a href="${item.link}" target="_blank" class="social-post-card glass-card" data-animate="fade-up" data-delay="${(i+1)*100}">
+                            <img src="${item.image}" alt="Social Post">
+                            <div class="social-post-overlay">
+                                <i class="fab fa-${item.platform}"></i>
+                            </div>
+                        </a>
+                    `).join('');
+                }
+            }
+            // Update follow button
+            const followBtn = sec.querySelector('.social-follow-btn');
+            if (followBtn && cms.socials && cms.socials.instagram) {
+                followBtn.href = cms.socials.instagram;
+            }
+        }
+    }
+
     // Footer
     if (cms.footer) {
         const f = cms.footer;

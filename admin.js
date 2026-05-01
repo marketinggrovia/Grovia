@@ -73,7 +73,7 @@ function loadSection(section) {
     hero:'Hero Section', about:'About', services:'Services', whyus:'Why Choose Us',
     portfolio:'Portfolio', testimonials:'Testimonials', contact:'Contact', footer:'Footer',
     general: 'General Settings', socials: 'Social Media', settings:'Security', blogs: 'Blog Posts',
-    seo: 'SEO Settings', careers: 'Careers Page', faq: 'FAQ Section'
+    seo: 'SEO Settings', careers: 'Careers Page', faq: 'FAQ Section', socialFeed: 'Social Feed'
   }[section];
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.section === section));
   const area = document.getElementById('contentArea');
@@ -84,7 +84,7 @@ function loadSection(section) {
     hero: renderHero, about: renderAbout, services: renderServices, whyus: renderWhyUs,
     portfolio: renderPortfolio, testimonials: renderTestimonials, contact: renderContact,
     footer: renderFooter, settings: renderSettings, general: renderGeneral, socials: renderSocials,
-    blogs: renderBlogs, seo: renderSEO, careers: renderCareers, faq: renderFAQ
+    blogs: renderBlogs, seo: renderSEO, careers: renderCareers, faq: renderFAQ, socialFeed: renderSocialFeed
   };
   area.innerHTML = renderers[section] ? renderers[section](d) : '<p>Section not found</p>';
 }
@@ -393,6 +393,50 @@ function addFAQ() {
   data.faq.items.unshift({ question: "New Question", answer: "Answer goes here." });
   loadSection('faq');
   showToast('New FAQ added');
+}
+
+function renderSocialFeed(d) {
+  const sf = data.socialFeed || {};
+  const items = sf.items || [];
+  return `
+    <div class="admin-card">
+      <h3><i class="fas fa-hashtag"></i> Social Feed Content</h3>
+      ${fieldHTML('Section Tag', 'tag', sf.tag)}
+      ${fieldHTML('Headline', 'headline', sf.headline)}
+      ${fieldHTML('Description', 'description', sf.description, 'textarea')}
+    </div>
+    <div class="admin-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h3><i class="fas fa-images"></i> Feed Posts</h3>
+        <button class="btn btn-primary" onclick="addSocialPost()"><i class="fas fa-plus"></i> Add Post</button>
+      </div>
+      <div class="repeater">
+        ${items.map((item, i) => `
+          <div class="repeater-item">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div style="flex:1">
+                ${fieldHTML('Post Image URL', `items.${i}.image`, item.image)}
+                <div class="field-row">
+                  ${fieldHTML('Post Link', `items.${i}.link`, item.link)}
+                  ${fieldHTML('Platform', `items.${i}.platform`, item.platform)}
+                </div>
+              </div>
+              <button class="btn btn-outline" style="color:#ef4444;border-color:#ef4444;margin-left:15px" onclick="removeItem('socialFeed', ${i})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+}
+
+function addSocialPost() {
+  if (!data.socialFeed) data.socialFeed = { items: [] };
+  if (!data.socialFeed.items) data.socialFeed.items = [];
+  data.socialFeed.items.unshift({ image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113", link: "#", platform: "instagram" });
+  loadSection('socialFeed');
+  showToast('New social post added');
 }
 
 function renderBlogs(d) {
