@@ -73,7 +73,7 @@ function loadSection(section) {
     hero:'Hero Section', about:'About', services:'Services', whyus:'Why Choose Us',
     portfolio:'Portfolio', testimonials:'Testimonials', contact:'Contact', footer:'Footer',
     general: 'General Settings', socials: 'Social Media', settings:'Security', blogs: 'Blog Posts',
-    seo: 'SEO Settings', careers: 'Careers Page'
+    seo: 'SEO Settings', careers: 'Careers Page', faq: 'FAQ Section'
   }[section];
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.section === section));
   const area = document.getElementById('contentArea');
@@ -84,7 +84,7 @@ function loadSection(section) {
     hero: renderHero, about: renderAbout, services: renderServices, whyus: renderWhyUs,
     portfolio: renderPortfolio, testimonials: renderTestimonials, contact: renderContact,
     footer: renderFooter, settings: renderSettings, general: renderGeneral, socials: renderSocials,
-    blogs: renderBlogs, seo: renderSEO, careers: renderCareers
+    blogs: renderBlogs, seo: renderSEO, careers: renderCareers, faq: renderFAQ
   };
   area.innerHTML = renderers[section] ? renderers[section](d) : '<p>Section not found</p>';
 }
@@ -352,6 +352,47 @@ function addJob() {
   data.careers.items.unshift({ title: "New Job Role", type: "Full Time", location: "Remote", description: "Job description goes here." });
   loadSection('careers');
   showToast('New job role added');
+}
+
+function renderFAQ(d) {
+  const faq = data.faq || {};
+  const items = faq.items || [];
+  return `
+    <div class="admin-card">
+      <h3><i class="fas fa-question-circle"></i> FAQ Section Content</h3>
+      ${fieldHTML('Section Tag', 'tag', faq.tag)}
+      ${fieldHTML('Headline', 'headline', faq.headline)}
+      ${fieldHTML('Description', 'description', faq.description, 'textarea')}
+    </div>
+    <div class="admin-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h3><i class="fas fa-list"></i> Questions & Answers</h3>
+        <button class="btn btn-primary" onclick="addFAQ()"><i class="fas fa-plus"></i> Add FAQ</button>
+      </div>
+      <div class="repeater">
+        ${items.map((item, i) => `
+          <div class="repeater-item">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div style="flex:1">
+                ${fieldHTML('Question', `items.${i}.question`, item.question)}
+                ${fieldHTML('Answer', `items.${i}.answer`, item.answer, 'textarea')}
+              </div>
+              <button class="btn btn-outline" style="color:#ef4444;border-color:#ef4444;margin-left:15px" onclick="removeItem('faq', ${i})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+}
+
+function addFAQ() {
+  if (!data.faq) data.faq = { items: [] };
+  if (!data.faq.items) data.faq.items = [];
+  data.faq.items.unshift({ question: "New Question", answer: "Answer goes here." });
+  loadSection('faq');
+  showToast('New FAQ added');
 }
 
 function renderBlogs(d) {

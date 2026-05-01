@@ -130,6 +130,17 @@ const DEFAULTS = {
     contact: { title: "Contact Us | Get a Strategy Call", description: "Ready to grow? Contact Grovia Marketing for a free strategy consultation.", ogImage: "logo.jpeg" },
     careers: { title: "Careers | Join Our Expert Team", description: "Explore career opportunities at Grovia Marketing and grow with us.", ogImage: "logo.jpeg" }
   },
+  faq: {
+    tag: "Frequently Asked Questions",
+    headline: 'Got <span class="gradient-text">Questions?</span> We have Answers',
+    description: "Everything you need to know about our services and process.",
+    items: [
+      { question: "What services does Grovia Marketing offer?", answer: "We offer a full suite of digital marketing services including SEO, PPC, Social Media Marketing, Content Marketing, Branding, and Web Development." },
+      { question: "How long does it take to see results from SEO?", answer: "SEO is a long-term strategy. While some improvements can be seen in the first 2-3 months, significant organic growth usually takes 6-12 months depending on competition and industry." },
+      { question: "Do you offer custom marketing packages?", answer: "Yes, we believe every business is unique. We craft personalized strategies and packages tailored to your specific goals and budget." },
+      { question: "How do you measure the success of campaigns?", answer: "We use data-driven metrics such as ROI, conversion rates, traffic growth, and lead volume. You will receive monthly reports detailing all key performance indicators." }
+    ]
+  },
   careers: {
     tag: "Join Our Team",
     headline: 'Build Your Career with <span class="gradient-text">Grovia</span>',
