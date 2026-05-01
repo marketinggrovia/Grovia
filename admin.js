@@ -73,7 +73,7 @@ function loadSection(section) {
     hero:'Hero Section', about:'About', services:'Services', whyus:'Why Choose Us',
     portfolio:'Portfolio', testimonials:'Testimonials', contact:'Contact', footer:'Footer',
     general: 'General Settings', socials: 'Social Media', settings:'Security', blogs: 'Blog Posts',
-    seo: 'SEO Settings'
+    seo: 'SEO Settings', careers: 'Careers Page'
   }[section];
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.section === section));
   const area = document.getElementById('contentArea');
@@ -84,7 +84,7 @@ function loadSection(section) {
     hero: renderHero, about: renderAbout, services: renderServices, whyus: renderWhyUs,
     portfolio: renderPortfolio, testimonials: renderTestimonials, contact: renderContact,
     footer: renderFooter, settings: renderSettings, general: renderGeneral, socials: renderSocials,
-    blogs: renderBlogs, seo: renderSEO
+    blogs: renderBlogs, seo: renderSEO, careers: renderCareers
   };
   area.innerHTML = renderers[section] ? renderers[section](d) : '<p>Section not found</p>';
 }
@@ -290,7 +290,7 @@ function addItem(section, arrayKey, template) {
 
 function renderSEO(d) {
   const seo = data.seo || {};
-  const pages = ['index', 'about', 'services', 'portfolio', 'blog', 'contact'];
+  const pages = ['index', 'about', 'services', 'portfolio', 'blog', 'contact', 'careers'];
   return `
     <div class="admin-card">
       <h3><i class="fas fa-search"></i> SEO Settings</h3>
@@ -304,6 +304,52 @@ function renderSEO(d) {
         </div>
       `).join('')}
     </div>`;
+}
+
+function renderCareers(d) {
+  const c = data.careers || {};
+  const items = c.items || [];
+  return `
+    <div class="admin-card">
+      <h3><i class="fas fa-briefcase"></i> Careers Page Content</h3>
+      ${fieldHTML('Section Tag', 'tag', c.tag)}
+      ${fieldHTML('Headline', 'headline', c.headline)}
+      ${fieldHTML('Description', 'description', c.description, 'textarea')}
+      ${fieldHTML('WhatsApp Number for Applications', 'whatsapp', c.whatsapp)}
+    </div>
+    <div class="admin-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h3><i class="fas fa-list-check"></i> Job Openings</h3>
+        <button class="btn btn-primary" onclick="addJob()"><i class="fas fa-plus"></i> Add Job</button>
+      </div>
+      <div class="repeater">
+        ${items.map((item, i) => `
+          <div class="repeater-item">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div style="flex:1">
+                ${fieldHTML('Job Title', `items.${i}.title`, item.title)}
+                <div class="field-row">
+                  ${fieldHTML('Job Type', `items.${i}.type`, item.type)}
+                  ${fieldHTML('Location', `items.${i}.location`, item.location)}
+                </div>
+                ${fieldHTML('Short Description', `items.${i}.description`, item.description, 'textarea')}
+              </div>
+              <button class="btn btn-outline" style="color:#ef4444;border-color:#ef4444;margin-left:15px" onclick="removeItem('careers', ${i})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+}
+
+function addJob() {
+  if (!data.careers) data.careers = { items: [] };
+  if (!data.careers.items) data.careers.items = [];
+  data.careers.items.unshift({ title: "New Job Role", type: "Full Time", location: "Remote", description: "Job description goes here." });
+  loadSection('careers');
+  showToast('New job role added');
 }
 
 function renderBlogs(d) {

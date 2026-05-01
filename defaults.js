@@ -125,6 +125,18 @@ const DEFAULTS = {
     services: { title: "Our Services | Expert Digital Solutions", description: "Explore our range of digital marketing services from SEO to Web Development.", ogImage: "logo.jpeg" },
     portfolio: { title: "Our Portfolio | Success Stories", description: "See how we've helped brands achieve remarkable growth.", ogImage: "logo.jpeg" },
     blog: { title: "Blog | Insights & Trends", description: "Latest digital marketing insights and news from our experts.", ogImage: "logo.jpeg" },
-    contact: { title: "Contact Us | Get a Strategy Call", description: "Ready to grow? Contact Grovia Marketing for a free strategy consultation.", ogImage: "logo.jpeg" }
+    contact: { title: "Contact Us | Get a Strategy Call", description: "Ready to grow? Contact Grovia Marketing for a free strategy consultation.", ogImage: "logo.jpeg" },
+    careers: { title: "Careers | Join Our Expert Team", description: "Explore career opportunities at Grovia Marketing and grow with us.", ogImage: "logo.jpeg" }
+  },
+  careers: {
+    tag: "Join Our Team",
+    headline: 'Build Your Career with <span class="gradient-text">Grovia</span>',
+    description: "We are looking for passionate, creative, and data-driven individuals to join our mission of transforming brands.",
+    whatsapp: "+91 90018 18495",
+    items: [
+      { title: "SEO Specialist", type: "Full Time", location: "Remote / Jaipur", description: "Help our clients dominate search rankings with expert SEO strategies." },
+      { title: "Content Writer", type: "Part Time", location: "Remote", description: "Craft compelling stories and high-converting copy for diverse industries." },
+      { title: "Social Media Manager", type: "Full Time", location: "Jaipur", description: "Build and manage thriving online communities for global brands." }
+    ]
   }
 };

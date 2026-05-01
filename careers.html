@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers | Join Our Expert Team</title>
+    <meta name="description" content="Explore career opportunities at Grovia Marketing and grow with us.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <img src="logo.jpeg" alt="Grovia Marketing" class="loader-logo-img">
+            </div>
+            <div class="loader-text">GROVIA MARKETING</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Shapes -->
+    <div class="floating-shapes" aria-hidden="true">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar scrolled">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="logo.jpeg" alt="Grovia" class="nav-logo-img">
+                <span>Grovia</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="careers.html" class="nav-link active">Careers</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <a href="contact.html" class="nav-cta">Get Started</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <header class="blog-hero">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag" id="careersTag">Join Our Team</span>
+                <h1 id="careersHeadline">Build Your Career with <span class="gradient-text">Grovia</span></h1>
+                <p class="section-desc" id="careersDesc">We are looking for passionate, creative, and data-driven individuals to join our mission of transforming brands.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Openings Section -->
+    <section class="section" style="background: white;">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <h2>Current <span class="gradient-text">Openings</span></h2>
+                <p class="section-desc">Find a role that matches your skills and ambition.</p>
+            </div>
+            <div class="careers-grid" id="jobGrid">
+                <!-- Dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="#" id="whatsappApply" class="whatsapp-float" target="_blank" aria-label="Apply via WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span>Apply Now</span>
+    </a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo">
+                        <img src="logo.jpeg" alt="Grovia" class="nav-logo-img">
+                        <span>Grovia</span>
+                    </a>
+                    <p>Empowering brands with innovative digital marketing solutions that drive real, measurable growth.</p>
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Facebook" class="social-fb"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram" class="social-ig"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn" class="social-li"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Twitter" class="social-tw"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#" aria-label="Pinterest" class="social-pn"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#" aria-label="GMB Profile" class="social-gmb"><i class="fab fa-google"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="services.html">Services</a>
+                    <a href="portfolio.html">Portfolio</a>
+                    <a href="careers.html">Careers</a>
+                    <a href="blog.html">Blog</a>
+                </div>
+                <div class="footer-links footer-contact">
+                    <h4>Contact</h4>
+                    <a href="tel:+919001818495" class="footer-phone"><i class="fas fa-phone"></i> +91 90018 18495</a>
+                    <a href="mailto:hello@groviamarketing.com" class="footer-email"><i class="fas fa-envelope"></i>
+                        hello@groviamarketing.com</a>
+                    <a href="#" class="footer-address"><i class="fas fa-location-dot"></i> Jaipur, Rajasthan</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Grovia Marketing. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="defaults.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function renderJobs() {
+            const cms = getCMSData();
+            if (!cms || !cms.careers) return;
+            
+            const c = cms.careers;
+            document.getElementById('careersTag').textContent = c.tag;
+            document.getElementById('careersHeadline').innerHTML = c.headline;
+            document.getElementById('careersDesc').textContent = c.description;
+
+            const grid = document.getElementById('jobGrid');
+            grid.innerHTML = (c.items || []).map(item => `
+                <div class="glass-card" style="padding: 30px; margin-bottom: 20px;" data-animate="fade-up">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:15px">
+                        <div>
+                            <h3 style="margin-bottom:5px">${item.title}</h3>
+                            <div style="display:flex; gap:15px; color:var(--primary); font-size:0.9rem; font-weight:600">
+                                <span><i class="fas fa-clock"></i> ${item.type}</span>
+                                <span><i class="fas fa-location-dot"></i> ${item.location}</span>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/${c.whatsapp.replace(/\D/g, '')}?text=I%20am%20interested%20in%20the%20${encodeURIComponent(item.title)}%20position" target="_blank" class="btn btn-outline" style="padding: 8px 16px; font-size:0.9rem">
+                            Apply <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                    <p style="color:var(--text-muted)">${item.description}</p>
+                </div>
+            `).join('');
+
+            const waFloat = document.getElementById('whatsappApply');
+            waFloat.href = `https://wa.me/${c.whatsapp.replace(/\D/g, '')}?text=Hi%20Grovia%20Team,%20I'm%20interested%20in%20joining%20your%20team.`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderJobs();
+        });
+    </script>
+</body>
+
+</html>
