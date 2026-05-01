@@ -97,7 +97,29 @@ const DEFAULTS = {
     brandText: "Empowering brands with innovative digital marketing solutions that drive real, measurable growth.",
     copyright: "© 2026 Grovia Marketing. All rights reserved."
   },
-  settings: { password: "grovia2026" }
+  settings: { password: "grovia2026" },
+  blogs: [
+    {
+      id: 1,
+      title: "10 Digital Marketing Trends to Watch in 2026",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+      date: "May 1, 2026",
+      author: "Admin",
+      category: "Trends",
+      excerpt: "Stay ahead of the curve with our comprehensive guide to the most impactful marketing trends of the coming year.",
+      content: "Full blog content goes here. You can use HTML tags for formatting."
+    },
+    {
+      id: 2,
+      title: "Maximizing ROI with Targeted PPC Campaigns",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+      date: "April 25, 2026",
+      author: "Admin",
+      category: "PPC",
+      excerpt: "Learn the secrets of high-converting pay-per-click strategies that deliver results without breaking the bank.",
+      content: "Full blog content goes here."
+    }
+  ]
 };
 
 // === STATE ===
@@ -172,7 +194,7 @@ function loadSection(section) {
   document.getElementById('sectionTitle').textContent = {
     hero:'Hero Section', about:'About', services:'Services', whyus:'Why Choose Us',
     portfolio:'Portfolio', testimonials:'Testimonials', contact:'Contact', footer:'Footer',
-    general: 'General Settings', socials: 'Social Media', settings:'Security'
+    general: 'General Settings', socials: 'Social Media', settings:'Security', blogs: 'Blog Posts'
   }[section];
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.section === section));
   const area = document.getElementById('contentArea');
@@ -182,7 +204,8 @@ function loadSection(section) {
   const renderers = {
     hero: renderHero, about: renderAbout, services: renderServices, whyus: renderWhyUs,
     portfolio: renderPortfolio, testimonials: renderTestimonials, contact: renderContact,
-    footer: renderFooter, settings: renderSettings, general: renderGeneral, socials: renderSocials
+    footer: renderFooter, settings: renderSettings, general: renderGeneral, socials: renderSocials,
+    blogs: renderBlogs
   };
   area.innerHTML = renderers[section] ? renderers[section](d) : '<p>Section not found</p>';
 }
@@ -386,10 +409,68 @@ function addItem(section, arrayKey, template) {
   showToast('Item added');
 }
 
+function renderBlogs(d) {
+  const blogs = data.blogs || [];
+  return `
+    <div class="admin-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h3><i class="fas fa-newspaper"></i> Manage Blog Posts</h3>
+        <button class="btn-primary btn-sm" onclick="addBlog()"><i class="fas fa-plus"></i> New Post</button>
+      </div>
+      <div class="blogs-list">
+        ${blogs.length === 0 ? '<p>No blog posts found. Create your first post!</p>' : ''}
+        ${blogs.map((b, i) => `
+          <div class="repeater-item">
+            <div class="item-header">
+              <h4>${b.title}</h4>
+              <div style="display:flex;gap:8px">
+                <button class="btn-danger btn-sm" onclick="removeItem('blogs','',${i})"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+            <div class="field-row">
+              ${fieldHTML('Title', `blogs.${i}.title`, b.title)}
+              ${fieldHTML('Category', `blogs.${i}.category`, b.category)}
+            </div>
+            <div class="field-row">
+              ${fieldHTML('Date', `blogs.${i}.date`, b.date)}
+              ${fieldHTML('Author', `blogs.${i}.author`, b.author)}
+            </div>
+            ${fieldHTML('Image URL', `blogs.${i}.image`, b.image)}
+            ${fieldHTML('Excerpt', `blogs.${i}.excerpt`, b.excerpt, 'textarea')}
+            ${fieldHTML('Full Content (HTML allowed)', `blogs.${i}.content`, b.content, 'textarea', 'rows="10"')}
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+}
+
+function addBlog() {
+  saveAll();
+  if (!data.blogs) data.blogs = [];
+  data.blogs.unshift({
+    id: Date.now(),
+    title: "New Blog Post",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
+    date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+    author: "Admin",
+    category: "General",
+    excerpt: "Summary of the post...",
+    content: "Full content goes here..."
+  });
+  saveData();
+  loadSection('blogs');
+  showToast('New blog post added!');
+}
+
+// Update removeItem to handle arrays without subkeys if needed
+// Actually, the current removeItem(section, arrayKey, index) works if arrayKey is the path to the array.
+// But it uses data[section][arrayKey].splice. If arrayKey is empty, it should use data[section].
+
 function removeItem(section, arrayKey, index) {
   if (!confirm('Delete this item?')) return;
   saveAll();
-  data[section][arrayKey].splice(index, 1);
+  const arr = arrayKey ? data[section][arrayKey] : data[section];
+  arr.splice(index, 1);
   saveData(); loadSection(section);
   showToast('Item removed', 'info');
 }

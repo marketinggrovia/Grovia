@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Grovia Marketing</title>
+    <meta name="description"
+        content="Read the latest insights on digital marketing, SEO, PPC, and branding from the experts at Grovia Marketing.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <img src="logo.jpeg" alt="Grovia Marketing" class="loader-logo-img">
+            </div>
+            <div class="loader-text">GROVIA MARKETING</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Shapes -->
+    <div class="floating-shapes" aria-hidden="true">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar scrolled">
+        <div class="nav-container">
+            <a href="index.html#hero" class="nav-logo">
+                <img src="logo.jpeg" alt="Grovia" class="nav-logo-img">
+                <span>Grovia</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html#hero" class="nav-link">Home</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html#services" class="nav-link">Services</a>
+                <a href="index.html#why-us" class="nav-link">Why Us</a>
+                <a href="index.html#portfolio" class="nav-link">Portfolio</a>
+                <a href="index.html#testimonials" class="nav-link">Testimonials</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+            <a href="index.html#contact" class="nav-cta">Get Started</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Blog Hero -->
+    <header class="blog-hero">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">Insights & News</span>
+                <h1>Our <span class="gradient-text">Blog</span></h1>
+                <p class="section-desc">Expert perspectives on the digital landscape, marketing strategies, and industry innovations to help your business grow.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Blog Grid -->
+    <section class="blog-section">
+        <div class="container">
+            <div id="blogGrid" class="blog-grid">
+                <!-- Dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Modal -->
+    <div id="blogModal" class="blog-modal">
+        <div class="blog-modal-overlay" onclick="closeBlog()"></div>
+        <div class="blog-modal-container">
+            <button class="blog-modal-close" onclick="closeBlog()"><i class="fas fa-times"></i></button>
+            <div id="blogModalContent">
+                <!-- Loaded on click -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html#hero" class="nav-logo">
+                        <img src="logo.jpeg" alt="Grovia" class="nav-logo-img">
+                        <span>Grovia</span>
+                    </a>
+                    <p>Empowering brands with innovative digital marketing solutions that drive real, measurable growth.</p>
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Facebook" class="social-fb"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram" class="social-ig"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn" class="social-li"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Twitter" class="social-tw"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#" aria-label="Pinterest" class="social-pn"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#" aria-label="GMB Profile" class="social-gmb"><i class="fab fa-google"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="index.html#hero">Home</a>
+                    <a href="index.html#about">About Us</a>
+                    <a href="index.html#services">Services</a>
+                    <a href="index.html#portfolio">Portfolio</a>
+                    <a href="blog.html">Blog</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <a href="index.html#services">SEO Optimization</a>
+                    <a href="index.html#services">PPC Advertising</a>
+                    <a href="index.html#services">Social Media</a>
+                    <a href="index.html#services">Content Marketing</a>
+                    <a href="index.html#services">Web Development</a>
+                </div>
+                <div class="footer-links footer-contact">
+                    <h4>Contact</h4>
+                    <a href="tel:+919001818495" class="footer-phone"><i class="fas fa-phone"></i> +91 90018 18495</a>
+                    <a href="mailto:hello@groviamarketing.com" class="footer-email"><i class="fas fa-envelope"></i>
+                        hello@groviamarketing.com</a>
+                    <a href="#"><i class="fas fa-location-dot"></i> Jaipur, Rajasthan</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Grovia Marketing. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Specific logic for blog page
+        function renderBlogGrid() {
+            const cms = getCMSData();
+            if (!cms || !cms.blogs) return;
+            
+            const grid = document.getElementById('blogGrid');
+            grid.innerHTML = cms.blogs.map((b, i) => `
+                <div class="blog-card" data-animate="fade-up" data-delay="${i * 100}">
+                    <div class="blog-card-img">
+                        <img src="${b.image}" alt="${b.title}">
+                        <span class="blog-card-badge">${b.category}</span>
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span><i class="far fa-calendar"></i> ${b.date}</span>
+                            <span><i class="far fa-user"></i> ${b.author}</span>
+                        </div>
+                        <h3>${b.title}</h3>
+                        <p>${b.excerpt}</p>
+                        <a href="javascript:void(0)" class="blog-card-link" onclick="openBlog(${b.id})">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Re-init animations for new elements
+            initAnimations();
+        }
+
+        function openBlog(id) {
+            const cms = getCMSData();
+            const blog = cms.blogs.find(b => b.id === id);
+            if (!blog) return;
+
+            const modal = document.getElementById('blogModal');
+            const content = document.getElementById('blogModalContent');
+            
+            content.innerHTML = `
+                <img src="${blog.image}" class="blog-modal-img" alt="${blog.title}">
+                <div class="blog-modal-content">
+                    <div class="blog-modal-header">
+                        <div class="blog-card-meta">
+                            <span><i class="far fa-calendar"></i> ${blog.date}</span>
+                            <span><i class="far fa-user"></i> ${blog.author}</span>
+                            <span><i class="fas fa-tag"></i> ${blog.category}</span>
+                        </div>
+                        <h2>${blog.title}</h2>
+                    </div>
+                    <div class="blog-modal-body">
+                        ${blog.content}
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBlog() {
+            document.getElementById('blogModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderBlogGrid();
+        });
+    </script>
+</body>
+
+</html>
