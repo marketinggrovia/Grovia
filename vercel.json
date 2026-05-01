@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "name": "grovia-marketing",
+  "cleanUrls": true,
+  "framework": null,
+  "buildCommand": null,
+  "installCommand": null,
+  "outputDirectory": "."
+}

@@ -1,0 +1,16 @@
+{
+  "name": "grovia-marketing",
+  "version": "1.0.0",
+  "description": "Modern digital marketing agency website",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "build": "echo 'No build step required'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}
