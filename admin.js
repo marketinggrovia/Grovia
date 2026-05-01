@@ -1,5 +1,18 @@
 // === DEFAULT DATA ===
 const DEFAULTS = {
+  general: {
+    brandName: "Grovia",
+    fullName: "Grovia Marketing",
+    logo: "logo.jpeg"
+  },
+  socials: {
+    facebook: "#",
+    instagram: "#",
+    linkedin: "#",
+    twitter: "#",
+    pinterest: "#",
+    gmb: "#"
+  },
   hero: {
     badge: "#1 Digital Marketing Agency",
     headline: 'Grow <span class="gradient-text">Smarter</span> with<br>Grovia Marketing',
@@ -158,14 +171,19 @@ function loadSection(section) {
   currentSection = section;
   document.getElementById('sectionTitle').textContent = {
     hero:'Hero Section', about:'About', services:'Services', whyus:'Why Choose Us',
-    portfolio:'Portfolio', testimonials:'Testimonials', contact:'Contact', footer:'Footer', settings:'Settings'
+    portfolio:'Portfolio', testimonials:'Testimonials', contact:'Contact', footer:'Footer',
+    general: 'General Settings', socials: 'Social Media', settings:'Security'
   }[section];
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.section === section));
   const area = document.getElementById('contentArea');
   const d = getData(section);
   if (!data[section]) data[section] = JSON.parse(JSON.stringify(d));
 
-  const renderers = { hero: renderHero, about: renderAbout, services: renderServices, whyus: renderWhyUs, portfolio: renderPortfolio, testimonials: renderTestimonials, contact: renderContact, footer: renderFooter, settings: renderSettings };
+  const renderers = {
+    hero: renderHero, about: renderAbout, services: renderServices, whyus: renderWhyUs,
+    portfolio: renderPortfolio, testimonials: renderTestimonials, contact: renderContact,
+    footer: renderFooter, settings: renderSettings, general: renderGeneral, socials: renderSocials
+  };
   area.innerHTML = renderers[section] ? renderers[section](d) : '<p>Section not found</p>';
 }
 
@@ -317,7 +335,29 @@ function renderFooter(d) {
   return `
     <div class="admin-card"><h3><i class="fas fa-columns"></i> Footer Content</h3>
       ${fieldHTML('Brand Description',`brandText`,d.brandText,'textarea')}
-      ${fieldHTML('Copyright Text',`copyright`,d.copyright)}
+      ${fieldHTML('Copyright Text (HTML allowed)',`copyright`,d.copyright)}
+    </div>`;
+}
+
+function renderGeneral(d) {
+  return `
+    <div class="admin-card"><h3><i class="fas fa-globe"></i> Branding</h3>
+      ${fieldHTML('Short Brand Name', 'brandName', d.brandName)}
+      ${fieldHTML('Full Brand Name', 'fullName', d.fullName)}
+      ${fieldHTML('Logo URL/Path', 'logo', d.logo)}
+    </div>`;
+}
+
+function renderSocials(d) {
+  return `
+    <div class="admin-card"><h3><i class="fas fa-share-nodes"></i> Social Profiles</h3>
+      <p style="margin-bottom:16px;color:var(--text-muted)">Enter full URLs for your social media profiles.</p>
+      ${fieldHTML('Facebook URL', 'facebook', d.facebook)}
+      ${fieldHTML('Instagram URL', 'instagram', d.instagram)}
+      ${fieldHTML('LinkedIn URL', 'linkedin', d.linkedin)}
+      ${fieldHTML('Twitter / X URL', 'twitter', d.twitter)}
+      ${fieldHTML('Pinterest URL', 'pinterest', d.pinterest)}
+      ${fieldHTML('GMB (Google My Business) URL', 'gmb', d.gmb)}
     </div>`;
 }
 

@@ -8,6 +8,15 @@ function applyCMS() {
     const cms = getCMSData();
     if (!cms) return;
 
+    // General
+    if (cms.general) {
+        const g = cms.general;
+        document.querySelectorAll('.nav-logo span').forEach(el => el.textContent = g.brandName);
+        document.querySelectorAll('.nav-logo-img, .loader-logo-img').forEach(el => el.src = g.logo);
+        const loaderText = document.querySelector('.loader-text');
+        if (loaderText) loaderText.textContent = g.fullName.toUpperCase();
+    }
+
     // Hero
     if (cms.hero) {
         const h = cms.hero;
@@ -197,6 +206,47 @@ function applyCMS() {
         if (footerBrandP) footerBrandP.textContent = f.brandText;
         const copyright = document.querySelector('.footer-bottom p');
         if (copyright) copyright.innerHTML = f.copyright;
+    }
+
+    // Sync Footer Contact with Contact Section
+    if (cms.contact) {
+        const c = cms.contact;
+        const fPhone = document.querySelector('.footer-phone');
+        if (fPhone) {
+            fPhone.href = `tel:${c.phone.replace(/\s/g, '')}`;
+            fPhone.innerHTML = `<i class="fas fa-phone"></i> ${c.phone}`;
+        }
+        const fEmail = document.querySelector('.footer-email');
+        if (fEmail) {
+            fEmail.href = `mailto:${c.email}`;
+            fEmail.innerHTML = `<i class="fas fa-envelope"></i> ${c.email}`;
+        }
+        const fAddr = document.querySelector('.footer-address');
+        if (fAddr) fAddr.innerHTML = `<i class="fas fa-location-dot"></i> ${c.address}`;
+    }
+
+    // Socials
+    if (cms.socials) {
+        const s = cms.socials;
+        const socialMap = {
+            '.social-fb': s.facebook,
+            '.social-ig': s.instagram,
+            '.social-li': s.linkedin,
+            '.social-tw': s.twitter,
+            '.social-pn': s.pinterest,
+            '.social-gmb': s.gmb
+        };
+
+        Object.entries(socialMap).forEach(([selector, url]) => {
+            document.querySelectorAll(selector).forEach(link => {
+                if (url && url !== '#') {
+                    link.href = url;
+                    link.style.display = '';
+                } else {
+                    link.style.display = 'none';
+                }
+            });
+        });
     }
 }
 
