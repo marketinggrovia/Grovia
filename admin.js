@@ -72,7 +72,8 @@ function loadSection(section) {
   document.getElementById('sectionTitle').textContent = {
     hero:'Hero Section', about:'About', services:'Services', whyus:'Why Choose Us',
     portfolio:'Portfolio', testimonials:'Testimonials', contact:'Contact', footer:'Footer',
-    general: 'General Settings', socials: 'Social Media', settings:'Security', blogs: 'Blog Posts'
+    general: 'General Settings', socials: 'Social Media', settings:'Security', blogs: 'Blog Posts',
+    seo: 'SEO Settings'
   }[section];
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.section === section));
   const area = document.getElementById('contentArea');
@@ -83,7 +84,7 @@ function loadSection(section) {
     hero: renderHero, about: renderAbout, services: renderServices, whyus: renderWhyUs,
     portfolio: renderPortfolio, testimonials: renderTestimonials, contact: renderContact,
     footer: renderFooter, settings: renderSettings, general: renderGeneral, socials: renderSocials,
-    blogs: renderBlogs
+    blogs: renderBlogs, seo: renderSEO
   };
   area.innerHTML = renderers[section] ? renderers[section](d) : '<p>Section not found</p>';
 }
@@ -285,6 +286,23 @@ function addItem(section, arrayKey, template) {
   data[section][arrayKey].push(template);
   saveData(); loadSection(section);
   showToast('Item added');
+}
+
+function renderSEO(d) {
+  const seo = data.seo || {};
+  const pages = ['index', 'about', 'services', 'portfolio', 'blog', 'contact'];
+  return `
+    <div class="admin-card">
+      <h3><i class="fas fa-search"></i> SEO Settings</h3>
+      <p style="margin-bottom:20px;color:var(--text-muted)">Manage meta titles and descriptions for each page.</p>
+      ${pages.map(p => `
+        <div class="repeater-item">
+          <h4 style="text-transform:capitalize;margin-bottom:15px">${p} Page</h4>
+          ${fieldHTML('Meta Title', `seo.${p}.title`, seo[p]?.title)}
+          ${fieldHTML('Meta Description', `seo.${p}.description`, seo[p]?.description, 'textarea')}
+        </div>
+      `).join('')}
+    </div>`;
 }
 
 function renderBlogs(d) {

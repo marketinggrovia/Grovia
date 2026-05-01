@@ -249,6 +249,20 @@ function applyCMS() {
             });
         });
     }
+
+    // SEO
+    const pageKey = window.location.pathname.split('/').pop().replace('.html', '') || 'index';
+    if (cms.seo && cms.seo[pageKey]) {
+        const s = cms.seo[pageKey];
+        if (s.title) document.title = s.title;
+        let metaDesc = document.querySelector('meta[name="description"]');
+        if (!metaDesc) {
+            metaDesc = document.createElement('meta');
+            metaDesc.name = 'description';
+            document.head.appendChild(metaDesc);
+        }
+        if (s.description) metaDesc.content = s.description;
+    }
 }
 
 // === LOADER ===
@@ -278,13 +292,29 @@ function initNav() {
 
     window.addEventListener('scroll', () => {
         navbar.classList.toggle('scrolled', window.scrollY > 50);
-        // Active link
-        document.querySelectorAll('section[id]').forEach(section => {
-            const top = section.offsetTop - 200;
-            const id = section.getAttribute('id');
-            const link = document.querySelector(`.nav-link[href="#${id}"]`);
-            if (link) link.classList.toggle('active', window.scrollY >= top && window.scrollY < top + section.offsetHeight);
-        });
+        
+        // Only do scroll-based active links if we're on index.html and have sections
+        if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+            document.querySelectorAll('section[id]').forEach(section => {
+                const top = section.offsetTop - 200;
+                const id = section.getAttribute('id');
+                const link = document.querySelector(`.nav-link[href="#${id}"]`);
+                if (link) link.classList.toggle('active', window.scrollY >= top && window.scrollY < top + section.offsetHeight);
+            });
+        }
+    });
+
+    // Set active link based on filename
+    const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-link').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentFile) {
+            link.classList.add('active');
+        } else if (href !== 'index.html' && currentFile !== 'index.html') {
+             // If we're not on home, don't clear the active class if it was set manually
+        } else {
+             link.classList.remove('active');
+        }
     });
 
     navToggle.addEventListener('click', () => {
