@@ -1,7 +1,8 @@
 // === CMS CONTENT LOADER ===
 function getCMSData() {
     const saved = localStorage.getItem('grovia_cms');
-    return saved ? JSON.parse(saved) : null;
+    if (saved) return JSON.parse(saved);
+    return typeof DEFAULTS !== 'undefined' ? DEFAULTS : null;
 }
 
 function applyCMS() {
