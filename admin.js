@@ -229,7 +229,9 @@ function renderContact(d) {
       ${fieldHTML('Phone',`phone`,d.phone)}
       ${fieldHTML('Email',`email`,d.email)}
       ${fieldHTML('Address',`address`,d.address)}
-      ${fieldHTML('Form Title',`formTitle`,d.formTitle)}
+      ${fieldHTML('Form Title', 'formTitle', d.formTitle)}
+      ${fieldHTML('Map Embed URL (Iframe src)', 'mapEmbed', d.mapEmbed)}
+      ${fieldHTML('Google Maps Link', 'mapLink', d.mapLink)}
     </div>`;
 }
 

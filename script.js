@@ -194,7 +194,11 @@ function applyCMS() {
             const items = sec.querySelectorAll('.contact-item span');
             if (items[0]) items[0].textContent = c.phone;
             if (items[1]) items[1].textContent = c.email;
-            if (items[2]) items[2].textContent = c.address;
+            if (items[2]) {
+                const addr = c.address;
+                const link = c.mapLink || '#';
+                items[2].innerHTML = `<a href="${link}" target="_blank" style="color:inherit; text-decoration:none;">${addr}</a>`;
+            }
             const formTitle = sec.querySelector('.contact-form h3');
             if (formTitle) formTitle.textContent = c.formTitle;
         }
@@ -223,7 +227,12 @@ function applyCMS() {
             fEmail.innerHTML = `<i class="fas fa-envelope"></i> ${c.email}`;
         }
         const fAddr = document.querySelector('.footer-address');
-        if (fAddr) fAddr.innerHTML = `<i class="fas fa-location-dot"></i> ${c.address}`;
+        if (fAddr) {
+            const link = c.mapLink || '#';
+            fAddr.href = link;
+            fAddr.target = "_blank";
+            fAddr.innerHTML = `<i class="fas fa-location-dot"></i> ${c.address}`;
+        }
     }
 
     // Socials

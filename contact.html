@@ -89,11 +89,29 @@
                 <h2>Find Us <span class="gradient-text">Our Office</span></h2>
                 <p class="section-desc">Located in the heart of Jaipur, Rajasthan, we're always happy to meet for a coffee and discuss your goals.</p>
             </div>
-            <div class="glass-card" style="height: 400px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                 <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80" alt="Office Location" style="width: 100%; height: 100%; object-fit: cover;">
+            <div class="glass-card" style="height: 450px; position: relative; overflow: hidden; padding: 10px;">
+                 <iframe id="contactMap" src="" width="100%" height="100%" style="border:0; border-radius: 15px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                 <a id="contactMapLink" href="#" target="_blank" class="btn btn-primary" style="position: absolute; bottom: 30px; right: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                    View on Google Maps <i class="fas fa-external-link-alt"></i>
+                 </a>
             </div>
         </div>
     </section>
+
+    <script>
+        function renderContactPage() {
+            const cms = getCMSData();
+            if (!cms || !cms.contact) return;
+            const c = cms.contact;
+            
+            const mapFrame = document.getElementById('contactMap');
+            const mapLink = document.getElementById('contactMapLink');
+            
+            if (mapFrame && c.mapEmbed) mapFrame.src = c.mapEmbed;
+            if (mapLink && c.mapLink) mapLink.href = c.mapLink;
+        }
+        document.addEventListener('DOMContentLoaded', renderContactPage);
+    </script>
 
     <!-- Footer -->
     <footer class="footer">
