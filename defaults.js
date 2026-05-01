@@ -120,11 +120,11 @@ const DEFAULTS = {
     }
   ],
   seo: {
-    index: { title: "Grovia Marketing | Grow Smarter with Digital Excellence", description: "Grovia Marketing is a premium digital marketing agency specializing in SEO, PPC, social media, and more." },
-    about: { title: "About Us | Grovia Marketing", description: "Learn about the mission and values behind Grovia Marketing." },
-    services: { title: "Our Services | Expert Digital Solutions", description: "Explore our range of digital marketing services from SEO to Web Development." },
-    portfolio: { title: "Our Portfolio | Success Stories", description: "See how we've helped brands achieve remarkable growth." },
-    blog: { title: "Blog | Insights & Trends", description: "Latest digital marketing insights and news from our experts." },
-    contact: { title: "Contact Us | Get a Strategy Call", description: "Ready to grow? Contact Grovia Marketing for a free strategy consultation." }
+    index: { title: "Grovia Marketing | Grow Smarter with Digital Excellence", description: "Grovia Marketing is a premium digital marketing agency specializing in SEO, PPC, social media, and more.", ogImage: "logo.jpeg" },
+    about: { title: "About Us | Grovia Marketing", description: "Learn about the mission and values behind Grovia Marketing.", ogImage: "logo.jpeg" },
+    services: { title: "Our Services | Expert Digital Solutions", description: "Explore our range of digital marketing services from SEO to Web Development.", ogImage: "logo.jpeg" },
+    portfolio: { title: "Our Portfolio | Success Stories", description: "See how we've helped brands achieve remarkable growth.", ogImage: "logo.jpeg" },
+    blog: { title: "Blog | Insights & Trends", description: "Latest digital marketing insights and news from our experts.", ogImage: "logo.jpeg" },
+    contact: { title: "Contact Us | Get a Strategy Call", description: "Ready to grow? Contact Grovia Marketing for a free strategy consultation.", ogImage: "logo.jpeg" }
   }
 };

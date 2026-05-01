@@ -262,7 +262,36 @@ function applyCMS() {
             document.head.appendChild(metaDesc);
         }
         if (s.description) metaDesc.content = s.description;
+
+        // Social Tags
+        updateMeta('og:title', s.title);
+        updateMeta('og:description', s.description);
+        updateMeta('og:image', s.ogImage);
+        updateMeta('twitter:title', s.title);
+        updateMeta('twitter:description', s.description);
+        updateMeta('twitter:image', s.ogImage);
+
+        // Canonical
+        let canonical = document.querySelector('link[rel="canonical"]');
+        if (!canonical) {
+            canonical = document.createElement('link');
+            canonical.rel = 'canonical';
+            document.head.appendChild(canonical);
+        }
+        canonical.href = window.location.href;
     }
+}
+
+function updateMeta(property, content) {
+    if (!content) return;
+    let meta = document.querySelector(`meta[property="${property}"], meta[name="${property}"]`);
+    if (!meta) {
+        meta = document.createElement('meta');
+        if (property.startsWith('og:')) meta.setAttribute('property', property);
+        else meta.name = property;
+        document.head.appendChild(meta);
+    }
+    meta.content = content;
 }
 
 // === LOADER ===

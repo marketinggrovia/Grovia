@@ -300,6 +300,7 @@ function renderSEO(d) {
           <h4 style="text-transform:capitalize;margin-bottom:15px">${p} Page</h4>
           ${fieldHTML('Meta Title', `${p}.title`, seo[p]?.title)}
           ${fieldHTML('Meta Description', `${p}.description`, seo[p]?.description, 'textarea')}
+          ${fieldHTML('Social Share Image (URL)', `${p}.ogImage`, seo[p]?.ogImage)}
         </div>
       `).join('')}
     </div>`;
