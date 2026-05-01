@@ -298,8 +298,8 @@ function renderSEO(d) {
       ${pages.map(p => `
         <div class="repeater-item">
           <h4 style="text-transform:capitalize;margin-bottom:15px">${p} Page</h4>
-          ${fieldHTML('Meta Title', `seo.${p}.title`, seo[p]?.title)}
-          ${fieldHTML('Meta Description', `seo.${p}.description`, seo[p]?.description, 'textarea')}
+          ${fieldHTML('Meta Title', `${p}.title`, seo[p]?.title)}
+          ${fieldHTML('Meta Description', `${p}.description`, seo[p]?.description, 'textarea')}
         </div>
       `).join('')}
     </div>`;
