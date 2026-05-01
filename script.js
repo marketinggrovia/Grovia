@@ -204,6 +204,49 @@ function applyCMS() {
         }
     }
 
+    // FAQ
+    if (cms.faq) {
+        const f = cms.faq;
+        const sec = document.getElementById('faq');
+        if (sec) {
+            const tag = sec.querySelector('.section-tag');
+            if (tag) tag.textContent = f.tag;
+            const h2 = sec.querySelector('h2');
+            if (h2) h2.innerHTML = f.headline;
+            const desc = sec.querySelector('.section-desc');
+            if (desc) desc.textContent = f.description;
+            if (f.items) {
+                const list = sec.querySelector('.faq-list');
+                if (list) {
+                    list.innerHTML = f.items.map((item, i) => `
+                        <div class="faq-item glass-card" data-animate="fade-up" data-delay="${(i+1)*100}">
+                            <div class="faq-question">
+                                <h3>${item.question}</h3>
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>${item.answer}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    // Add Accordion Logic
+                    list.querySelectorAll('.faq-question').forEach(q => {
+                        q.addEventListener('click', () => {
+                            const item = q.parentElement;
+                            const isActive = item.classList.contains('active');
+                            
+                            // Close others
+                            list.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                            
+                            if (!isActive) item.classList.add('active');
+                        });
+                    });
+                }
+            }
+        }
+    }
+
     // Footer
     if (cms.footer) {
         const f = cms.footer;
