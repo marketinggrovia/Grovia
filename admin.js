@@ -248,7 +248,12 @@ function renderGeneral(d) {
     <div class="admin-card"><h3><i class="fas fa-globe"></i> Branding</h3>
       ${fieldHTML('Short Brand Name', 'brandName', d.brandName)}
       ${fieldHTML('Full Brand Name', 'fullName', d.fullName)}
-      ${fieldHTML('Logo URL/Path', 'logo', d.logo)}
+      ${fieldHTML('Logo URL', 'logo', d.logo)}
+      <div style="margin-top:20px; padding:15px; background:rgba(10, 77, 162, 0.05); border-radius:8px; border:1px solid rgba(10, 77, 162, 0.1)">
+        <h4 style="margin-bottom:10px; color:var(--primary)"><i class="fas fa-paper-plane"></i> Formspree Integration</h4>
+        <p style="font-size:0.85rem; margin-bottom:10px; color:var(--text-muted)">Get your Formspree ID at <a href="https://formspree.io" target="_blank" style="color:var(--primary)">formspree.io</a> to receive form submissions at groviamarketing@zohomail.in.</p>
+        ${fieldHTML('Formspree ID', 'formspreeId', d.formspreeId)}
+      </div>
     </div>`;
 }
 

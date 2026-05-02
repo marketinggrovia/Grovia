@@ -2,7 +2,8 @@ const DEFAULTS = {
   general: {
     brandName: "Grovia",
     fullName: "Grovia Marketing",
-    logo: "logo.jpeg"
+    logo: "logo.jpeg",
+    formspreeId: "xvonzvze" // The user should replace this with their actual ID
   },
   socials: {
     facebook: "#",

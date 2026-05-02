@@ -77,7 +77,64 @@
     <section id="contact" class="contact section" style="background: white;">
         <div class="container">
             <div class="contact-wrapper">
-                <!-- Dynamically loaded -->
+                <div class="contact-info" data-animate="fade-up">
+                    <span class="section-tag">Get In Touch</span>
+                    <h2>Let's Build Something <span class="gradient-text">Amazing</span></h2>
+                    <p>Ready to take your digital presence to the next level? Get in touch for a free strategy consultation.</p>
+                    <div class="contact-details">
+                        <div class="contact-item"><i class="fas fa-phone"></i>
+                            <div><strong>Phone</strong><span>+91 90018 18495</span></div>
+                        </div>
+                        <div class="contact-item"><i class="fas fa-envelope"></i>
+                            <div><strong>Email</strong><span>hello@groviamarketing.com</span></div>
+                        </div>
+                        <div class="contact-item"><i class="fas fa-location-dot"></i>
+                            <div><strong>Address</strong><span>Jaipur, Rajasthan, India</span></div>
+                        </div>
+                    </div>
+                    <div class="contact-socials">
+                        <a href="#" aria-label="Facebook" class="social-fb"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram" class="social-ig"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn" class="social-li"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Twitter" class="social-tw"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#" aria-label="Pinterest" class="social-pn"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#" aria-label="GMB Profile" class="social-gmb"><i class="fab fa-google"></i></a>
+                    </div>
+                </div>
+                <form class="contact-form glass-card" data-animate="fade-up" data-delay="200" id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+                    <h3>Get Free Strategy Call</h3>
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" required>
+                        <label for="name">Your Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" required>
+                        <label for="email">Email Address</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" name="phone" required>
+                        <label for="phone">Phone Number</label>
+                    </div>
+                    <div class="form-group">
+                        <select id="service" name="service" required>
+                            <option value="" disabled selected></option>
+                            <option>SEO Optimization</option>
+                            <option>PPC Advertising</option>
+                            <option>Social Media Marketing</option>
+                            <option>Content Marketing</option>
+                            <option>Branding & Identity</option>
+                            <option>Web Development</option>
+                        </select>
+                        <label for="service">Service Interested In</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                        <label for="message">Your Message</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        Send Message <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
             </div>
         </div>
     </section>

@@ -423,22 +423,22 @@
                         <a href="#" aria-label="GMB Profile" class="social-gmb"><i class="fab fa-google"></i></a>
                     </div>
                 </div>
-                <form class="contact-form glass-card" data-animate="fade-up" data-delay="200" id="contactForm">
+                <form class="contact-form glass-card" data-animate="fade-up" data-delay="200" id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
                     <h3>Get Free Strategy Call</h3>
                     <div class="form-group">
-                        <input type="text" id="name" required>
+                        <input type="text" id="name" name="name" required>
                         <label for="name">Your Name</label>
                     </div>
                     <div class="form-group">
-                        <input type="email" id="email" required>
+                        <input type="email" id="email" name="email" required>
                         <label for="email">Email Address</label>
                     </div>
                     <div class="form-group">
-                        <input type="tel" id="phone" required>
+                        <input type="tel" id="phone" name="phone" required>
                         <label for="phone">Phone Number</label>
                     </div>
                     <div class="form-group">
-                        <select id="service" required>
+                        <select id="service" name="service" required>
                             <option value="" disabled selected></option>
                             <option>SEO Optimization</option>
                             <option>PPC Advertising</option>
@@ -450,7 +450,7 @@
                         <label for="service">Service Interested In</label>
                     </div>
                     <div class="form-group">
-                        <textarea id="message" rows="4" required></textarea>
+                        <textarea id="message" name="message" rows="4" required></textarea>
                         <label for="message">Your Message</label>
                     </div>
                     <button type="submit" class="btn btn-primary btn-full">

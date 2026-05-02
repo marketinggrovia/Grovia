@@ -543,15 +543,47 @@ function initParallax() {
 function initContactForm() {
     const form = document.getElementById('contactForm');
     if (!form) return;
-    form.addEventListener('submit', (e) => {
+    
+    const cms = getCMSData();
+    const formspreeId = (cms && cms.general && cms.general.formspreeId) ? cms.general.formspreeId : 'xvonzvze';
+    
+    // Update action attribute just in case
+    form.action = `https://formspree.io/f/${formspreeId}`;
+
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = form.querySelector('button[type="submit"]');
-        btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-        btn.style.background = 'linear-gradient(135deg, #059669, #10b981)';
+        const originalHTML = btn.innerHTML;
+        
+        // Disable button and show loading state
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        
+        const formData = new FormData(form);
+        
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+            
+            if (response.ok) {
+                btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+                btn.style.background = 'linear-gradient(135deg, #059669, #10b981)';
+                form.reset();
+            } else {
+                throw new Error('Form submission failed');
+            }
+        } catch (error) {
+            btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
+            btn.style.background = '#ef4444';
+        }
+        
         setTimeout(() => {
-            btn.innerHTML = 'Send Message <i class="fas fa-paper-plane"></i>';
+            btn.disabled = false;
+            btn.innerHTML = originalHTML;
             btn.style.background = '';
-            form.reset();
         }, 3000);
     });
 }
