@@ -3,6 +3,7 @@
     --blue-900: #0a1628; --blue-800: #0a2d5e; --blue-700: #0a4da2;
     --blue-600: #1565c0; --blue-500: #1e88e5; --blue-400: #42a5f5;
     --blue-300: #60a5fa; --blue-200: #93c5fd; --blue-100: #dbeafe;
+    --primary: var(--blue-700);
     --accent: #38bdf8; --white: #ffffff; --gray-50: #f8fafc;
     --gray-100: #f1f5f9; --gray-200: #e2e8f0; --gray-400: #94a3b8;
     --gray-600: #475569; --gray-800: #1e293b; --gray-900: #0f172a;
@@ -256,13 +257,22 @@ body { font-family: var(--font); color: var(--gray-800); background: var(--white
     .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
     .nav-toggle.open span:nth-child(2) { opacity: 0; }
     .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
-    .about-grid, .services-grid, .why-grid { grid-template-columns: 1fr; }
-    .about-counters { grid-template-columns: repeat(2, 1fr); }
-    .hero-stats { gap: 24px; }
-    .hero-stat-divider { display: none; }
-    .footer-grid { grid-template-columns: 1fr; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-    .section { padding: 72px 0; }
+    .section { padding: 60px 0; }
+    .hero { min-height: auto; padding-top: 120px; padding-bottom: 60px; text-align: center; }
+    .hero-content { padding: 0 16px; }
+    .hero h1 { font-size: 2.2rem; line-height: 1.2; }
+    .hero-sub { font-size: 1rem; margin-bottom: 24px; }
+    .hero-buttons { flex-direction: column; width: 100%; gap: 12px; }
+    .hero-buttons .btn { width: 100%; justify-content: center; }
+    .hero-stats { gap: 16px; display: grid; grid-template-columns: repeat(2, 1fr); }
+    .hero-stat { min-width: 0; }
+    .stat-number { font-size: 1.8rem; }
+    .about-grid, .services-grid, .why-grid, .portfolio-grid { grid-template-columns: 1fr !important; gap: 20px; }
+    .about-counters { grid-template-columns: repeat(2, 1fr); }
+    .section-header h2 { font-size: 1.8rem; }
+    .nav-container { padding: 0 16px; }
+    img { max-width: 100%; height: auto; }
 }
 
 /* WhatsApp Floating Button */
@@ -303,4 +313,18 @@ body { font-family: var(--font); color: var(--gray-800); background: var(--white
     .whatsapp-float span {
         display: none;
     }
+}
+
+/* Utilities */
+.hidden { display: none !important; }
+
+/* Audit Styles */
+.audit-progress {
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.res-item {
+    background: var(--gray-50);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--gray-200);
 }

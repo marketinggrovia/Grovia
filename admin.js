@@ -706,8 +706,7 @@ function renderDocSection(type, title, d) {
                   ${fieldHTML('Doc Number', `items.${i}.docNo`, item.docNo)}
                 </div>
                 <div style="margin-top:10px">
-                  <label style="font-size:0.8rem;color:var(--text-muted)">Items (Format: Service | Amount)</label>
-                  <textarea data-field="items.${i}.services" rows="4" style="margin-top:5px" placeholder="SEO Optimization | 5000\nWeb Design | 10000">${item.services || ''}</textarea>
+                  ${fieldHTML('Items (Format: Service | Amount)', `items.${i}.services`, item.services, 'textarea', 'placeholder="SEO Optimization | 5000\nWeb Design | 10000"')}
                 </div>
                 <div class="field-row" style="margin-top:10px">
                     ${fieldHTML('Tax (%)', `items.${i}.tax`, item.tax || 0, 'number')}
@@ -757,7 +756,26 @@ function addDoc(type) {
 }
 
 let activeDoc = null;
+function syncData() {
+  document.querySelectorAll('#contentArea [data-field]').forEach(f => {
+    const path = f.dataset.field.split('.');
+    let obj = data[currentSection];
+    for (let i = 0; i < path.length - 1; i++) {
+      const key = isNaN(path[i]) ? path[i] : parseInt(path[i]);
+      if (!obj[key]) obj[key] = isNaN(path[i+1]) ? {} : [];
+      obj = obj[key];
+    }
+    const lastKey = isNaN(path[path.length-1]) ? path[path.length-1] : parseInt(path[path.length-1]);
+    if (f.type === 'checkbox') {
+        obj[lastKey] = f.checked;
+    } else {
+        obj[lastKey] = f.type === 'number' ? Number(f.value) : f.value;
+    }
+  });
+}
+
 function previewDoc(type, index) {
+  syncData(); // Synchronize all current inputs to the 'data' object
   activeDoc = data[type].items[index];
   activeDoc.type = type;
   const modal = document.getElementById('docPreviewModal');

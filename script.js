@@ -458,16 +458,25 @@ window.addEventListener('load', () => {
 });
 
 // === APPLY CMS ON DOM READY ===
-document.addEventListener('DOMContentLoaded', async () => {
-    await applyCMS();
-    initAnimations();
+document.addEventListener('DOMContentLoaded', () => {
+    // These depend only on static HTML
     initNav();
-    initTestimonialSlider();
-    initTiltCards();
-    initParallax();
-    initContactForm();
     initSmoothScroll();
     initAuditForm();
+    
+    // These might depend on CMS or need async loading
+    (async () => {
+        try {
+            await applyCMS();
+            initAnimations();
+            initTestimonialSlider();
+            initTiltCards();
+            initParallax();
+            initContactForm();
+        } catch (e) {
+            console.error("CMS Initialization Error:", e);
+        }
+    })();
 });
 
 // === AUDIT FORM ===
