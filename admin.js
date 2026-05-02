@@ -107,7 +107,7 @@ function loadSection(section) {
   document.getElementById('sectionTitle').textContent = {
     hero:'Hero Section', about:'About', services:'Services', whyus:'Why Choose Us',
     portfolio:'Portfolio', testimonials:'Testimonials', contact:'Contact', footer:'Footer',
-    general: 'General Settings', socials: 'Social Media', settings:'Security', blogs: 'Blog Posts',
+    general: 'General Settings', navigation: 'Menu Visibility', socials: 'Social Media', settings:'Security', blogs: 'Blog Posts',
     seo: 'SEO Settings', careers: 'Careers Page', faq: 'FAQ Section', socialFeed: 'Instagram Feed'
   }[section];
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.section === section));
@@ -119,14 +119,36 @@ function loadSection(section) {
     hero: renderHero, about: renderAbout, services: renderServices, whyus: renderWhyUs,
     portfolio: renderPortfolio, testimonials: renderTestimonials, contact: renderContact,
     footer: renderFooter, settings: renderSettings, general: renderGeneral, socials: renderSocials,
-    blogs: renderBlogs, seo: renderSEO, careers: renderCareers, faq: renderFAQ, socialFeed: renderSocialFeed
+    blogs: renderBlogs, seo: renderSEO, careers: renderCareers, faq: renderFAQ, socialFeed: renderSocialFeed,
+    navigation: renderNavigation
   };
   area.innerHTML = renderers[section] ? renderers[section](d) : '<p>Section not found</p>';
 }
 
 function fieldHTML(label, fieldPath, value, type='text', extra='') {
   if (type === 'textarea') return `<div class="field-group"><label>${label}</label><textarea data-field="${fieldPath}" rows="3" ${extra}>${value||''}</textarea></div>`;
+  if (type === 'checkbox') return `
+    <div class="field-group" style="flex-direction:row; align-items:center; gap:10px; margin-bottom:10px;">
+      <input type="checkbox" data-field="${fieldPath}" ${value ? 'checked' : ''} style="width:auto; margin:0;">
+      <label style="margin:0; cursor:pointer;">${label}</label>
+    </div>`;
   return `<div class="field-group"><label>${label}</label><input type="${type}" data-field="${fieldPath}" value="${(value||'').toString().replace(/"/g,'&quot;')}" ${extra}></div>`;
+}
+
+function renderNavigation(d) {
+  return `
+    <div class="admin-card">
+      <h3><i class="fas fa-eye-slash"></i> Page Visibility</h3>
+      <p style="margin-bottom:20px; color:var(--text-muted)">Uncheck a page to hide it from the navigation menu and footer links.</p>
+      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:10px;">
+        ${fieldHTML('Show About Page', 'about', d.about, 'checkbox')}
+        ${fieldHTML('Show Services Page', 'services', d.services, 'checkbox')}
+        ${fieldHTML('Show Portfolio Page', 'portfolio', d.portfolio, 'checkbox')}
+        ${fieldHTML('Show Blog Page', 'blog', d.blog, 'checkbox')}
+        ${fieldHTML('Show Careers Page', 'careers', d.careers, 'checkbox')}
+        ${fieldHTML('Show Contact Page', 'contact', d.contact, 'checkbox')}
+      </div>
+    </div>`;
 }
 
 function renderHero(d) {
