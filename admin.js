@@ -131,13 +131,13 @@ function loadSection(section) {
 }
 
 function fieldHTML(label, fieldPath, value, type='text', extra='') {
-  if (type === 'textarea') return `<div class="field-group"><label>${label}</label><textarea data-field="${fieldPath}" rows="3" ${extra}>${value||''}</textarea></div>`;
+  if (type === 'textarea') return `<div class="field-group"><label>${label}</label><textarea oninput="syncData()" data-field="${fieldPath}" rows="3" ${extra}>${value||''}</textarea></div>`;
   if (type === 'checkbox') return `
     <div class="field-group" style="flex-direction:row; align-items:center; gap:10px; margin-bottom:10px;">
-      <input type="checkbox" data-field="${fieldPath}" ${value ? 'checked' : ''} style="width:auto; margin:0;">
+      <input type="checkbox" onchange="syncData()" data-field="${fieldPath}" ${value ? 'checked' : ''} style="width:auto; margin:0;">
       <label style="margin:0; cursor:pointer;">${label}</label>
     </div>`;
-  return `<div class="field-group"><label>${label}</label><input type="${type}" data-field="${fieldPath}" value="${(value||'').toString().replace(/"/g,'&quot;')}" ${extra}></div>`;
+  return `<div class="field-group"><label>${label}</label><input oninput="syncData()" type="${type}" data-field="${fieldPath}" value="${(value||'').toString().replace(/"/g,'&quot;')}" ${extra}></div>`;
 }
 
 function renderNavigation(d) {
@@ -742,6 +742,7 @@ function renderDocSection(type, title, d) {
 }
 
 function addDoc(type) {
+  syncData();
   if (!data[type]) data[type] = { items: [] };
   const docPrefix = type === 'billing' ? 'INV' : 'QT';
   data[type].items.unshift({
@@ -864,6 +865,7 @@ function closeDocPreview() {
 }
 
 function downloadDoc(format) {
+  syncData();
   const element = document.getElementById('actualDoc');
   const filename = `${activeDoc.type}-${activeDoc.docNo}`;
   
