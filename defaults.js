@@ -61,6 +61,12 @@ const DEFAULTS = {
       { id: "webdev", icon: "fas fa-code", title: "Web Development", text: "Stunning, high-performance websites built for growth.", fullContent: "We build modern, responsive, and SEO-friendly websites. Our focus is on user experience, site speed, and creating a digital hub that converts visitors into customers." }
     ]
   },
+  billing: {
+    items: []
+  },
+  quotations: {
+    items: []
+  },
   whyus: {
     tag: "Why Grovia",
     headline: 'Why Brands <span class="gradient-text">Choose Us</span>',

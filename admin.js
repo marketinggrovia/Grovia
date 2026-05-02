@@ -112,7 +112,8 @@ function loadSection(section) {
     hero:'Hero Section', about:'About', services:'Services', whyus:'Why Choose Us',
     portfolio:'Portfolio', testimonials:'Testimonials', contact:'Contact', footer:'Footer',
     general: 'General Settings', navigation: 'Menu Visibility', socials: 'Social Media', settings:'Security', blogs: 'Blog Posts',
-    seo: 'SEO Settings', careers: 'Careers Page', faq: 'FAQ Section', socialFeed: 'Instagram Feed'
+    seo: 'SEO Settings', careers: 'Careers Page', faq: 'FAQ Section', socialFeed: 'Instagram Feed',
+    billing: 'Billing & Invoices', quotations: 'Quotations'
   }[section];
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.section === section));
   const area = document.getElementById('contentArea');
@@ -124,7 +125,7 @@ function loadSection(section) {
     portfolio: renderPortfolio, testimonials: renderTestimonials, contact: renderContact,
     footer: renderFooter, settings: renderSettings, general: renderGeneral, socials: renderSocials,
     blogs: renderBlogs, seo: renderSEO, careers: renderCareers, faq: renderFAQ, socialFeed: renderSocialFeed,
-    navigation: renderNavigation
+    navigation: renderNavigation, billing: renderBilling, quotations: renderQuotations
   };
   area.innerHTML = renderers[section] ? renderers[section](d) : '<p>Section not found</p>';
 }
@@ -662,7 +663,204 @@ async function clearAllData() {
   }
 }
 
-// === INIT ===
+// === BILLING & QUOTATIONS ===
+function renderBilling(d) {
+  return renderDocSection('billing', 'Invoices', d);
+}
+
+function renderQuotations(d) {
+  return renderDocSection('quotations', 'Quotations', d);
+}
+
+function renderDocSection(type, title, d) {
+  const items = d.items || [];
+  return `
+    <div class="admin-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h3><i class="fas fa-file-invoice"></i> Manage ${title}</h3>
+        <button class="btn btn-primary" onclick="addDoc('${type}')"><i class="fas fa-plus"></i> New ${title.slice(0,-1)}</button>
+      </div>
+      <div class="repeater">
+        ${items.map((item, i) => `
+          <div class="repeater-item">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px">
+              <div style="flex:1">
+                <div class="field-row">
+                  ${fieldHTML('Client Name', `items.${i}.clientName`, item.clientName)}
+                  ${fieldHTML('Date', `items.${i}.date`, item.date)}
+                  ${fieldHTML('Doc Number', `items.${i}.docNo`, item.docNo)}
+                </div>
+                <div style="margin-top:10px">
+                  <label style="font-size:0.8rem;color:var(--text-muted)">Items (Format: Service | Amount)</label>
+                  <textarea data-field="items.${i}.services" rows="4" style="margin-top:5px" placeholder="SEO Optimization | 5000\nWeb Design | 10000">${item.services || ''}</textarea>
+                </div>
+                <div class="field-row" style="margin-top:10px">
+                    ${fieldHTML('Tax (%)', `items.${i}.tax`, item.tax || 0, 'number')}
+                    ${fieldHTML('Discount', `items.${i}.discount`, item.discount || 0, 'number')}
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-left:15px">
+                <button class="btn btn-primary btn-sm" onclick="previewDoc('${type}', ${i})"><i class="fas fa-eye"></i> Preview</button>
+                <button class="btn btn-outline btn-sm" style="color:#ef4444;border-color:#ef4444" onclick="removeItem('${type}', 'items', ${i})"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div id="docPreviewModal" class="dashboard hidden" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:9999;display:flex;justify-content:center;align-items:center;padding:20px">
+        <div style="background:white;width:100%;max-width:900px;height:90vh;display:flex;flex-direction:column;border-radius:12px;overflow:hidden">
+            <div style="padding:15px 20px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center">
+                <h3 id="previewTitle">Document Preview</h3>
+                <div style="display:flex;gap:10px">
+                    <button class="btn btn-primary btn-sm" onclick="downloadDoc('pdf')"><i class="fas fa-file-pdf"></i> PDF</button>
+                    <button class="btn btn-secondary btn-sm" onclick="downloadDoc('jpg')"><i class="fas fa-image"></i> JPG</button>
+                    <button class="btn btn-success btn-sm" onclick="shareDoc('wa')"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                    <button class="btn btn-info btn-sm" onclick="shareDoc('email')"><i class="fas fa-envelope"></i> Email</button>
+                    <button class="btn btn-outline btn-sm" onclick="closeDocPreview()"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div id="docPrintArea" style="flex:1;overflow-y:auto;padding:40px;background:#f5f5f5">
+                <!-- Document template will be injected here -->
+            </div>
+        </div>
+    </div>`;
+}
+
+function addDoc(type) {
+  if (!data[type]) data[type] = { items: [] };
+  const docPrefix = type === 'billing' ? 'INV' : 'QT';
+  data[type].items.unshift({
+    clientName: "New Client",
+    date: new Date().toISOString().split('T')[0],
+    docNo: docPrefix + "-" + Date.now().toString().slice(-6),
+    services: "Social Media Management | 15000\nGoogle Ads | 10000",
+    tax: 18,
+    discount: 0
+  });
+  loadSection(type);
+}
+
+let activeDoc = null;
+function previewDoc(type, index) {
+  activeDoc = data[type].items[index];
+  activeDoc.type = type;
+  const modal = document.getElementById('docPreviewModal');
+  const printArea = document.getElementById('docPrintArea');
+  document.getElementById('previewTitle').textContent = (type === 'billing' ? 'Invoice ' : 'Quotation ') + activeDoc.docNo;
+  
+  const services = activeDoc.services.split('\n').map(line => {
+    const [name, price] = line.split('|');
+    return { name: (name || '').trim(), price: parseFloat((price || '0').trim()) };
+  }).filter(s => s.name);
+
+  const subtotal = services.reduce((acc, s) => acc + s.price, 0);
+  const taxAmount = (subtotal * (activeDoc.tax || 0)) / 100;
+  const total = subtotal + taxAmount - (activeDoc.discount || 0);
+
+  printArea.innerHTML = `
+    <div id="actualDoc" style="background:white;padding:50px;width:210mm;margin:0 auto;box-shadow:0 0 20px rgba(0,0,0,0.1);font-family:'Inter', sans-serif;color:#333">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:50px;border-bottom:2px solid #0a4da2;padding-bottom:30px">
+            <div>
+                <img src="${data.general.logo}" style="height:60px;margin-bottom:15px">
+                <h1 style="font-size:24px;color:#0a4da2;margin:0">${data.general.fullName}</h1>
+                <p style="margin:5px 0;color:#666">Jaipur, Rajasthan, India</p>
+                <p style="margin:5px 0;color:#666">Email: groviamarketing@zohomail.in</p>
+            </div>
+            <div style="text-align:right">
+                <h2 style="font-size:32px;margin:0;color:#0a4da2">${activeDoc.type === 'billing' ? 'INVOICE' : 'QUOTATION'}</h2>
+                <p style="margin:10px 0 5px;font-weight:bold">No: ${activeDoc.docNo}</p>
+                <p style="margin:0;color:#666">Date: ${activeDoc.date}</p>
+            </div>
+        </div>
+        
+        <div style="margin-bottom:40px">
+            <p style="margin:0 0 5px;color:#666;text-transform:uppercase;font-size:12px;letter-spacing:1px">Bill To:</p>
+            <h3 style="margin:0;font-size:20px">${activeDoc.clientName}</h3>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;margin-bottom:40px">
+            <thead>
+                <tr style="background:#0a4da2;color:white">
+                    <th style="padding:12px 15px;text-align:left;border-radius:4px 0 0 0">Description</th>
+                    <th style="padding:12px 15px;text-align:right;border-radius:0 4px 0 0">Amount (INR)</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${services.map(s => `
+                    <tr style="border-bottom:1px solid #eee">
+                        <td style="padding:15px">${s.name}</td>
+                        <td style="padding:15px;text-align:right">₹${s.price.toLocaleString()}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+
+        <div style="display:flex;justify-content:flex-end">
+            <div style="width:250px">
+                <div style="display:flex;justify-content:space-between;padding:8px 0;color:#666">
+                    <span>Subtotal:</span>
+                    <span>₹${subtotal.toLocaleString()}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:8px 0;color:#666">
+                    <span>Tax (${activeDoc.tax}%):</span>
+                    <span>₹${taxAmount.toLocaleString()}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:8px 0;color:#666">
+                    <span>Discount:</span>
+                    <span>-₹${(activeDoc.discount || 0).toLocaleString()}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:15px 0;border-top:2px solid #0a4da2;margin-top:10px;font-weight:bold;font-size:20px;color:#0a4da2">
+                    <span>Total:</span>
+                    <span>₹${total.toLocaleString()}</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top:100px;border-top:1px solid #eee;padding-top:20px;font-size:12px;color:#666">
+            <p style="margin:0">Thank you for your business! For any queries, contact us at +91 70142 98350.</p>
+            <p style="margin:5px 0 0;font-weight:bold;text-align:right">Authorized Signatory</p>
+        </div>
+    </div>`;
+
+  modal.classList.remove('hidden');
+}
+
+function closeDocPreview() {
+  document.getElementById('docPreviewModal').classList.add('hidden');
+}
+
+function downloadDoc(format) {
+  const element = document.getElementById('actualDoc');
+  const filename = `${activeDoc.type}-${activeDoc.docNo}`;
+  
+  if (format === 'pdf') {
+    const opt = {
+      margin: 0,
+      filename: filename + '.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().from(element).set(opt).save();
+  } else {
+    html2canvas(element, { scale: 2 }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = filename + '.jpg';
+      link.href = canvas.toDataURL('image/jpeg', 0.9);
+      link.click();
+    });
+  }
+}
+
+function shareDoc(method) {
+  const text = `Hi ${activeDoc.clientName}, please find the ${activeDoc.type === 'billing' ? 'Invoice' : 'Quotation'} ${activeDoc.docNo} from Grovia Marketing.`;
+  if (method === 'wa') {
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  } else {
+    window.location.href = `mailto:?subject=${encodeURIComponent(activeDoc.type + ' ' + activeDoc.docNo)}&body=${encodeURIComponent(text)}`;
+  }
+}
 document.addEventListener('DOMContentLoaded', () => {
   loadData();
   checkAuth();
