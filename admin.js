@@ -4,32 +4,56 @@
 let data = {};
 let currentSection = 'hero';
 
-function loadData() {
-  const saved = localStorage.getItem('grovia_cms');
-  data = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULTS));
+async function loadData() {
+  const cloudData = await fetchCMS();
+  if (cloudData) {
+    data = cloudData;
+    localStorage.setItem('grovia_cms', JSON.stringify(data));
+  } else {
+    const saved = localStorage.getItem('grovia_cms');
+    data = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULTS));
+  }
 }
-function saveData() { localStorage.setItem('grovia_cms', JSON.stringify(data)); }
+
 function getData(section) { return data[section] || DEFAULTS[section]; }
 
 // === AUTH ===
-function attemptLogin() {
-  const pw = document.getElementById('loginPassword').value;
-  const correctPw = getData('settings').password || 'grovia2026';
-  if (pw === correctPw) {
-    sessionStorage.setItem('grovia_auth', '1');
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('dashboard').classList.remove('hidden');
-    loadSection('hero');
-  } else { showToast('Incorrect password', 'error'); }
+async function attemptLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  
+  try {
+    const { data: authData, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    
+    if (error) throw error;
+    
+    showToast('Signed in successfully!');
+    location.reload();
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
 }
-function logout() { sessionStorage.removeItem('grovia_auth'); location.reload(); }
-function checkAuth() {
-  if (sessionStorage.getItem('grovia_auth') === '1') {
+
+async function logout() {
+  await supabase.auth.signOut();
+  location.reload();
+}
+
+async function checkAuth() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('dashboard').classList.remove('hidden');
+    await loadData();
     loadSection('hero');
   }
 }
+
+// Check auth on load
+document.addEventListener('DOMContentLoaded', checkAuth);
 
 // === TOAST ===
 function showToast(msg, type = 'success') {
@@ -39,7 +63,7 @@ function showToast(msg, type = 'success') {
 }
 
 // === SAVE ===
-function saveAll() {
+async function saveAll() {
   const section = currentSection;
   const fields = document.querySelectorAll('[data-field]');
   fields.forEach(f => {
@@ -53,16 +77,27 @@ function saveAll() {
     const lastKey = isNaN(path[path.length-1]) ? path[path.length-1] : parseInt(path[path.length-1]);
     obj[lastKey] = f.type === 'number' ? Number(f.value) : f.value;
   });
-  saveData();
-  showToast('Changes saved successfully!');
+  
+  const success = await updateCMS(data);
+  if (success) {
+    localStorage.setItem('grovia_cms', JSON.stringify(data));
+    showToast('Changes saved to cloud successfully!');
+  } else {
+    showToast('Error saving to cloud', 'error');
+  }
 }
 
-function resetSection() {
+async function resetSection() {
   if (confirm('Reset this section to defaults?')) {
     data[currentSection] = JSON.parse(JSON.stringify(DEFAULTS[currentSection]));
-    saveData();
-    loadSection(currentSection);
-    showToast('Section reset to defaults', 'info');
+    const success = await updateCMS(data);
+    if (success) {
+        localStorage.setItem('grovia_cms', JSON.stringify(data));
+        loadSection(currentSection);
+        showToast('Section reset to defaults', 'info');
+    } else {
+        showToast('Error resetting section', 'error');
+    }
   }
 }
 
@@ -351,12 +386,18 @@ function renderCareers(d) {
     </div>`;
 }
 
-function addJob() {
+async function addJob() {
   if (!data.careers) data.careers = { items: [] };
   if (!data.careers.items) data.careers.items = [];
   data.careers.items.unshift({ title: "New Job Role", type: "Full Time", location: "Remote", description: "Job description goes here." });
-  loadSection('careers');
-  showToast('New job role added');
+  const success = await updateCMS(data);
+  if (success) {
+    localStorage.setItem('grovia_cms', JSON.stringify(data));
+    loadSection('careers');
+    showToast('New job role added');
+  } else {
+    showToast('Error adding job role', 'error');
+  }
 }
 
 function renderFAQ(d) {
@@ -392,12 +433,18 @@ function renderFAQ(d) {
     </div>`;
 }
 
-function addFAQ() {
+async function addFAQ() {
   if (!data.faq) data.faq = { items: [] };
   if (!data.faq.items) data.faq.items = [];
   data.faq.items.unshift({ question: "New Question", answer: "Answer goes here." });
-  loadSection('faq');
-  showToast('New FAQ added');
+  const success = await updateCMS(data);
+  if (success) {
+    localStorage.setItem('grovia_cms', JSON.stringify(data));
+    loadSection('faq');
+    showToast('New FAQ added');
+  } else {
+    showToast('Error adding FAQ', 'error');
+  }
 }
 
 function renderSocialFeed(d) {
@@ -436,12 +483,18 @@ function renderSocialFeed(d) {
     </div>`;
 }
 
-function addSocialPost() {
+async function addSocialPost() {
   if (!data.socialFeed) data.socialFeed = { items: [] };
   if (!data.socialFeed.items) data.socialFeed.items = [];
   data.socialFeed.items.unshift({ image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113", link: "#", platform: "instagram" });
-  loadSection('socialFeed');
-  showToast('New social post added');
+  const success = await updateCMS(data);
+  if (success) {
+    localStorage.setItem('grovia_cms', JSON.stringify(data));
+    loadSection('socialFeed');
+    showToast('New social post added');
+  } else {
+    showToast('Error adding social post', 'error');
+  }
 }
 
 function renderBlogs(d) {
@@ -479,8 +532,8 @@ function renderBlogs(d) {
     </div>`;
 }
 
-function addBlog() {
-  saveAll();
+async function addBlog() {
+  await saveAll();
   if (!data.blogs) data.blogs = [];
   data.blogs.unshift({
     id: Date.now(),
@@ -492,22 +545,47 @@ function addBlog() {
     excerpt: "Summary of the post...",
     content: "Full content goes here..."
   });
-  saveData();
-  loadSection('blogs');
-  showToast('New blog post added!');
+  const success = await updateCMS(data);
+  if (success) {
+    localStorage.setItem('grovia_cms', JSON.stringify(data));
+    loadSection('blogs');
+    showToast('New blog post added!');
+  } else {
+    showToast('Error adding blog post', 'error');
+  }
+}
+
+async function addItem(section, arrayKey, defaultItem) {
+  await saveAll();
+  const arr = arrayKey ? data[section][arrayKey] : data[section];
+  arr.push(defaultItem);
+  const success = await updateCMS(data);
+  if (success) {
+    localStorage.setItem('grovia_cms', JSON.stringify(data));
+    loadSection(section);
+    showToast('Item added');
+  } else {
+    showToast('Error adding item', 'error');
+  }
 }
 
 // Update removeItem to handle arrays without subkeys if needed
 // Actually, the current removeItem(section, arrayKey, index) works if arrayKey is the path to the array.
 // But it uses data[section][arrayKey].splice. If arrayKey is empty, it should use data[section].
 
-function removeItem(section, arrayKey, index) {
+async function removeItem(section, arrayKey, index) {
   if (!confirm('Delete this item?')) return;
-  saveAll();
+  await saveAll();
   const arr = arrayKey ? data[section][arrayKey] : data[section];
   arr.splice(index, 1);
-  saveData(); loadSection(section);
-  showToast('Item removed', 'info');
+  const success = await updateCMS(data);
+  if (success) {
+    localStorage.setItem('grovia_cms', JSON.stringify(data));
+    loadSection(section);
+    showToast('Item removed', 'info');
+  } else {
+    showToast('Error removing item', 'error');
+  }
 }
 
 // === IMPORT/EXPORT ===
@@ -520,26 +598,37 @@ function exportData() {
   showToast('Data exported');
 }
 
-function importData(e) {
+async function importData(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = (ev) => {
+  reader.onload = async (ev) => {
     try {
       data = JSON.parse(ev.target.result);
-      saveData(); loadSection(currentSection);
-      showToast('Data imported successfully!');
+      const success = await updateCMS(data);
+      if (success) {
+          localStorage.setItem('grovia_cms', JSON.stringify(data));
+          loadSection(currentSection);
+          showToast('Data imported successfully!');
+      } else {
+          showToast('Error syncing imported data', 'error');
+      }
     } catch { showToast('Invalid JSON file', 'error'); }
   };
   reader.readAsText(file);
 }
 
-function clearAllData() {
+async function clearAllData() {
   if (confirm('This will reset ALL content to defaults. Are you sure?')) {
-    localStorage.removeItem('grovia_cms');
     data = JSON.parse(JSON.stringify(DEFAULTS));
-    loadSection(currentSection);
-    showToast('All data reset to defaults', 'info');
+    const success = await updateCMS(data);
+    if (success) {
+        localStorage.setItem('grovia_cms', JSON.stringify(data));
+        loadSection(currentSection);
+        showToast('All data reset to defaults', 'info');
+    } else {
+        showToast('Error resetting data', 'error');
+    }
   }
 }
 

@@ -1,12 +1,24 @@
 // === CMS CONTENT LOADER ===
-function getCMSData() {
+async function initCMS() {
+    // 1. Try fetching from Supabase
+    if (typeof fetchCMS === 'function') {
+        const cloudData = await fetchCMS();
+        if (cloudData) {
+            localStorage.setItem('grovia_cms', JSON.stringify(cloudData));
+            return cloudData;
+        }
+    }
+    
+    // 2. Fallback to LocalStorage
     const saved = localStorage.getItem('grovia_cms');
     if (saved) return JSON.parse(saved);
+    
+    // 3. Fallback to Defaults
     return typeof DEFAULTS !== 'undefined' ? DEFAULTS : null;
 }
 
-function applyCMS() {
-    const cms = getCMSData();
+async function applyCMS() {
+    const cms = await initCMS();
     if (!cms) return;
 
     // Global WhatsApp Floating Button
@@ -396,8 +408,8 @@ window.addEventListener('load', () => {
 });
 
 // === APPLY CMS ON DOM READY ===
-document.addEventListener('DOMContentLoaded', () => {
-    applyCMS();
+document.addEventListener('DOMContentLoaded', async () => {
+    await applyCMS();
     initAnimations();
     initNav();
     initTestimonialSlider();

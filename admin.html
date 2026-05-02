@@ -16,12 +16,15 @@
         <div class="login-card">
             <img src="logo.jpeg" alt="Grovia" class="login-logo">
             <h2>Admin Panel</h2>
-            <p>Enter password to access the dashboard</p>
+            <p>Sign in with your Supabase credentials</p>
+            <div class="login-field">
+                <input type="email" id="loginEmail" placeholder="Enter Email" onkeydown="if(event.key==='Enter')attemptLogin()">
+            </div>
             <div class="login-field">
                 <input type="password" id="loginPassword" placeholder="Enter Password" onkeydown="if(event.key==='Enter')attemptLogin()">
             </div>
             <button onclick="attemptLogin()" class="login-btn">Sign In <i class="fas fa-arrow-right"></i></button>
-            <p class="login-hint">Default: <code>grovia2026</code></p>
+            <p class="login-hint">Make sure you have created a user in Supabase Auth.</p>
         </div>
     </div>
 
@@ -76,7 +79,7 @@
     <!-- Toast -->
     <div id="toast" class="toast"></div>
 
-    <script src="defaults.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="defaults.js"></script>
     <script src="admin.js"></script>
 </body>
 </html>
