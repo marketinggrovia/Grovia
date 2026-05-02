@@ -27,9 +27,9 @@ async function updateCMS(newData) {
             .upsert({ id: 1, data: newData, updated_at: new Date() });
 
         if (error) throw error;
-        return true;
+        return { success: true };
     } catch (err) {
         console.error('Error updating CMS in Supabase:', err);
-        return false;
+        return { success: false, message: err.message || 'Unknown error' };
     }
 }

@@ -82,25 +82,25 @@ async function saveAll() {
     }
   });
   
-  const success = await updateCMS(data);
-  if (success) {
+  const result = await updateCMS(data);
+  if (result.success) {
     localStorage.setItem('grovia_cms', JSON.stringify(data));
     showToast('Changes saved to cloud successfully!');
   } else {
-    showToast('Error saving to cloud', 'error');
+    showToast('Cloud Error: ' + result.message, 'error');
   }
 }
 
 async function resetSection() {
   if (confirm('Reset this section to defaults?')) {
     data[currentSection] = JSON.parse(JSON.stringify(DEFAULTS[currentSection]));
-    const success = await updateCMS(data);
-    if (success) {
+    const result = await updateCMS(data);
+    if (result.success) {
         localStorage.setItem('grovia_cms', JSON.stringify(data));
         loadSection(currentSection);
         showToast('Section reset to defaults', 'info');
     } else {
-        showToast('Error resetting section', 'error');
+        showToast('Cloud Error: ' + result.message, 'error');
     }
   }
 }
@@ -416,13 +416,13 @@ async function addJob() {
   if (!data.careers) data.careers = { items: [] };
   if (!data.careers.items) data.careers.items = [];
   data.careers.items.unshift({ title: "New Job Role", type: "Full Time", location: "Remote", description: "Job description goes here." });
-  const success = await updateCMS(data);
-  if (success) {
+  const result = await updateCMS(data);
+  if (result.success) {
     localStorage.setItem('grovia_cms', JSON.stringify(data));
     loadSection('careers');
     showToast('New job role added');
   } else {
-    showToast('Error adding job role', 'error');
+    showToast('Cloud Error: ' + result.message, 'error');
   }
 }
 
@@ -463,13 +463,13 @@ async function addFAQ() {
   if (!data.faq) data.faq = { items: [] };
   if (!data.faq.items) data.faq.items = [];
   data.faq.items.unshift({ question: "New Question", answer: "Answer goes here." });
-  const success = await updateCMS(data);
-  if (success) {
+  const result = await updateCMS(data);
+  if (result.success) {
     localStorage.setItem('grovia_cms', JSON.stringify(data));
     loadSection('faq');
     showToast('New FAQ added');
   } else {
-    showToast('Error adding FAQ', 'error');
+    showToast('Cloud Error: ' + result.message, 'error');
   }
 }
 
@@ -513,13 +513,13 @@ async function addSocialPost() {
   if (!data.socialFeed) data.socialFeed = { items: [] };
   if (!data.socialFeed.items) data.socialFeed.items = [];
   data.socialFeed.items.unshift({ image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113", link: "#", platform: "instagram" });
-  const success = await updateCMS(data);
-  if (success) {
+  const result = await updateCMS(data);
+  if (result.success) {
     localStorage.setItem('grovia_cms', JSON.stringify(data));
     loadSection('socialFeed');
     showToast('New social post added');
   } else {
-    showToast('Error adding social post', 'error');
+    showToast('Cloud Error: ' + result.message, 'error');
   }
 }
 
@@ -571,13 +571,13 @@ async function addBlog() {
     excerpt: "Summary of the post...",
     content: "Full content goes here..."
   });
-  const success = await updateCMS(data);
-  if (success) {
+  const result = await updateCMS(data);
+  if (result.success) {
     localStorage.setItem('grovia_cms', JSON.stringify(data));
     loadSection('blogs');
     showToast('New blog post added!');
   } else {
-    showToast('Error adding blog post', 'error');
+    showToast('Cloud Error: ' + result.message, 'error');
   }
 }
 
@@ -585,13 +585,13 @@ async function addItem(section, arrayKey, defaultItem) {
   await saveAll();
   const arr = arrayKey ? data[section][arrayKey] : data[section];
   arr.push(defaultItem);
-  const success = await updateCMS(data);
-  if (success) {
+  const result = await updateCMS(data);
+  if (result.success) {
     localStorage.setItem('grovia_cms', JSON.stringify(data));
     loadSection(section);
     showToast('Item added');
   } else {
-    showToast('Error adding item', 'error');
+    showToast('Cloud Error: ' + result.message, 'error');
   }
 }
 
@@ -604,13 +604,13 @@ async function removeItem(section, arrayKey, index) {
   await saveAll();
   const arr = arrayKey ? data[section][arrayKey] : data[section];
   arr.splice(index, 1);
-  const success = await updateCMS(data);
-  if (success) {
+  const result = await updateCMS(data);
+  if (result.success) {
     localStorage.setItem('grovia_cms', JSON.stringify(data));
     loadSection(section);
     showToast('Item removed', 'info');
   } else {
-    showToast('Error removing item', 'error');
+    showToast('Cloud Error: ' + result.message, 'error');
   }
 }
 
@@ -631,13 +631,13 @@ async function importData(e) {
   reader.onload = async (ev) => {
     try {
       data = JSON.parse(ev.target.result);
-      const success = await updateCMS(data);
-      if (success) {
+      const result = await updateCMS(data);
+      if (result.success) {
           localStorage.setItem('grovia_cms', JSON.stringify(data));
           loadSection(currentSection);
           showToast('Data imported successfully!');
       } else {
-          showToast('Error syncing imported data', 'error');
+          showToast('Cloud Error: ' + result.message, 'error');
       }
     } catch { showToast('Invalid JSON file', 'error'); }
   };
@@ -647,13 +647,13 @@ async function importData(e) {
 async function clearAllData() {
   if (confirm('This will reset ALL content to defaults. Are you sure?')) {
     data = JSON.parse(JSON.stringify(DEFAULTS));
-    const success = await updateCMS(data);
-    if (success) {
+    const result = await updateCMS(data);
+    if (result.success) {
         localStorage.setItem('grovia_cms', JSON.stringify(data));
         loadSection(currentSection);
         showToast('All data reset to defaults', 'info');
     } else {
-        showToast('Error resetting data', 'error');
+        showToast('Cloud Error: ' + result.message, 'error');
     }
   }
 }
