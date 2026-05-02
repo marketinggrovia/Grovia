@@ -568,7 +568,7 @@ function initNav() {
         navLinks.classList.toggle('open');
     });
 
-    navLinks.querySelectorAll('.nav-link').forEach(link => {
+    navLinks.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
         link.addEventListener('click', () => {
             navToggle.classList.remove('open');
             navLinks.classList.remove('open');
@@ -719,4 +719,25 @@ function initSmoothScroll() {
             if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
         });
     });
-}
+}// === INITIALIZATION ===
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialize CMS (Dynamic content)
+    applyCMS();
+
+    // 2. Initialize UI Components
+    initNav();
+    initAnimations();
+    initContactForm();
+    initCounter();
+    initParallax();
+    initSmoothScroll();
+    
+    // Hide loader
+    const loader = document.getElementById('loader');
+    if (loader) {
+        setTimeout(() => {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display = 'none', 500);
+        }, 1000);
+    }
+});
