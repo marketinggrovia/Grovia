@@ -147,7 +147,7 @@ async function applyCMS() {
                         `<div class="service-card tilt-card" data-animate="fade-up" data-delay="${100 + i * 50}">
                             <div class="service-icon-wrap"><i class="${item.icon}"></i></div>
                             <h3>${item.title}</h3><p>${item.text}</p>
-                            <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a></div>`
+                            <a href="service-detail.html?id=${item.id}" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a></div>`
                     ).join('');
                 }
             }

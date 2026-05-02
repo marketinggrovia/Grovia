@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Details | Grovia Marketing</title>
+    <meta name="description" content="Detailed information about our specialized digital marketing services.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <img src="logo.jpeg" alt="Grovia Marketing" class="loader-logo-img">
+            </div>
+            <div class="loader-text">GROVIA MARKETING</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar scrolled">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="logo.jpeg" alt="Grovia" class="nav-logo-img">
+                <span>Grovia</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link active">Services</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="careers.html" class="nav-link">Careers</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <a href="contact.html" class="nav-cta">Get Started</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Service Hero -->
+    <header class="blog-hero">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag" id="serviceTag">Our Service</span>
+                <h1 id="serviceTitle">Service <span class="gradient-text">Name</span></h1>
+                <p class="section-desc" id="serviceShortDesc">Short description of the service.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Service Content -->
+    <section class="section" style="background: white;">
+        <div class="container">
+            <div class="about-content" style="max-width: 800px; margin: 0 auto; text-align: left;">
+                <div class="about-text" data-animate="fade-up">
+                    <div id="serviceFullContent" style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 40px;">
+                        <!-- Content loaded dynamiclly -->
+                    </div>
+                    
+                    <div class="cta-box glass-card" style="padding: 40px; border-radius: 20px; text-align: center; background: var(--gray-50);">
+                        <h3>Ready to get started?</h3>
+                        <p style="margin: 16px 0 32px;">Transform your business with our specialized solutions.</p>
+                        <a href="contact.html" class="btn btn-primary">Book a Strategy Session <i class="fas fa-calendar-check"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo">
+                        <img src="logo.jpeg" alt="Grovia" class="nav-logo-img">
+                        <span>Grovia</span>
+                    </a>
+                    <p>Empowering brands with innovative digital marketing solutions that drive real, measurable growth.</p>
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Facebook" class="social-fb"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram" class="social-ig"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn" class="social-li"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Twitter" class="social-tw"><i class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="services.html">Services</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Grovia Marketing. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="defaults.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Specific logic for service detail page
+        async function initServiceDetail() {
+            const params = new URLSearchParams(window.location.search);
+            const serviceId = params.get('id');
+            if (!serviceId) { window.location.href = 'services.html'; return; }
+
+            const cms = await initCMS();
+            const service = cms.services.items.find(s => s.id === serviceId);
+
+            if (service) {
+                document.title = `${service.title} | Grovia Marketing`;
+                document.getElementById('serviceTitle').innerHTML = service.title.replace(/(\w+)$/, '<span class="gradient-text">$1</span>');
+                document.getElementById('serviceShortDesc').textContent = service.text;
+                document.getElementById('serviceFullContent').innerHTML = service.fullContent || service.text;
+                if(service.tag) document.getElementById('serviceTag').textContent = service.tag;
+            } else {
+                window.location.href = 'services.html';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', initServiceDetail);
+    </script>
+</body>
+</html>

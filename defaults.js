@@ -53,12 +53,12 @@ const DEFAULTS = {
     headline: 'Solutions That <span class="gradient-text">Drive Growth</span>',
     description: "From strategy to execution, we provide end-to-end digital marketing solutions tailored to your business goals.",
     items: [
-      { icon: "fas fa-search", title: "SEO Optimization", text: "Dominate search rankings with our proven SEO strategies. We optimize every aspect of your online presence for maximum visibility." },
-      { icon: "fas fa-bullseye", title: "PPC Advertising", text: "Maximize your ad spend with targeted pay-per-click campaigns that deliver instant traffic, qualified leads, and measurable conversions." },
-      { icon: "fas fa-share-nodes", title: "Social Media Marketing", text: "Build a thriving community and amplify your brand voice across all major social platforms with engaging content strategies." },
-      { icon: "fas fa-pen-nib", title: "Content Marketing", text: "Captivate your audience with compelling content that tells your story, establishes authority, and drives organic engagement." },
-      { icon: "fas fa-wand-magic-sparkles", title: "Branding & Identity", text: "Create a distinctive brand identity that resonates with your target audience and sets you apart from the competition." },
-      { icon: "fas fa-code", title: "Web Development", text: "Build stunning, high-performance websites that convert visitors into customers with modern design and seamless functionality." }
+      { id: "seo", icon: "fas fa-search", title: "SEO Optimization", text: "Dominate search rankings with our proven SEO strategies.", fullContent: "Search Engine Optimization is the backbone of digital visibility. We focus on keyword research, on-page optimization, and technical SEO to ensure your site ranks higher and attracts more qualified traffic." },
+      { id: "ppc", icon: "fas fa-bullseye", title: "PPC Advertising", text: "Maximize your ad spend with targeted pay-per-click campaigns.", fullContent: "Pay-Per-Click advertising provides immediate results. We manage Google Ads and social media ads with a focus on conversion rate optimization and cost-per-acquisition efficiency." },
+      { id: "smm", icon: "fas fa-share-nodes", title: "Social Media Marketing", text: "Build a thriving community and amplify your brand voice.", fullContent: "Social media is where your brand comes to life. We handle strategy, content creation, and community management across platforms like Instagram, LinkedIn, and Facebook." },
+      { id: "content", icon: "fas fa-pen-nib", title: "Content Marketing", text: "Captivate your audience with compelling content.", fullContent: "Content is king. We produce blogs, whitepapers, and videos that educate your audience, build trust, and drive organic conversions through storytelling." },
+      { id: "branding", icon: "fas fa-wand-magic-sparkles", title: "Branding & Identity", text: "Create a distinctive brand identity that resonates.", fullContent: "Your brand is your promise. We design logos, color palettes, and messaging that clearly communicate your values and make a lasting impression on your target market." },
+      { id: "webdev", icon: "fas fa-code", title: "Web Development", text: "Stunning, high-performance websites built for growth.", fullContent: "We build modern, responsive, and SEO-friendly websites. Our focus is on user experience, site speed, and creating a digital hub that converts visitors into customers." }
     ]
   },
   whyus: {

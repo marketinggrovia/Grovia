@@ -215,11 +215,15 @@ function renderServices(d) {
     <div class="admin-card"><h3><i class="fas fa-cogs"></i> Service Cards</h3>
       ${d.items.map((s,i) => `<div class="repeater-item"><div class="item-header"><h4>${s.title}</h4>
         <button class="btn-danger btn-sm" onclick="removeItem('services','items',${i})"><i class="fas fa-trash"></i></button></div>
-        ${fieldHTML('Icon Class',`items.${i}.icon`,s.icon)}
+        <div class="field-row">
+          ${fieldHTML('Unique ID (no spaces)',`items.${i}.id`,s.id)}
+          ${fieldHTML('Icon Class',`items.${i}.icon`,s.icon)}
+        </div>
         ${fieldHTML('Title',`items.${i}.title`,s.title)}
-        ${fieldHTML('Description',`items.${i}.text`,s.text,'textarea')}
+        ${fieldHTML('Short Summary (Homepage)',`items.${i}.text`,s.text,'textarea')}
+        ${fieldHTML('Detailed Page Content (HTML allowed)',`items.${i}.fullContent`,s.fullContent,'textarea', 'rows="6"')}
       </div>`).join('')}
-      <button class="add-btn" onclick="addItem('services','items',{icon:'fas fa-gem',title:'New Service',text:'Description here'})"><i class="fas fa-plus"></i> Add Service</button>
+      <button class="add-btn" onclick="addItem('services','items',{id:'new-service',icon:'fas fa-gem',title:'New Service',text:'Short description',fullContent:'Detailed description for the separate page.'})"><i class="fas fa-plus"></i> Add Service</button>
     </div>`;
 }
 
