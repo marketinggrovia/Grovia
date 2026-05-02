@@ -133,24 +133,27 @@ async function applyCMS() {
     if (cms.services) {
         const s = cms.services;
         const sec = document.getElementById('services');
-        if (sec) {
-            const tag = sec.querySelector('.section-tag');
-            if (tag) tag.textContent = s.tag;
-            const h2 = sec.querySelector('h2');
-            if (h2) h2.innerHTML = s.headline;
-            const desc = sec.querySelector('.section-desc');
-            if (desc) desc.textContent = s.description;
-            if (s.items) {
-                const grid = sec.querySelector('.services-grid');
-                if (grid) {
-                    grid.innerHTML = s.items.map((item, i) => {
-                        const sId = item.id || item.title.toLowerCase().replace(/\s+/g, '-');
-                        return `<div class="service-card tilt-card" data-animate="fade-up" data-delay="${100 + i * 50}">
-                            <div class="service-icon-wrap"><i class="${item.icon}"></i></div>
-                            <h3>${item.title}</h3><p>${item.text}</p>
-                            <a href="service-detail.html?id=${sId}" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a></div>`;
-                    }).join('');
-                }
+        const dropdown = document.getElementById('servicesDropdown');
+        
+        if (s.items) {
+            // Populate Navbar Dropdown
+            if (dropdown) {
+                dropdown.innerHTML = s.items.map(item => {
+                    const sId = item.id || item.title.toLowerCase().replace(/\s+/g, '-');
+                    return `<a href="service-detail.html?id=${sId}" class="dropdown-item">${item.title}</a>`;
+                }).join('');
+            }
+
+            // Populate Grid
+            const grid = sec ? sec.querySelector('.services-grid') : null;
+            if (grid) {
+                grid.innerHTML = s.items.map((item, i) => {
+                    const sId = item.id || item.title.toLowerCase().replace(/\s+/g, '-');
+                    return `<div class="service-card tilt-card" data-animate="fade-up" data-delay="${100 + i * 50}">
+                        <div class="service-icon-wrap"><i class="${item.icon}"></i></div>
+                        <h3>${item.title}</h3><p>${item.text}</p>
+                        <a href="service-detail.html?id=${sId}" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a></div>`;
+                }).join('');
             }
         }
     }
