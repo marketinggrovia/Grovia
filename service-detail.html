@@ -123,7 +123,12 @@
             if (!serviceId) { window.location.href = 'services.html'; return; }
 
             const cms = await initCMS();
-            const service = cms.services.items.find(s => s.id === serviceId);
+            if (!cms || !cms.services || !cms.services.items) return;
+
+            const service = cms.services.items.find(s => 
+                s.id === serviceId || 
+                (s.title && s.title.toLowerCase().replace(/\s+/g, '-') === serviceId)
+            );
 
             if (service) {
                 document.title = `${service.title} | Grovia Marketing`;

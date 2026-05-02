@@ -1,4 +1,10 @@
 // === CMS CONTENT LOADER ===
+function getCMSData() {
+    const saved = localStorage.getItem('grovia_cms');
+    if (saved) return JSON.parse(saved);
+    return typeof DEFAULTS !== 'undefined' ? DEFAULTS : null;
+}
+
 async function initCMS() {
     // 1. Try fetching from Supabase
     if (typeof fetchCMS === 'function') {
