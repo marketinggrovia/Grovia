@@ -24,151 +24,189 @@ async function initCMS() {
 }
 
 async function applyCMS() {
-    const cms = await initCMS();
-    if (!cms) return;
+    try {
+        const cms = await initCMS();
+        if (!cms) return;
 
-    // Global WhatsApp Floating Button
-    if (cms.contact && cms.contact.phone && !document.querySelector('.whatsapp-float')) {
-        const waBtn = document.createElement('a');
-        waBtn.className = 'whatsapp-float';
-        waBtn.target = '_blank';
-        waBtn.href = `https://wa.me/${cms.contact.phone.replace(/\D/g, '')}?text=Hi%20Grovia%20Marketing,%20I'm%20interested%20in%20your%20services.`;
-        waBtn.innerHTML = `<i class="fab fa-whatsapp"></i><span>Chat on WhatsApp</span>`;
-        document.body.appendChild(waBtn);
-    }
+        // Global WhatsApp Floating Button
+        try {
+            if (cms.contact && cms.contact.phone && !document.querySelector('.whatsapp-float')) {
+                const waBtn = document.createElement('a');
+                waBtn.className = 'whatsapp-float';
+                waBtn.target = '_blank';
+                waBtn.href = `https://wa.me/${cms.contact.phone.replace(/\D/g, '')}?text=Hi%20Grovia%20Marketing,%20I'm%20interested%20in%20your%20services.`;
+                waBtn.innerHTML = `<i class="fab fa-whatsapp"></i><span>Chat on WhatsApp</span>`;
+                document.body.appendChild(waBtn);
+            }
+        } catch (e) {}
 
-    // Navigation Visibility
-    if (cms.navigation) {
-        const n = cms.navigation;
-        const linksToToggle = [
-            { key: 'about', hrefs: ['about.html', '#about'] },
-            { key: 'services', hrefs: ['services.html', '#services'] },
-            { key: 'portfolio', hrefs: ['portfolio.html', '#portfolio'] },
-            { key: 'blog', hrefs: ['blog.html', '#blog'] },
-            { key: 'careers', hrefs: ['careers.html'] },
-            { key: 'contact', hrefs: ['contact.html', '#contact'] }
-        ];
+        // Navigation Visibility
+        try {
+            if (cms.navigation) {
+                const n = cms.navigation;
+                const linksToToggle = [
+                    { key: 'about', hrefs: ['about.html', '#about'] },
+                    { key: 'services', hrefs: ['services.html', '#services'] },
+                    { key: 'portfolio', hrefs: ['portfolio.html', '#portfolio'] },
+                    { key: 'blog', hrefs: ['blog.html', '#blog'] },
+                    { key: 'careers', hrefs: ['careers.html'] },
+                    { key: 'contact', hrefs: ['contact.html', '#contact'] },
+                    { key: 'audit', hrefs: ['audit.html', '#audit'] }
+                ];
 
-        linksToToggle.forEach(item => {
-            if (n[item.key] === false) {
-                item.hrefs.forEach(href => {
-                    document.querySelectorAll(`a[href*="${href}"]`).forEach(link => {
-                        // Special check to avoid hiding the logo link if it happens to contain the string
-                        if (!link.classList.contains('nav-logo')) {
-                            link.style.display = 'none';
-                        }
-                    });
-                });
-            } else {
-                 item.hrefs.forEach(href => {
-                    document.querySelectorAll(`a[href*="${href}"]`).forEach(link => {
-                        if (!link.classList.contains('nav-logo')) {
-                            link.style.display = '';
-                        }
-                    });
+                linksToToggle.forEach(item => {
+                    if (n[item.key] === false) {
+                        item.hrefs.forEach(href => {
+                            document.querySelectorAll(`a[href*="${href}"]`).forEach(link => {
+                                if (!link.classList.contains('nav-logo')) link.style.display = 'none';
+                            });
+                        });
+                    }
                 });
             }
-        });
-    }
+        } catch (e) {}
 
-    // General
-    if (cms.general) {
-        const g = cms.general;
-        document.querySelectorAll('.nav-logo span').forEach(el => el.textContent = g.brandName);
-        document.querySelectorAll('.nav-logo-img, .loader-logo-img').forEach(el => el.src = g.logo);
-        const loaderText = document.querySelector('.loader-text');
-        if (loaderText) loaderText.textContent = g.fullName.toUpperCase();
-    }
+        // General
+        if (cms.general) {
+            const g = cms.general;
+            document.querySelectorAll('.nav-logo span').forEach(el => el.textContent = g.brandName);
+            document.querySelectorAll('.nav-logo-img, .loader-logo-img').forEach(el => el.src = g.logo);
+        }
 
-    // Hero
-    if (cms.hero) {
-        const h = cms.hero;
-        const badge = document.querySelector('.hero-badge');
-        if (badge) badge.innerHTML = '<span class="badge-dot"></span>' + h.badge;
-        const h1 = document.querySelector('.hero h1');
-        if (h1) h1.innerHTML = h.headline;
-        const sub = document.querySelector('.hero-sub');
-        if (sub) sub.textContent = h.subheadline;
-        const btns = document.querySelectorAll('.hero-buttons .btn');
-        if (btns[0]) btns[0].innerHTML = h.btn1Text + ' <i class="fas fa-arrow-right"></i>';
-        if (btns[1]) btns[1].innerHTML = h.btn2Text + ' <i class="fas fa-chevron-down"></i>';
-        if (h.stats) {
-            const statsContainer = document.querySelector('.hero-stats');
-            if (statsContainer) {
-                statsContainer.innerHTML = h.stats.map((s, i) =>
-                    `<div class="hero-stat"><span class="stat-number" data-count="${s.number}">0</span><span class="stat-suffix">${s.suffix}</span><span class="stat-label">${s.label}</span></div>` +
-                    (i < h.stats.length - 1 ? '<div class="hero-stat-divider"></div>' : '')
-                ).join('');
+        // Hero
+        if (cms.hero) {
+            const h = cms.hero;
+            const badge = document.querySelector('.hero-badge');
+            if (badge) badge.innerHTML = '<span class="badge-dot"></span>' + h.badge;
+            const h1 = document.querySelector('.hero h1');
+            if (h1) h1.innerHTML = h.headline;
+            const sub = document.querySelector('.hero-sub');
+            if (sub) sub.textContent = h.subheadline;
+            if (h.stats) {
+                const statsContainer = document.querySelector('.hero-stats');
+                if (statsContainer) {
+                    statsContainer.innerHTML = h.stats.map((s, i) =>
+                        `<div class="hero-stat"><span class="stat-number" data-count="${s.number}">0</span><span class="stat-suffix">${s.suffix}</span><span class="stat-label">${s.label}</span></div>` +
+                        (i < h.stats.length - 1 ? '<div class="hero-stat-divider"></div>' : '')
+                    ).join('');
+                }
             }
         }
-    }
 
-    // About
-    if (cms.about) {
-        const a = cms.about;
-        const sec = document.getElementById('about');
-        if (sec) {
-            const tag = sec.querySelector('.section-tag');
-            if (tag) tag.textContent = a.tag;
-            const h2 = sec.querySelector('h2');
-            if (h2) h2.innerHTML = a.headline;
-            const desc = sec.querySelector('.section-desc');
-            if (desc) desc.textContent = a.description;
-            if (a.cards) {
-                const grid = sec.querySelector('.about-grid');
+        // About
+        if (cms.about) {
+            const a = cms.about;
+            const sec = document.getElementById('about');
+            if (sec) {
+                const tag = sec.querySelector('.section-tag');
+                if (tag) tag.textContent = a.tag;
+                const h2 = sec.querySelector('h2');
+                if (h2) h2.innerHTML = a.headline;
+                const desc = sec.querySelector('.section-desc');
+                if (desc) desc.textContent = a.description;
+                if (a.cards) {
+                    const grid = sec.querySelector('.about-grid');
+                    if (grid) {
+                        grid.innerHTML = a.cards.map((c, i) =>
+                            `<div class="about-card glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
+                                <div class="about-icon"><i class="${c.icon}"></i></div>
+                                <h3>${c.title}</h3><p>${c.text}</p></div>`
+                        ).join('');
+                    }
+                }
+                if (a.counters) {
+                    const counters = sec.querySelector('.about-counters');
+                    if (counters) {
+                        counters.innerHTML = a.counters.map(c =>
+                            `<div class="counter-item"><span class="counter-number" data-count="${c.number}">0</span><span class="counter-suffix">${c.suffix}</span><span class="counter-label">${c.label}</span></div>`
+                        ).join('');
+                    }
+                }
+            }
+        }
+
+        // Services
+        if (cms.services) {
+            const s = cms.services;
+            const sec = document.getElementById('services');
+            const dropdown = document.getElementById('servicesDropdown');
+            if (s.items) {
+                if (dropdown) {
+                    dropdown.innerHTML = s.items.map(item => {
+                        const sId = item.id || item.title.toLowerCase().replace(/\s+/g, '-');
+                        return `<a href="service-detail.html?id=${sId}" class="dropdown-item">${item.title}</a>`;
+                    }).join('');
+                }
+                const grid = sec ? sec.querySelector('.services-grid') : null;
                 if (grid) {
-                    grid.innerHTML = a.cards.map((c, i) =>
-                        `<div class="about-card glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
-                            <div class="about-icon"><i class="${c.icon}"></i></div>
-                            <h3>${c.title}</h3><p>${c.text}</p></div>`
-                    ).join('');
-                }
-            }
-            if (a.counters) {
-                const counters = sec.querySelector('.about-counters');
-                if (counters) {
-                    counters.innerHTML = a.counters.map(c =>
-                        `<div class="counter-item"><span class="counter-number" data-count="${c.number}">0</span><span class="counter-suffix">${c.suffix}</span><span class="counter-label">${c.label}</span></div>`
-                    ).join('');
+                    grid.innerHTML = s.items.map((item, i) => {
+                        const sId = item.id || item.title.toLowerCase().replace(/\s+/g, '-');
+                        return `<div class="service-card tilt-card" data-animate="fade-up" data-delay="${100 + i * 50}">
+                            <div class="service-icon-wrap"><i class="${item.icon}"></i></div>
+                            <h3>${item.title}</h3><p>${item.text}</p>
+                            <a href="service-detail.html?id=${sId}" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a></div>`;
+                    }).join('');
                 }
             }
         }
-    }
 
-    // Services
-    if (cms.services) {
-        const s = cms.services;
-        const sec = document.getElementById('services');
-        const dropdown = document.getElementById('servicesDropdown');
-        
-        if (s.items) {
-            // Populate Navbar Dropdown
-            if (dropdown) {
-                dropdown.innerHTML = s.items.map(item => {
-                    const sId = item.id || item.title.toLowerCase().replace(/\s+/g, '-');
-                    return `<a href="service-detail.html?id=${sId}" class="dropdown-item">${item.title}</a>`;
-                }).join('');
+        // Audit
+        if (cms.audit) {
+            const au = cms.audit;
+            const sec = document.getElementById('audit');
+            if (sec) {
+                const tag = sec.querySelector('.section-tag');
+                if (tag) tag.textContent = au.tag;
+                const h2 = sec.querySelector('h2');
+                if (h2) h2.innerHTML = au.headline;
+                const desc = sec.querySelector('.section-desc');
+                if (desc) desc.textContent = au.description;
             }
+        }
 
-            // Populate Grid
-            const grid = sec ? sec.querySelector('.services-grid') : null;
+        // Blog
+        if (cms.blog && cms.blog.items) {
+            const grid = document.querySelector('.blog-grid');
             if (grid) {
-                grid.innerHTML = s.items.map((item, i) => {
-                    const sId = item.id || item.title.toLowerCase().replace(/\s+/g, '-');
-                    return `<div class="service-card tilt-card" data-animate="fade-up" data-delay="${100 + i * 50}">
-                        <div class="service-icon-wrap"><i class="${item.icon}"></i></div>
-                        <h3>${item.title}</h3><p>${item.text}</p>
-                        <a href="service-detail.html?id=${sId}" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a></div>`;
-                }).join('');
+                grid.innerHTML = cms.blog.items.map((post, i) => `
+                    <div class="blog-card" data-animate="fade-up" data-delay="${i * 100}">
+                        <div class="blog-card-img">
+                            <img src="${post.image}" alt="${post.title}">
+                            <span class="blog-card-badge">${post.category}</span>
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-card-meta">
+                                <span><i class="far fa-calendar"></i> ${post.date}</span>
+                                <span><i class="far fa-user"></i> ${post.author}</span>
+                            </div>
+                            <h3>${post.title}</h3>
+                            <p>${post.excerpt}</p>
+                            <a href="blog-detail.html?id=${post.id}" class="blog-card-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                `).join('');
             }
         }
-    }
 
-    // Audit
-    if (cms.audit) {
-        const a = cms.audit;
-        const sec = document.getElementById('audit');
-        if (sec) {
+        // Socials & Footer Sync
+        if (cms.socials) {
+            const s = cms.socials;
+            const socialMap = { '.social-fb': s.facebook, '.social-ig': s.instagram, '.social-li': s.linkedin, '.social-tw': s.twitter, '.social-pn': s.pinterest, '.social-gmb': s.gmb };
+            Object.entries(socialMap).forEach(([selector, url]) => {
+                document.querySelectorAll(selector).forEach(link => {
+                    if (url) { link.href = url; link.style.display = ''; } 
+                    else { link.style.display = 'none'; }
+                });
+            });
+        }
+        if (cms.contact) {
+            const c = cms.contact;
+            document.querySelectorAll('.footer-phone').forEach(el => { el.href = `tel:${c.phone.replace(/\s/g, '')}`; el.innerHTML = `<i class="fas fa-phone"></i> ${c.phone}`; });
+            document.querySelectorAll('.footer-email').forEach(el => { el.href = `mailto:${c.email}`; el.innerHTML = `<i class="fas fa-envelope"></i> ${c.email}`; });
+            document.querySelectorAll('.footer-address').forEach(el => { el.href = c.mapLink || '#'; el.innerHTML = `<i class="fas fa-location-dot"></i> ${c.address}`; });
+        }
+        
+    } catch (err) {
             const tag = sec.querySelector('.section-tag');
             if (tag) tag.textContent = a.tag;
             const h2 = sec.querySelector('h2');
@@ -720,9 +758,9 @@ function initSmoothScroll() {
         });
     });
 }// === INITIALIZATION ===
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // 1. Initialize CMS (Dynamic content)
-    applyCMS();
+    await applyCMS();
 
     // 2. Initialize UI Components
     initNav();
