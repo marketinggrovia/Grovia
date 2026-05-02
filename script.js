@@ -31,6 +31,40 @@ async function applyCMS() {
         document.body.appendChild(waBtn);
     }
 
+    // Navigation Visibility
+    if (cms.navigation) {
+        const n = cms.navigation;
+        const linksToToggle = [
+            { key: 'about', hrefs: ['about.html', '#about'] },
+            { key: 'services', hrefs: ['services.html', '#services'] },
+            { key: 'portfolio', hrefs: ['portfolio.html', '#portfolio'] },
+            { key: 'blog', hrefs: ['blog.html', '#blog'] },
+            { key: 'careers', hrefs: ['careers.html'] },
+            { key: 'contact', hrefs: ['contact.html', '#contact'] }
+        ];
+
+        linksToToggle.forEach(item => {
+            if (n[item.key] === false) {
+                item.hrefs.forEach(href => {
+                    document.querySelectorAll(`a[href*="${href}"]`).forEach(link => {
+                        // Special check to avoid hiding the logo link if it happens to contain the string
+                        if (!link.classList.contains('nav-logo')) {
+                            link.style.display = 'none';
+                        }
+                    });
+                });
+            } else {
+                 item.hrefs.forEach(href => {
+                    document.querySelectorAll(`a[href*="${href}"]`).forEach(link => {
+                        if (!link.classList.contains('nav-logo')) {
+                            link.style.display = '';
+                        }
+                    });
+                });
+            }
+        });
+    }
+
     // General
     if (cms.general) {
         const g = cms.general;

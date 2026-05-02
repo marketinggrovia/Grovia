@@ -75,7 +75,11 @@ async function saveAll() {
       obj = obj[key];
     }
     const lastKey = isNaN(path[path.length-1]) ? path[path.length-1] : parseInt(path[path.length-1]);
-    obj[lastKey] = f.type === 'number' ? Number(f.value) : f.value;
+    if (f.type === 'checkbox') {
+        obj[lastKey] = f.checked;
+    } else {
+        obj[lastKey] = f.type === 'number' ? Number(f.value) : f.value;
+    }
   });
   
   const success = await updateCMS(data);
