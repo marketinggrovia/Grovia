@@ -280,6 +280,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 3. Post-load Initializers
     initAnimations();
+    initCounter();
     initTestimonialSlider();
     initTiltCards();
     initParallax();
@@ -415,7 +416,7 @@ function initCounter() {
                 counterObs.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.1 });
     document.querySelectorAll('.hero-stats, .about-counters').forEach(el => counterObs.observe(el));
 }
 
