@@ -90,7 +90,7 @@ const DEFAULTS = {
     tag: "Get In Touch",
     headline: 'Let\'s Build Something <span class="gradient-text">Amazing</span>',
     description: "Ready to take your digital presence to the next level? Get in touch for a free strategy consultation.",
-    phone: "+91 90018 18495", email: "hello@groviamarketing.com", address: "Jaipur, Rajasthan, India",
+    phone: "+91 70142 98350", email: "hello@groviamarketing.com", address: "Jaipur, Rajasthan, India",
     formTitle: "Get Free Strategy Call",
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14232.46321287!2d75.76023!3d26.91243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db4145749f7b1%3A0x6b772412891b00e!2sJaipur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1714570000000!5m2!1sen!2sin",
     mapLink: "https://goo.gl/maps/Jaipur"
