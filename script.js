@@ -61,6 +61,12 @@ async function applyCMS() {
                                 if (!link.classList.contains('nav-logo')) link.style.display = 'none';
                             });
                         });
+                    } else {
+                         item.hrefs.forEach(href => {
+                            document.querySelectorAll(`a[href*="${href}"]`).forEach(link => {
+                                if (!link.classList.contains('nav-logo')) link.style.display = '';
+                            });
+                        });
                     }
                 });
             }
@@ -164,6 +170,36 @@ async function applyCMS() {
             }
         }
 
+        // Portfolio
+        if (cms.portfolio) {
+            const p = cms.portfolio;
+            const sec = document.getElementById('portfolio');
+            if (sec) {
+                const tag = sec.querySelector('.section-tag');
+                if (tag) tag.textContent = p.tag;
+                const h2 = sec.querySelector('h2');
+                if (h2) h2.innerHTML = p.headline;
+                if (p.items) {
+                    const grid = sec.querySelector('.portfolio-grid');
+                    if (grid) {
+                        grid.innerHTML = p.items.map((item, i) => `
+                            <div class="portfolio-card" data-animate="fade-up" data-delay="${i * 100}">
+                                <div class="portfolio-img" style="background: ${item.color || 'var(--gradient)'};">
+                                    <div class="portfolio-overlay">
+                                        <span class="portfolio-cat">${item.category}</span>
+                                        <h3>${item.title}</h3>
+                                        <div class="portfolio-metrics">
+                                            ${item.metrics ? item.metrics.map(m => `<div class="metric"><span>${m.value}</span> ${m.label}</div>`).join('') : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+            }
+        }
+
         // Blog
         if (cms.blog && cms.blog.items) {
             const grid = document.querySelector('.blog-grid');
@@ -188,6 +224,27 @@ async function applyCMS() {
             }
         }
 
+        // Testimonials
+        if (cms.testimonials) {
+            const t = cms.testimonials;
+            const sec = document.getElementById('testimonials');
+            if (sec) {
+                const track = document.getElementById('testimonialTrack');
+                if (track && t.items) {
+                    track.innerHTML = t.items.map(item => `
+                        <div class="testimonial-card glass-card">
+                            <div class="testimonial-stars">${'<i class="fas fa-star"></i>'.repeat(item.stars || 5)}</div>
+                            <p>"${item.text}"</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">${item.initials || 'A'}</div>
+                                <div><strong>${item.name}</strong><span>${item.role}</span></div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
         // Socials & Footer Sync
         if (cms.socials) {
             const s = cms.socials;
@@ -207,324 +264,35 @@ async function applyCMS() {
         }
         
     } catch (err) {
-            const tag = sec.querySelector('.section-tag');
-            if (tag) tag.textContent = a.tag;
-            const h2 = sec.querySelector('h2');
-            if (h2) h2.innerHTML = a.headline;
-            const desc = sec.querySelector('.section-desc');
-            if (desc) desc.textContent = a.description;
-            const input = sec.querySelector('#auditUrl');
-            if (input) input.placeholder = a.placeholder;
-        }
-    }
-
-    // Why Us
-    if (cms.whyus) {
-        const w = cms.whyus;
-        const sec = document.getElementById('why-us');
-        if (sec) {
-            const tag = sec.querySelector('.section-tag');
-            if (tag) tag.textContent = w.tag;
-            const h2 = sec.querySelector('h2');
-            if (h2) h2.innerHTML = w.headline;
-            const desc = sec.querySelector('.section-desc');
-            if (desc) desc.textContent = w.description;
-            if (w.items) {
-                const grid = sec.querySelector('.why-grid');
-                if (grid) {
-                    grid.innerHTML = w.items.map((item, i) =>
-                        `<div class="why-card glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
-                            <div class="why-number">${item.number}</div>
-                            <h3>${item.title}</h3><p>${item.text}</p></div>`
-                    ).join('');
-                }
-            }
-        }
-    }
-
-    // Portfolio
-    if (cms.portfolio) {
-        const p = cms.portfolio;
-        const sec = document.getElementById('portfolio');
-        if (sec) {
-            const tag = sec.querySelector('.section-tag');
-            if (tag) tag.textContent = p.tag;
-            const h2 = sec.querySelector('h2');
-            if (h2) h2.innerHTML = p.headline;
-            const desc = sec.querySelector('.section-desc');
-            if (desc) desc.textContent = p.description;
-            if (p.items) {
-                const grid = sec.querySelector('.portfolio-grid');
-                if (grid) {
-                    grid.innerHTML = p.items.map((item, i) =>
-                        `<div class="portfolio-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
-                            <div class="portfolio-img" style="background: ${item.gradient};">
-                                <div class="portfolio-overlay">
-                                    <span class="portfolio-cat">${item.category}</span>
-                                    <h3>${item.title}</h3>
-                                    <div class="portfolio-metrics">
-                                        <div class="metric"><span>${item.metric1}</span> ${item.metric1Label}</div>
-                                        <div class="metric"><span>${item.metric2}</span> ${item.metric2Label}</div>
-                                    </div></div></div></div>`
-                    ).join('');
-                }
-            }
-        }
-    }
-
-    // Testimonials
-    if (cms.testimonials) {
-        const t = cms.testimonials;
-        const sec = document.getElementById('testimonials');
-        if (sec) {
-            const tag = sec.querySelector('.section-tag');
-            if (tag) tag.textContent = t.tag;
-            const h2 = sec.querySelector('h2');
-            if (h2) h2.innerHTML = t.headline;
-            const desc = sec.querySelector('.section-desc');
-            if (desc) desc.textContent = t.description;
-            if (t.items) {
-                const track = document.getElementById('testimonialTrack');
-                if (track) {
-                    track.innerHTML = t.items.map(item =>
-                        `<div class="testimonial-card glass-card">
-                            <div class="testimonial-stars">${'<i class="fas fa-star"></i>'.repeat(item.stars)}</div>
-                            <p>"${item.text}"</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">${item.initials}</div>
-                                <div><strong>${item.name}</strong><span>${item.role}</span></div>
-                            </div></div>`
-                    ).join('');
-                }
-            }
-        }
-    }
-
-    // Contact
-    if (cms.contact) {
-        const c = cms.contact;
-        const sec = document.getElementById('contact');
-        if (sec) {
-            const tag = sec.querySelector('.section-tag');
-            if (tag) tag.textContent = c.tag;
-            const h2 = sec.querySelector('.contact-info h2');
-            if (h2) h2.innerHTML = c.headline;
-            const desc = sec.querySelector('.contact-info > p');
-            if (desc) desc.textContent = c.description;
-            const items = sec.querySelectorAll('.contact-item span');
-            if (items[0]) items[0].textContent = c.phone;
-            if (items[1]) items[1].textContent = c.email;
-            if (items[2]) {
-                const addr = c.address;
-                const link = c.mapLink || '#';
-                items[2].innerHTML = `<a href="${link}" target="_blank" style="color:inherit; text-decoration:none;">${addr}</a>`;
-            }
-            const formTitle = sec.querySelector('.contact-form h3');
-            if (formTitle) formTitle.textContent = c.formTitle;
-        }
-    }
-
-    // FAQ
-    if (cms.faq) {
-        const f = cms.faq;
-        const sec = document.getElementById('faq');
-        if (sec) {
-            const tag = sec.querySelector('.section-tag');
-            if (tag) tag.textContent = f.tag;
-            const h2 = sec.querySelector('h2');
-            if (h2) h2.innerHTML = f.headline;
-            const desc = sec.querySelector('.section-desc');
-            if (desc) desc.textContent = f.description;
-            if (f.items) {
-                const list = sec.querySelector('.faq-list');
-                if (list) {
-                    list.innerHTML = f.items.map((item, i) => `
-                        <div class="faq-item glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
-                            <div class="faq-question">
-                                <h3>${item.question}</h3>
-                                <i class="fas fa-plus"></i>
-                            </div>
-                            <div class="faq-answer">
-                                <p>${item.answer}</p>
-                            </div>
-                        </div>
-                    `).join('');
-
-                    // Add Accordion Logic
-                    list.querySelectorAll('.faq-question').forEach(q => {
-                        q.addEventListener('click', () => {
-                            const item = q.parentElement;
-                            const isActive = item.classList.contains('active');
-
-                            // Close others
-                            list.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-
-                            if (!isActive) item.classList.add('active');
-                        });
-                    });
-                }
-            }
-        }
-    }
-
-    // Social Feed
-    if (cms.socialFeed) {
-        const sf = cms.socialFeed;
-        const sec = document.getElementById('social-feed');
-        if (sec) {
-            const tag = sec.querySelector('.section-tag');
-            if (tag) tag.textContent = sf.tag;
-            const h2 = sec.querySelector('h2');
-            if (h2) h2.innerHTML = sf.headline;
-            const desc = sec.querySelector('.section-desc');
-            if (desc) desc.textContent = sf.description;
-            if (sf.items) {
-                const grid = sec.querySelector('.social-grid');
-                if (grid) {
-                    grid.innerHTML = sf.items.map((item, i) => `
-                        <a href="${item.link}" target="_blank" class="social-post-card glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
-                            <img src="${item.image}" alt="Social Post">
-                            <div class="social-post-overlay">
-                                <i class="fab fa-${item.platform}"></i>
-                            </div>
-                        </a>
-                    `).join('');
-                }
-            }
-            // Update follow button
-            const followBtn = sec.querySelector('.social-follow-btn');
-            if (followBtn && cms.socials && cms.socials.instagram) {
-                followBtn.href = cms.socials.instagram;
-            }
-        }
-    }
-
-    // Footer
-    if (cms.footer) {
-        const f = cms.footer;
-        const footerBrandP = document.querySelector('.footer-brand > p');
-        if (footerBrandP) footerBrandP.textContent = f.brandText;
-        const copyright = document.querySelector('.footer-bottom p');
-        if (copyright) copyright.innerHTML = f.copyright;
-    }
-
-    // Sync Footer Contact with Contact Section
-    if (cms.contact) {
-        const c = cms.contact;
-        const fPhone = document.querySelector('.footer-phone');
-        if (fPhone) {
-            fPhone.href = `tel:${c.phone.replace(/\s/g, '')}`;
-            fPhone.innerHTML = `<i class="fas fa-phone"></i> ${c.phone}`;
-        }
-        const fEmail = document.querySelector('.footer-email');
-        if (fEmail) {
-            fEmail.href = `mailto:${c.email}`;
-            fEmail.innerHTML = `<i class="fas fa-envelope"></i> ${c.email}`;
-        }
-        const fAddr = document.querySelector('.footer-address');
-        if (fAddr) {
-            const link = c.mapLink || '#';
-            fAddr.href = link;
-            fAddr.target = "_blank";
-            fAddr.innerHTML = `<i class="fas fa-location-dot"></i> ${c.address}`;
-        }
-    }
-
-    // Socials
-    if (cms.socials) {
-        const s = cms.socials;
-        const socialMap = {
-            '.social-fb': s.facebook,
-            '.social-ig': s.instagram,
-            '.social-li': s.linkedin,
-            '.social-tw': s.twitter,
-            '.social-pn': s.pinterest,
-            '.social-gmb': s.gmb
-        };
-
-        Object.entries(socialMap).forEach(([selector, url]) => {
-            document.querySelectorAll(selector).forEach(link => {
-                if (url) {
-                    link.href = url;
-                    link.style.display = '';
-                } else {
-                    link.style.display = 'none';
-                }
-            });
-        });
-    }
-
-    // SEO
-    const pageKey = window.location.pathname.split('/').pop().replace('.html', '') || 'index';
-    if (cms.seo && cms.seo[pageKey]) {
-        const s = cms.seo[pageKey];
-        if (s.title) document.title = s.title;
-        let metaDesc = document.querySelector('meta[name="description"]');
-        if (!metaDesc) {
-            metaDesc = document.createElement('meta');
-            metaDesc.name = 'description';
-            document.head.appendChild(metaDesc);
-        }
-        if (s.description) metaDesc.content = s.description;
-
-        // Social Tags
-        updateMeta('og:title', s.title);
-        updateMeta('og:description', s.description);
-        updateMeta('og:image', s.ogImage);
-        updateMeta('twitter:title', s.title);
-        updateMeta('twitter:description', s.description);
-        updateMeta('twitter:image', s.ogImage);
-
-        // Canonical
-        let canonical = document.querySelector('link[rel="canonical"]');
-        if (!canonical) {
-            canonical = document.createElement('link');
-            canonical.rel = 'canonical';
-            document.head.appendChild(canonical);
-        }
-        canonical.href = window.location.href;
+        console.error('applyCMS Error:', err);
     }
 }
 
-function updateMeta(property, content) {
-    if (!content) return;
-    let meta = document.querySelector(`meta[property="${property}"], meta[name="${property}"]`);
-    if (!meta) {
-        meta = document.createElement('meta');
-        if (property.startsWith('og:')) meta.setAttribute('property', property);
-        else meta.name = property;
-        document.head.appendChild(meta);
-    }
-    meta.content = content;
-}
-
-// === LOADER ===
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
-    }, 2200);
-});
-
-// === APPLY CMS ON DOM READY ===
-document.addEventListener('DOMContentLoaded', () => {
-    // These depend only on static HTML
+// === INITIALIZATION ===
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Static Initializers
     initNav();
     initSmoothScroll();
     initAuditForm();
-    
-    // These might depend on CMS or need async loading
-    (async () => {
-        try {
-            await applyCMS();
-            initAnimations();
-            initTestimonialSlider();
-            initTiltCards();
-            initParallax();
-            initContactForm();
-        } catch (e) {
-            console.error("CMS Initialization Error:", e);
-        }
-    })();
+
+    // 2. Dynamic Content
+    await applyCMS();
+
+    // 3. Post-load Initializers
+    initAnimations();
+    initTestimonialSlider();
+    initTiltCards();
+    initParallax();
+    initContactForm();
+
+    // Hide Loader
+    const loader = document.getElementById('loader');
+    if (loader) {
+        setTimeout(() => {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display = 'none', 500);
+        }, 1000);
+    }
 });
 
 // === AUDIT FORM ===
@@ -577,27 +345,13 @@ function initNav() {
     window.addEventListener('scroll', () => {
         navbar.classList.toggle('scrolled', window.scrollY > 50);
 
-        // Only do scroll-based active links if we're on index.html and have sections
-        if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+        if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || !window.location.pathname.includes('.')) {
             document.querySelectorAll('section[id]').forEach(section => {
                 const top = section.offsetTop - 200;
                 const id = section.getAttribute('id');
                 const link = document.querySelector(`.nav-link[href="#${id}"]`);
                 if (link) link.classList.toggle('active', window.scrollY >= top && window.scrollY < top + section.offsetHeight);
             });
-        }
-    });
-
-    // Set active link based on filename
-    const currentFile = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.nav-link').forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === currentFile) {
-            link.classList.add('active');
-        } else if (href !== 'index.html' && currentFile !== 'index.html') {
-            // If we're not on home, don't clear the active class if it was set manually
-        } else {
-            link.classList.remove('active');
         }
     });
 
@@ -612,6 +366,22 @@ function initNav() {
             navLinks.classList.remove('open');
         });
     });
+
+    // Mobile Dropdown Toggle
+    const dropdowns = document.querySelectorAll('.nav-dropdown');
+    dropdowns.forEach(dropdown => {
+        const link = dropdown.querySelector('.nav-link');
+        link.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                dropdown.classList.toggle('active');
+                const content = dropdown.querySelector('.dropdown-content');
+                if (content) {
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                }
+            }
+        });
+    });
 }
 
 // === SCROLL ANIMATIONS ===
@@ -624,11 +394,12 @@ function initAnimations() {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
     document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+}
 
-    // Counters
+function initCounter() {
     const counterObs = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -645,7 +416,6 @@ function initAnimations() {
             }
         });
     }, { threshold: 0.5 });
-
     document.querySelectorAll('.hero-stats, .about-counters').forEach(el => counterObs.observe(el));
 }
 
@@ -656,8 +426,9 @@ function initTestimonialSlider() {
     if (!track || !dotsContainer) return;
 
     const cards = track.querySelectorAll('.testimonial-card');
+    if (cards.length === 0) return;
+    
     let current = 0;
-
     dotsContainer.innerHTML = '';
     cards.forEach((_, i) => {
         const dot = document.createElement('button');
@@ -673,8 +444,11 @@ function initTestimonialSlider() {
         dotsContainer.querySelectorAll('.testimonial-dot').forEach((d, idx) => d.classList.toggle('active', idx === i));
     }
 
-    document.getElementById('prevBtn').addEventListener('click', () => goTo(current > 0 ? current - 1 : cards.length - 1));
-    document.getElementById('nextBtn').addEventListener('click', () => goTo(current < cards.length - 1 ? current + 1 : 0));
+    const prev = document.getElementById('prevBtn');
+    const next = document.getElementById('nextBtn');
+    if (prev) prev.addEventListener('click', () => goTo(current > 0 ? current - 1 : cards.length - 1));
+    if (next) next.addEventListener('click', () => goTo(current < cards.length - 1 ? current + 1 : 0));
+    
     setInterval(() => goTo(current < cards.length - 1 ? current + 1 : 0), 5000);
 }
 
@@ -704,48 +478,28 @@ function initParallax() {
 function initContactForm() {
     const form = document.getElementById('contactForm');
     if (!form) return;
-    
     const cms = getCMSData();
     const formspreeId = (cms && cms.general && cms.general.formspreeId) ? cms.general.formspreeId : 'xvonzvze';
-    
-    // Update action attribute just in case
     form.action = `https://formspree.io/f/${formspreeId}`;
-
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = form.querySelector('button[type="submit"]');
         const originalHTML = btn.innerHTML;
-        
-        // Disable button and show loading state
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        
         const formData = new FormData(form);
-        
         try {
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            });
-            
+            const response = await fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
             if (response.ok) {
                 btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
                 btn.style.background = 'linear-gradient(135deg, #059669, #10b981)';
                 form.reset();
-            } else {
-                throw new Error('Form submission failed');
-            }
+            } else { throw new Error(); }
         } catch (error) {
             btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
             btn.style.background = '#ef4444';
         }
-        
-        setTimeout(() => {
-            btn.disabled = false;
-            btn.innerHTML = originalHTML;
-            btn.style.background = '';
-        }, 3000);
+        setTimeout(() => { btn.disabled = false; btn.innerHTML = originalHTML; btn.style.background = ''; }, 3000);
     });
 }
 
@@ -757,25 +511,4 @@ function initSmoothScroll() {
             if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
         });
     });
-}// === INITIALIZATION ===
-document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Initialize CMS (Dynamic content)
-    await applyCMS();
-
-    // 2. Initialize UI Components
-    initNav();
-    initAnimations();
-    initContactForm();
-    initCounter();
-    initParallax();
-    initSmoothScroll();
-    
-    // Hide loader
-    const loader = document.getElementById('loader');
-    if (loader) {
-        setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => loader.style.display = 'none', 500);
-        }, 1000);
-    }
-});
+}

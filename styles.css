@@ -278,7 +278,8 @@ body { font-family: var(--font); color: var(--gray-800); background: var(--white
     
     .nav-dropdown { flex-direction: column; width: 100%; }
     .dropdown-content { position: static; width: 100%; box-shadow: none; background: rgba(0,0,0,0.03); display: none; transform: none; opacity: 1; visibility: visible; border: none; padding: 10px 0; }
-    .nav-dropdown:hover .dropdown-content { display: block; }
+    .nav-dropdown:hover .dropdown-content,
+    .nav-dropdown.active .dropdown-content { display: block; }
     .dropdown-item { font-size: 1.1rem; padding: 12px 20px; }
 
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
