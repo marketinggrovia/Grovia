@@ -113,7 +113,7 @@ function loadSection(section) {
     portfolio:'Portfolio', testimonials:'Testimonials', contact:'Contact', footer:'Footer',
     general: 'General Settings', navigation: 'Menu Visibility', socials: 'Social Media', settings:'Security', blogs: 'Blog Posts',
     seo: 'SEO Settings', careers: 'Careers Page', faq: 'FAQ Section', socialFeed: 'Instagram Feed',
-    billing: 'Billing & Invoices', quotations: 'Quotations'
+    billing: 'Billing & Invoices', quotations: 'Quotations', audit: 'Audit Section'
   }[section];
   document.querySelectorAll('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.section === section));
   const area = document.getElementById('contentArea');
@@ -125,7 +125,7 @@ function loadSection(section) {
     portfolio: renderPortfolio, testimonials: renderTestimonials, contact: renderContact,
     footer: renderFooter, settings: renderSettings, general: renderGeneral, socials: renderSocials,
     blogs: renderBlogs, seo: renderSEO, careers: renderCareers, faq: renderFAQ, socialFeed: renderSocialFeed,
-    navigation: renderNavigation, billing: renderBilling, quotations: renderQuotations
+    navigation: renderNavigation, billing: renderBilling, quotations: renderQuotations, audit: renderAudit
   };
   area.innerHTML = renderers[section] ? renderers[section](d) : '<p>Section not found</p>';
 }
@@ -153,6 +153,21 @@ function renderNavigation(d) {
         ${fieldHTML('Show Careers Page', 'careers', d.careers, 'checkbox')}
         ${fieldHTML('Show Contact Page', 'contact', d.contact, 'checkbox')}
       </div>
+    </div>`;
+}
+
+function renderAudit(d) {
+  return `
+    <div class="admin-card">
+      <h3><i class="fas fa-search"></i> Audit Section Content</h3>
+      ${fieldHTML('Section Tag', 'tag', d.tag)}
+      ${fieldHTML('Headline', 'headline', d.headline)}
+      ${fieldHTML('Description', 'description', d.description, 'textarea')}
+      ${fieldHTML('Input Placeholder', 'placeholder', d.placeholder)}
+    </div>
+    <div class="admin-card" style="background:rgba(16, 185, 129, 0.05); border:1px solid rgba(16, 185, 129, 0.1)">
+        <h4 style="color:#10b981; margin-bottom:10px"><i class="fas fa-info-circle"></i> User Interaction</h4>
+        <p style="font-size:0.85rem; color:var(--text-muted)">When a user submits a URL on the homepage, they see a real-time analysis animation followed by a score report. This encourages them to contact you for the full PDF report.</p>
     </div>`;
 }
 

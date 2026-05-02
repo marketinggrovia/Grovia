@@ -11,7 +11,8 @@ const DEFAULTS = {
     portfolio: true,
     blog: true,
     careers: true,
-    contact: true
+    contact: true,
+    audit: true
   },
   socials: {
     facebook: "#",
@@ -66,6 +67,12 @@ const DEFAULTS = {
   },
   quotations: {
     items: []
+  },
+  audit: {
+    tag: "Free SEO Audit",
+    headline: 'Analyze Your <span class="gradient-text">Website Performance</span>',
+    description: "Enter your website URL below to get a comprehensive SEO and performance audit report instantly.",
+    placeholder: "https://yourwebsite.com"
   },
   whyus: {
     tag: "Why Grovia",

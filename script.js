@@ -154,6 +154,22 @@ async function applyCMS() {
         }
     }
 
+    // Audit
+    if (cms.audit) {
+        const a = cms.audit;
+        const sec = document.getElementById('audit');
+        if (sec) {
+            const tag = sec.querySelector('.section-tag');
+            if (tag) tag.textContent = a.tag;
+            const h2 = sec.querySelector('h2');
+            if (h2) h2.innerHTML = a.headline;
+            const desc = sec.querySelector('.section-desc');
+            if (desc) desc.textContent = a.description;
+            const input = sec.querySelector('#auditUrl');
+            if (input) input.placeholder = a.placeholder;
+        }
+    }
+
     // Why Us
     if (cms.whyus) {
         const w = cms.whyus;
@@ -451,7 +467,49 @@ document.addEventListener('DOMContentLoaded', async () => {
     initParallax();
     initContactForm();
     initSmoothScroll();
+    initAuditForm();
 });
+
+// === AUDIT FORM ===
+function initAuditForm() {
+    const form = document.getElementById('auditForm');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const url = document.getElementById('auditUrl').value;
+        const status = document.getElementById('auditStatus');
+        const progress = status.querySelector('.audit-progress');
+        const text = document.getElementById('auditStatusText');
+        const results = document.getElementById('auditResults');
+        const btn = form.querySelector('button');
+
+        btn.disabled = true;
+        status.classList.remove('hidden');
+        results.classList.add('hidden');
+        
+        const steps = [
+            { p: 20, t: "Fetching website content..." },
+            { p: 40, t: "Analyzing meta tags and headers..." },
+            { p: 60, t: "Checking page load speed and performance..." },
+            { p: 80, t: "Evaluating mobile responsiveness..." },
+            { p: 100, t: "Finalizing audit report..." }
+        ];
+
+        for (const step of steps) {
+            progress.style.width = step.p + '%';
+            text.textContent = step.t;
+            await new Promise(r => setTimeout(r, 800));
+        }
+
+        setTimeout(() => {
+            status.classList.add('hidden');
+            results.classList.remove('hidden');
+            document.getElementById('resUrl').textContent = url.replace(/^https?:\/\//, '');
+            btn.disabled = false;
+        }, 500);
+    });
+}
 
 // === NAVBAR ===
 function initNav() {
