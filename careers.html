@@ -86,11 +86,6 @@
         </div>
     </section>
 
-    <!-- WhatsApp Floating Button -->
-    <a href="#" id="whatsappApply" class="whatsapp-float" target="_blank" aria-label="Apply via WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-        <span>Apply Now</span>
-    </a>
 
     <!-- Footer -->
     <footer class="footer">
@@ -165,8 +160,6 @@
                 </div>
             `).join('');
 
-            const waFloat = document.getElementById('whatsappApply');
-            waFloat.href = `https://wa.me/${c.whatsapp.replace(/\D/g, '')}?text=Hi%20Grovia%20Team,%20I'm%20interested%20in%20joining%20your%20team.`;
         }
 
         document.addEventListener('DOMContentLoaded', () => {

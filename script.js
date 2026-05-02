@@ -9,6 +9,16 @@ function applyCMS() {
     const cms = getCMSData();
     if (!cms) return;
 
+    // Global WhatsApp Floating Button
+    if (cms.contact && cms.contact.phone && !document.querySelector('.whatsapp-float')) {
+        const waBtn = document.createElement('a');
+        waBtn.className = 'whatsapp-float';
+        waBtn.target = '_blank';
+        waBtn.href = `https://wa.me/${cms.contact.phone.replace(/\D/g, '')}?text=Hi%20Grovia%20Marketing,%20I'm%20interested%20in%20your%20services.`;
+        waBtn.innerHTML = `<i class="fab fa-whatsapp"></i><span>Chat on WhatsApp</span>`;
+        document.body.appendChild(waBtn);
+    }
+
     // General
     if (cms.general) {
         const g = cms.general;
@@ -56,7 +66,7 @@ function applyCMS() {
                 const grid = sec.querySelector('.about-grid');
                 if (grid) {
                     grid.innerHTML = a.cards.map((c, i) =>
-                        `<div class="about-card glass-card" data-animate="fade-up" data-delay="${(i+1)*100}">
+                        `<div class="about-card glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
                             <div class="about-icon"><i class="${c.icon}"></i></div>
                             <h3>${c.title}</h3><p>${c.text}</p></div>`
                     ).join('');
@@ -88,7 +98,7 @@ function applyCMS() {
                 const grid = sec.querySelector('.services-grid');
                 if (grid) {
                     grid.innerHTML = s.items.map((item, i) =>
-                        `<div class="service-card tilt-card" data-animate="fade-up" data-delay="${100+i*50}">
+                        `<div class="service-card tilt-card" data-animate="fade-up" data-delay="${100 + i * 50}">
                             <div class="service-icon-wrap"><i class="${item.icon}"></i></div>
                             <h3>${item.title}</h3><p>${item.text}</p>
                             <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a></div>`
@@ -113,7 +123,7 @@ function applyCMS() {
                 const grid = sec.querySelector('.why-grid');
                 if (grid) {
                     grid.innerHTML = w.items.map((item, i) =>
-                        `<div class="why-card glass-card" data-animate="fade-up" data-delay="${(i+1)*100}">
+                        `<div class="why-card glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
                             <div class="why-number">${item.number}</div>
                             <h3>${item.title}</h3><p>${item.text}</p></div>`
                     ).join('');
@@ -137,7 +147,7 @@ function applyCMS() {
                 const grid = sec.querySelector('.portfolio-grid');
                 if (grid) {
                     grid.innerHTML = p.items.map((item, i) =>
-                        `<div class="portfolio-card" data-animate="fade-up" data-delay="${(i+1)*100}">
+                        `<div class="portfolio-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
                             <div class="portfolio-img" style="background: ${item.gradient};">
                                 <div class="portfolio-overlay">
                                     <span class="portfolio-cat">${item.category}</span>
@@ -219,7 +229,7 @@ function applyCMS() {
                 const list = sec.querySelector('.faq-list');
                 if (list) {
                     list.innerHTML = f.items.map((item, i) => `
-                        <div class="faq-item glass-card" data-animate="fade-up" data-delay="${(i+1)*100}">
+                        <div class="faq-item glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
                             <div class="faq-question">
                                 <h3>${item.question}</h3>
                                 <i class="fas fa-plus"></i>
@@ -229,16 +239,16 @@ function applyCMS() {
                             </div>
                         </div>
                     `).join('');
-                    
+
                     // Add Accordion Logic
                     list.querySelectorAll('.faq-question').forEach(q => {
                         q.addEventListener('click', () => {
                             const item = q.parentElement;
                             const isActive = item.classList.contains('active');
-                            
+
                             // Close others
                             list.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-                            
+
                             if (!isActive) item.classList.add('active');
                         });
                     });
@@ -262,7 +272,7 @@ function applyCMS() {
                 const grid = sec.querySelector('.social-grid');
                 if (grid) {
                     grid.innerHTML = sf.items.map((item, i) => `
-                        <a href="${item.link}" target="_blank" class="social-post-card glass-card" data-animate="fade-up" data-delay="${(i+1)*100}">
+                        <a href="${item.link}" target="_blank" class="social-post-card glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
                             <img src="${item.image}" alt="Social Post">
                             <div class="social-post-overlay">
                                 <i class="fab fa-${item.platform}"></i>
@@ -405,7 +415,7 @@ function initNav() {
 
     window.addEventListener('scroll', () => {
         navbar.classList.toggle('scrolled', window.scrollY > 50);
-        
+
         // Only do scroll-based active links if we're on index.html and have sections
         if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
             document.querySelectorAll('section[id]').forEach(section => {
@@ -424,9 +434,9 @@ function initNav() {
         if (href === currentFile) {
             link.classList.add('active');
         } else if (href !== 'index.html' && currentFile !== 'index.html') {
-             // If we're not on home, don't clear the active class if it was set manually
+            // If we're not on home, don't clear the active class if it was set manually
         } else {
-             link.classList.remove('active');
+            link.classList.remove('active');
         }
     });
 
