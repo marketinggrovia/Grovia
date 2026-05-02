@@ -23,7 +23,7 @@ async function attemptLogin() {
   const password = document.getElementById('loginPassword').value;
   
   try {
-    const { data: authData, error } = await supabase.auth.signInWithPassword({
+    const { data: authData, error } = await supabaseClient.auth.signInWithPassword({
       email,
       password,
     });
@@ -38,12 +38,12 @@ async function attemptLogin() {
 }
 
 async function logout() {
-  await supabase.auth.signOut();
+  await supabaseClient.auth.signOut();
   location.reload();
 }
 
 async function checkAuth() {
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await supabaseClient.auth.getSession();
   if (session) {
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('dashboard').classList.remove('hidden');
