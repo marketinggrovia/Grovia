@@ -14,6 +14,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K3YZW2MDPM"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-K3YZW2MDPM');
+</script>
 
 <body>
     <!-- Loading Screen -->
@@ -68,14 +77,17 @@
         <div class="container">
             <div class="about-content" style="max-width: 800px; margin: 0 auto; text-align: left;">
                 <div class="about-text" data-animate="fade-up">
-                    <div id="serviceFullContent" style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 40px;">
+                    <div id="serviceFullContent"
+                        style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 40px;">
                         <!-- Content loaded dynamiclly -->
                     </div>
-                    
-                    <div class="cta-box glass-card" style="padding: 40px; border-radius: 20px; text-align: center; background: var(--gray-50);">
+
+                    <div class="cta-box glass-card"
+                        style="padding: 40px; border-radius: 20px; text-align: center; background: var(--gray-50);">
                         <h3>Ready to get started?</h3>
                         <p style="margin: 16px 0 32px;">Transform your business with our specialized solutions.</p>
-                        <a href="contact.html" class="btn btn-primary">Book a Strategy Session <i class="fas fa-calendar-check"></i></a>
+                        <a href="contact.html" class="btn btn-primary">Book a Strategy Session <i
+                                class="fas fa-calendar-check"></i></a>
                     </div>
                 </div>
             </div>
@@ -91,7 +103,8 @@
                         <img src="logo.jpeg" alt="Grovia" class="nav-logo-img">
                         <span>Grovia</span>
                     </a>
-                    <p>Empowering brands with innovative digital marketing solutions that drive real, measurable growth.</p>
+                    <p>Empowering brands with innovative digital marketing solutions that drive real, measurable growth.
+                    </p>
                     <div class="footer-socials">
                         <a href="#" aria-label="Facebook" class="social-fb"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" aria-label="Instagram" class="social-ig"><i class="fab fa-instagram"></i></a>
@@ -113,7 +126,9 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="defaults.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="defaults.js"></script>
     <script src="script.js"></script>
     <script>
         // Specific logic for service detail page
@@ -125,8 +140,8 @@
             const cms = await initCMS();
             if (!cms || !cms.services || !cms.services.items) return;
 
-            const service = cms.services.items.find(s => 
-                s.id === serviceId || 
+            const service = cms.services.items.find(s =>
+                s.id === serviceId ||
                 (s.title && s.title.toLowerCase().replace(/\s+/g, '-') === serviceId)
             );
 
@@ -135,7 +150,7 @@
                 document.getElementById('serviceTitle').innerHTML = service.title.replace(/(\w+)$/, '<span class="gradient-text">$1</span>');
                 document.getElementById('serviceShortDesc').textContent = service.text;
                 document.getElementById('serviceFullContent').innerHTML = service.fullContent || service.text;
-                if(service.tag) document.getElementById('serviceTag').textContent = service.tag;
+                if (service.tag) document.getElementById('serviceTag').textContent = service.tag;
             } else {
                 window.location.href = 'services.html';
             }
@@ -143,4 +158,5 @@
         document.addEventListener('DOMContentLoaded', initServiceDetail);
     </script>
 </body>
+
 </html>

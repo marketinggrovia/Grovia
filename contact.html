@@ -15,6 +15,15 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K3YZW2MDPM"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-K3YZW2MDPM');
+</script>
 
 <body>
     <!-- Loading Screen -->
@@ -68,7 +77,8 @@
             <div class="section-header" data-animate="fade-up">
                 <span class="section-tag">Get in Touch</span>
                 <h1>Connect with <span class="gradient-text">Experts</span></h1>
-                <p class="section-desc">Have a question or ready to start your next project? We're here to help you navigate the digital landscape.</p>
+                <p class="section-desc">Have a question or ready to start your next project? We're here to help you
+                    navigate the digital landscape.</p>
             </div>
         </div>
     </header>
@@ -80,7 +90,8 @@
                 <div class="contact-info" data-animate="fade-up">
                     <span class="section-tag">Get In Touch</span>
                     <h2>Let's Build Something <span class="gradient-text">Amazing</span></h2>
-                    <p>Ready to take your digital presence to the next level? Get in touch for a free strategy consultation.</p>
+                    <p>Ready to take your digital presence to the next level? Get in touch for a free strategy
+                        consultation.</p>
                     <div class="contact-details">
                         <div class="contact-item"><i class="fas fa-phone"></i>
                             <div><strong>Phone</strong><span>+91 70142 98350</span></div>
@@ -101,7 +112,8 @@
                         <a href="#" aria-label="GMB Profile" class="social-gmb"><i class="fab fa-google"></i></a>
                     </div>
                 </div>
-                <form class="contact-form glass-card" data-animate="fade-up" data-delay="200" id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+                <form class="contact-form glass-card" data-animate="fade-up" data-delay="200" id="contactForm"
+                    action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
                     <h3>Get Free Strategy Call</h3>
                     <div class="form-group">
                         <input type="text" id="name" name="name" required>
@@ -158,13 +170,16 @@
         <div class="container">
             <div class="section-header" data-animate="fade-up">
                 <h2>Find Us <span class="gradient-text">Our Office</span></h2>
-                <p class="section-desc">Located in the heart of Jaipur, Rajasthan, we're always happy to meet for a coffee and discuss your goals.</p>
+                <p class="section-desc">Located in the heart of Jaipur, Rajasthan, we're always happy to meet for a
+                    coffee and discuss your goals.</p>
             </div>
             <div class="glass-card" style="height: 450px; position: relative; overflow: hidden; padding: 10px;">
-                 <iframe id="contactMap" src="" width="100%" height="100%" style="border:0; border-radius: 15px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                 <a id="contactMapLink" href="#" target="_blank" class="btn btn-primary" style="position: absolute; bottom: 30px; right: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                <iframe id="contactMap" src="" width="100%" height="100%" style="border:0; border-radius: 15px;"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <a id="contactMapLink" href="#" target="_blank" class="btn btn-primary"
+                    style="position: absolute; bottom: 30px; right: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
                     View on Google Maps <i class="fas fa-external-link-alt"></i>
-                 </a>
+                </a>
             </div>
         </div>
     </section>
@@ -174,10 +189,10 @@
             const cms = getCMSData();
             if (!cms || !cms.contact) return;
             const c = cms.contact;
-            
+
             const mapFrame = document.getElementById('contactMap');
             const mapLink = document.getElementById('contactMapLink');
-            
+
             if (mapFrame && c.mapEmbed) mapFrame.src = c.mapEmbed;
             if (mapLink && c.mapLink) mapLink.href = c.mapLink;
         }
@@ -193,7 +208,8 @@
                         <img src="logo.jpeg" alt="Grovia" class="nav-logo-img">
                         <span>Grovia</span>
                     </a>
-                    <p>Empowering brands with innovative digital marketing solutions that drive real, measurable growth.</p>
+                    <p>Empowering brands with innovative digital marketing solutions that drive real, measurable growth.
+                    </p>
                     <div class="footer-socials">
                         <a href="#" aria-label="Facebook" class="social-fb"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" aria-label="Instagram" class="social-ig"><i class="fab fa-instagram"></i></a>
@@ -216,8 +232,8 @@
                 <div class="footer-links footer-contact">
                     <h4>Contact</h4>
                     <a href="tel:+917014298350" class="footer-phone"><i class="fas fa-phone"></i> +91 70142 98350</a>
-                    <a href="mailto:hello@groviamarketing.com" class="footer-email"><i class="fas fa-envelope"></i>
-                        hello@groviamarketing.com</a>
+                    <a href="mailto:marketinggrovia@gmail.com" class="footer-email"><i class="fas fa-envelope"></i>
+                        marketinggrovia@gmail.com</a>
                     <a href="#" class="footer-address"><i class="fas fa-location-dot"></i> Jaipur, Rajasthan</a>
                 </div>
             </div>
@@ -227,7 +243,9 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="defaults.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="defaults.js"></script>
     <script src="script.js"></script>
 </body>
 
