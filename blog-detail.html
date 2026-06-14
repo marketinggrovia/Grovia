@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TWF3THCG');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="DQouMyEIvqNTKYmyy2nMB1Y7cuBvOH1BzvlBeAvgW7Y" />
+    <title>Blog Details | Grovia Marketing</title>
+    <meta id="metaDesc" name="description" content="Read our latest insights on digital marketing, SEO, PPC, and branding.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .blog-detail-container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 24px 100px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .back-to-blog {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--blue-700);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-blog:hover {
+            color: var(--accent);
+            transform: translateX(-4px);
+        }
+
+        .blog-header {
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .blog-header-badge {
+            display: inline-block;
+            background: var(--blue-100);
+            color: var(--blue-700);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .blog-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            color: var(--gray-900);
+            line-height: 1.25;
+            margin-bottom: 24px;
+        }
+
+        .blog-meta-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            font-size: 0.9rem;
+            color: var(--gray-400);
+            border-bottom: 1px solid var(--gray-200);
+            padding-bottom: 24px;
+        }
+
+        .blog-meta-strip span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-600);
+        }
+
+        .blog-meta-strip i {
+            color: var(--blue-700);
+        }
+
+        .blog-featured-img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 48px;
+            border: 1px solid var(--gray-100);
+        }
+
+        .blog-body-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--gray-800);
+            margin-bottom: 50px;
+        }
+
+        .blog-body-text p {
+            margin-bottom: 28px;
+        }
+
+        .blog-body-text h2, .blog-body-text h3 {
+            font-family: var(--font-display);
+            color: var(--gray-900);
+            font-weight: 800;
+            margin-top: 48px;
+            margin-bottom: 16px;
+        }
+
+        .blog-body-text h2 {
+            font-size: 1.8rem;
+        }
+
+        .blog-body-text h3 {
+            font-size: 1.4rem;
+        }
+
+        .blog-body-text ul, .blog-body-text ol {
+            margin-bottom: 28px;
+            padding-left: 24px;
+        }
+
+        .blog-body-text li {
+            margin-bottom: 12px;
+        }
+
+        .blog-share-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 30px;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 20px;
+            margin-bottom: 60px;
+        }
+
+        .blog-share-title {
+            font-weight: 700;
+            color: var(--gray-900);
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+        }
+
+        .blog-share-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .blog-share-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: white;
+            color: var(--gray-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.1rem;
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+
+        .blog-share-btn:hover {
+            transform: translateY(-3px);
+            color: white;
+        }
+
+        .share-fb:hover { background: #1877f2; border-color: #1877f2; }
+        .share-tw:hover { background: #000000; border-color: #000000; }
+        .share-li:hover { background: #0a66c2; border-color: #0a66c2; }
+        .share-wa:hover { background: #25d366; border-color: #25d366; }
+
+        .cta-premium-box {
+            padding: 50px 40px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-premium-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .cta-premium-box h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+
+        .cta-premium-box p {
+            color: var(--gray-600);
+            margin-bottom: 30px;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TWF3THCG"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <!-- Loading Screen -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <img src="logo.jpeg" alt="Grovia Marketing" class="loader-logo-img">
+            </div>
+            <div class="loader-text">GROVIA MARKETING</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Shapes background decoration -->
+    <div class="floating-shapes" aria-hidden="true">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar scrolled">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="logo.jpeg" alt="Grovia" class="nav-logo-img">
+                <span>Grovia</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="careers.html" class="nav-link">Careers</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <a href="contact.html" class="nav-cta">Get Started</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <section class="section" style="padding-top: 140px; background: transparent;">
+        <div class="blog-detail-container">
+            
+            <a href="blog.html" class="back-to-blog">
+                <i class="fas fa-arrow-left"></i> Back to Blogs
+            </a>
+
+            <article data-animate="fade-up">
+                
+                <header class="blog-header">
+                    <span id="blogCategory" class="blog-header-badge">General</span>
+                    <h1 id="blogTitle" class="blog-title">Loading Blog Post...</h1>
+                    
+                    <div class="blog-meta-strip">
+                        <span><i class="far fa-calendar"></i> <span id="blogDate">-</span></span>
+                        <span><i class="far fa-user"></i> By <span id="blogAuthor">-</span></span>
+                    </div>
+                </header>
+
+                <img id="blogImage" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Blog Featured Image" class="blog-featured-img">
+
+                <div id="blogBody" class="blog-body-text">
+                    <p>Loading the complete blog article...</p>
+                </div>
+
+                <!-- Social Sharing -->
+                <div class="blog-share-box">
+                    <span class="blog-share-title"><i class="fas fa-share-nodes"></i> Share this Article:</span>
+                    <div class="blog-share-links">
+                        <a href="#" id="shareFB" class="blog-share-btn share-fb" target="_blank" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" id="shareTW" class="blog-share-btn share-tw" target="_blank" aria-label="Share on X"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#" id="shareLI" class="blog-share-btn share-li" target="_blank" aria-label="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" id="shareWA" class="blog-share-btn share-wa" target="_blank" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <!-- Strategy CTA -->
+                <div class="cta-premium-box">
+                    <h3>Supercharge Your Digital Growth</h3>
+                    <p>Ready to apply these concepts and outshine your competitors? Request a tailored consultation with our marketing strategists today.</p>
+                    <a href="contact.html" class="btn btn-primary">Claim Your Free Audit & Strategy Session <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+            </article>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo">
+                        <img src="logo.jpeg" alt="Grovia" class="nav-logo-img">
+                        <span>Grovia</span>
+                    </a>
+                    <p>Empowering brands with innovative digital marketing solutions that drive real, measurable growth.
+                    </p>
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Facebook" class="social-fb"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram" class="social-ig"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn" class="social-li"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Twitter" class="social-tw"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#" aria-label="Pinterest" class="social-pn"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#" aria-label="GMB Profile" class="social-gmb"><i class="fab fa-google"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="services.html">Services</a>
+                    <a href="portfolio.html">Portfolio</a>
+                    <a href="blog.html">Blog</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <a href="services.html">SEO Optimization</a>
+                    <a href="services.html">PPC Advertising</a>
+                    <a href="services.html">Social Media</a>
+                    <a href="services.html">Content Marketing</a>
+                    <a href="services.html">Web Development</a>
+                </div>
+                <div class="footer-links footer-contact">
+                    <h4>Contact</h4>
+                    <a href="tel:+917014298350" class="footer-phone"><i class="fas fa-phone"></i> +91 70142 98350</a>
+                    <a href="mailto:hello@groviamarketing.com" class="footer-email"><i class="fas fa-envelope"></i>
+                        hello@groviamarketing.com</a>
+                    <a href="#"><i class="fas fa-location-dot"></i> Jaipur, Rajasthan</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Grovia Marketing. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="defaults.js"></script>
+    <script src="script.js"></script>
+    <script>
+        async function loadBlogDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const blogId = params.get('id');
+            if (!blogId) { window.location.href = 'blog.html'; return; }
+
+            const cms = await initCMS();
+            if (!cms || !cms.blogs) return;
+
+            // Find by exact numerical ID or title-based slug
+            const blog = cms.blogs.find(b => 
+                b.id.toString() === blogId || 
+                (b.title && b.title.toLowerCase().replace(/\s+/g, '-') === blogId)
+            );
+
+            if (blog) {
+                // Update SEO Details
+                document.title = `${blog.title} | Grovia Marketing`;
+                document.getElementById('metaDesc').setAttribute('content', blog.excerpt || blog.title);
+                
+                // Populate DOM
+                document.getElementById('blogCategory').textContent = blog.category;
+                document.getElementById('blogTitle').textContent = blog.title;
+                document.getElementById('blogDate').textContent = blog.date;
+                document.getElementById('blogAuthor').textContent = blog.author;
+                document.getElementById('blogImage').src = blog.image;
+                document.getElementById('blogImage').alt = blog.title;
+                document.getElementById('blogBody').innerHTML = blog.content;
+
+                // Setup Social Sharing Links
+                const currentUrl = encodeURIComponent(window.location.href);
+                const shareText = encodeURIComponent(blog.title);
+
+                document.getElementById('shareFB').href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+                document.getElementById('shareTW').href = `https://twitter.com/intent/tweet?url=${currentUrl}&text=${shareText}`;
+                document.getElementById('shareLI').href = `https://www.linkedin.com/shareArticle?mini=true&url=${currentUrl}&title=${shareText}`;
+                document.getElementById('shareWA').href = `https://api.whatsapp.com/send?text=${shareText}%20${currentUrl}`;
+
+            } else {
+                // Not found redirect back
+                window.location.href = 'blog.html';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadBlogDetails);
+    </script>
+</body>
+
+</html>

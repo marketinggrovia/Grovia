@@ -105,17 +105,6 @@
         </div>
     </section>
 
-    <!-- Blog Modal -->
-    <div id="blogModal" class="blog-modal">
-        <div class="blog-modal-overlay" onclick="closeBlog()"></div>
-        <div class="blog-modal-container">
-            <button class="blog-modal-close" onclick="closeBlog()"><i class="fas fa-times"></i></button>
-            <div id="blogModalContent">
-                <!-- Loaded on click -->
-            </div>
-        </div>
-    </div>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -194,47 +183,13 @@
                         </div>
                         <h3>${b.title}</h3>
                         <p>${b.excerpt}</p>
-                        <a href="javascript:void(0)" class="blog-card-link" onclick="openBlog(${b.id})">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="blog-detail.html?id=${b.id}" class="blog-card-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             `).join('');
 
             // Re-init animations for new elements
             initAnimations();
-        }
-
-        function openBlog(id) {
-            const cms = getCMSData();
-            const blog = cms.blogs.find(b => b.id === id);
-            if (!blog) return;
-
-            const modal = document.getElementById('blogModal');
-            const content = document.getElementById('blogModalContent');
-
-            content.innerHTML = `
-                <img src="${blog.image}" class="blog-modal-img" alt="${blog.title}">
-                <div class="blog-modal-content">
-                    <div class="blog-modal-header">
-                        <div class="blog-card-meta">
-                            <span><i class="far fa-calendar"></i> ${blog.date}</span>
-                            <span><i class="far fa-user"></i> ${blog.author}</span>
-                            <span><i class="fas fa-tag"></i> ${blog.category}</span>
-                        </div>
-                        <h2>${blog.title}</h2>
-                    </div>
-                    <div class="blog-modal-body">
-                        ${blog.content}
-                    </div>
-                </div>
-            `;
-
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeBlog() {
-            document.getElementById('blogModal').classList.remove('active');
-            document.body.style.overflow = '';
         }
 
         document.addEventListener('DOMContentLoaded', () => {

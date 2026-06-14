@@ -201,10 +201,10 @@ async function applyCMS() {
         }
 
         // Blog
-        if (cms.blog && cms.blog.items) {
+        if (cms.blogs) {
             const grid = document.querySelector('.blog-grid');
             if (grid) {
-                grid.innerHTML = cms.blog.items.map((post, i) => `
+                grid.innerHTML = cms.blogs.map((post, i) => `
                     <div class="blog-card" data-animate="fade-up" data-delay="${i * 100}">
                         <div class="blog-card-img">
                             <img src="${post.image}" alt="${post.title}">

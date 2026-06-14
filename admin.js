@@ -569,13 +569,81 @@ function renderBlogs(d) {
               ${fieldHTML('Date', `${i}.date`, b.date)}
               ${fieldHTML('Author', `${i}.author`, b.author)}
             </div>
-            ${fieldHTML('Image URL', `${i}.image`, b.image)}
+            
+            <div class="field-group">
+              <label>Featured Image</label>
+              <div style="display:flex; gap:12px; align-items:center; margin-bottom:8px;">
+                <img id="blog-img-preview-${i}" src="${b.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f'}" alt="Preview" style="width: 80px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border);" onerror="this.src='https://images.unsplash.com/photo-1460925895917-afdab827c52f'">
+                <div style="flex:1;">
+                  <input oninput="syncData(); document.getElementById('blog-img-preview-${i}').src=this.value;" type="text" data-field="${i}.image" value="${(b.image||'').toString().replace(/"/g,'&quot;')}" id="blog-img-url-${i}" placeholder="Enter image URL or upload file">
+                </div>
+                <div style="position:relative;">
+                  <button type="button" class="btn-secondary btn-sm" onclick="document.getElementById('blog-file-input-${i}').click()" id="blog-upload-btn-${i}">
+                    <i class="fas fa-upload"></i> Upload
+                  </button>
+                  <input type="file" id="blog-file-input-${i}" style="display:none;" accept="image/*" onchange="uploadBlogImage(event, ${i})">
+                </div>
+              </div>
+            </div>
+
             ${fieldHTML('Excerpt', `${i}.excerpt`, b.excerpt, 'textarea')}
             ${fieldHTML('Full Content (HTML allowed)', `${i}.content`, b.content, 'textarea', 'rows="10"')}
           </div>
         `).join('')}
       </div>
     </div>`;
+}
+
+async function uploadBlogImage(event, index) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const btn = document.getElementById(`blog-upload-btn-${index}`);
+  const origText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Uploading...`;
+
+  try {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+    const filePath = `blog-posts/${fileName}`;
+
+    // Upload to 'blog-images' bucket
+    const { data: uploadData, error } = await supabaseClient.storage
+      .from('blog-images')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: true
+      });
+
+    if (error) throw error;
+
+    // Get public URL
+    const { data: publicUrlData } = supabaseClient.storage
+      .from('blog-images')
+      .getPublicUrl(filePath);
+
+    const publicUrl = publicUrlData.publicUrl;
+
+    const input = document.getElementById(`blog-img-url-${index}`);
+    if (input) {
+      input.value = publicUrl;
+    }
+    
+    const preview = document.getElementById(`blog-img-preview-${index}`);
+    if (preview) {
+      preview.src = publicUrl;
+    }
+
+    syncData();
+    showToast('Image uploaded successfully!');
+  } catch (err) {
+    console.error('Upload error:', err);
+    showToast('Upload failed: ' + (err.message || 'Make sure the "blog-images" bucket exists in Supabase Storage and is set to Public.'), 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = origText;
+  }
 }
 
 async function addBlog() {
