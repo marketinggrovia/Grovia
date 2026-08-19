@@ -6,21 +6,30 @@ function getCMSData() {
 }
 
 async function initCMS() {
+    let cmsData = typeof DEFAULTS !== 'undefined' ? JSON.parse(JSON.stringify(DEFAULTS)) : {};
+    
     // 1. Try fetching from Supabase
     if (typeof fetchCMS === 'function') {
         const cloudData = await fetchCMS();
         if (cloudData) {
-            localStorage.setItem('grovia_cms', JSON.stringify(cloudData));
-            return cloudData;
+            cmsData = Object.assign({}, cmsData, cloudData);
+            localStorage.setItem('grovia_cms', JSON.stringify(cmsData));
+            return cmsData;
         }
     }
     
     // 2. Fallback to LocalStorage
     const saved = localStorage.getItem('grovia_cms');
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            cmsData = Object.assign({}, cmsData, parsed);
+            return cmsData;
+        } catch (e) {}
+    }
     
     // 3. Fallback to Defaults
-    return typeof DEFAULTS !== 'undefined' ? DEFAULTS : null;
+    return cmsData;
 }
 
 async function applyCMS() {
@@ -99,6 +108,31 @@ async function applyCMS() {
             }
         }
 
+        // Why Trust
+        if (cms.whyTrust) {
+            const wt = cms.whyTrust;
+            const sec = document.getElementById('why-trust');
+            if (sec) {
+                const tag = sec.querySelector('.section-tag');
+                if (tag) tag.textContent = wt.tag;
+                const h2 = sec.querySelector('h2');
+                if (h2) h2.innerHTML = wt.headline;
+                const desc = sec.querySelector('.section-desc');
+                if (desc) desc.textContent = wt.description;
+                
+                const grid = document.getElementById('whyTrustGrid');
+                if (grid && wt.items) {
+                    grid.innerHTML = wt.items.map((item, i) => `
+                        <div class="trust-card glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
+                            <div class="trust-card-icon"><i class="${item.icon}"></i></div>
+                            <h3>${item.title}</h3>
+                            <p>${item.text}</p>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
         // About
         if (cms.about) {
             const a = cms.about;
@@ -127,6 +161,87 @@ async function applyCMS() {
                             `<div class="counter-item"><span class="counter-number" data-count="${c.number}">0</span><span class="counter-suffix">${c.suffix}</span><span class="counter-label">${c.label}</span></div>`
                         ).join('');
                     }
+                }
+            }
+        }
+
+        // Why Choose Us
+        if (cms.whyus) {
+            const w = cms.whyus;
+            const sec = document.getElementById('why-us');
+            if (sec) {
+                const tag = sec.querySelector('.section-tag');
+                if (tag) tag.textContent = w.tag;
+                const h2 = sec.querySelector('h2');
+                if (h2) h2.innerHTML = w.headline;
+                const desc = sec.querySelector('.section-desc');
+                if (desc) desc.textContent = w.description;
+                
+                const grid = sec.querySelector('.why-grid');
+                if (grid && w.items) {
+                    grid.innerHTML = w.items.map((item, i) => `
+                        <div class="why-card glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
+                            <div class="why-number">${item.number}</div>
+                            <h3>${item.title}</h3>
+                            <p>${item.text}</p>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        // Our Process
+        if (cms.process) {
+            const pr = cms.process;
+            const sec = document.getElementById('process');
+            if (sec) {
+                const tag = sec.querySelector('.section-tag');
+                if (tag) tag.textContent = pr.tag;
+                const h2 = sec.querySelector('h2');
+                if (h2) h2.innerHTML = pr.headline;
+                const desc = sec.querySelector('.section-desc');
+                if (desc) desc.textContent = pr.description;
+
+                const stepsContainer = document.getElementById('processSteps');
+                if (stepsContainer && pr.steps) {
+                    stepsContainer.innerHTML = pr.steps.map((item, i) => `
+                        <div class="process-step" data-animate="fade-up" data-delay="${(i + 1) * 100}">
+                            <div class="process-step-num">${item.step}</div>
+                            <div class="process-step-content glass-card">
+                                <h3>${item.title}</h3>
+                                <p>${item.text}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        // Industries We Serve
+        if (cms.industries) {
+            const ind = cms.industries;
+            const sec = document.getElementById('industries');
+            if (sec) {
+                const tag = sec.querySelector('.section-tag');
+                if (tag) tag.textContent = ind.tag;
+                const h2 = sec.querySelector('h2');
+                if (h2) h2.innerHTML = ind.headline;
+                const desc = sec.querySelector('.section-desc');
+                if (desc) desc.textContent = ind.description;
+
+                const grid = document.getElementById('industriesGrid');
+                if (grid && ind.items) {
+                    grid.innerHTML = ind.items.map((item, i) => `
+                        <div class="industry-card glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
+                            <div class="industry-card-icon"><i class="${item.icon}"></i></div>
+                            <h3>${item.title}</h3>
+                            <p>${item.text}</p>
+                        </div>
+                    `).join('');
+                }
+                const calloutText = document.getElementById('industriesCalloutText');
+                if (calloutText && ind.callout) {
+                    calloutText.textContent = ind.callout;
                 }
             }
         }
@@ -227,21 +342,76 @@ async function applyCMS() {
         // Testimonials
         if (cms.testimonials) {
             const t = cms.testimonials;
-            const sec = document.getElementById('testimonials');
+            const track = document.getElementById('testimonialTrack');
+            if (track && t.items) {
+                track.innerHTML = t.items.map(item => `
+                    <div class="testimonial-card glass-card">
+                        <div class="testimonial-stars">${'<i class="fas fa-star"></i>'.repeat(item.stars || 5)}</div>
+                        <p>"${item.text}"</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">${item.initials || 'A'}</div>
+                            <div><strong>${item.name}</strong><span>${item.role}</span></div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // FAQ
+        if (cms.faq) {
+            const f = cms.faq;
+            const sec = document.getElementById('faq');
             if (sec) {
-                const track = document.getElementById('testimonialTrack');
-                if (track && t.items) {
-                    track.innerHTML = t.items.map(item => `
-                        <div class="testimonial-card glass-card">
-                            <div class="testimonial-stars">${'<i class="fas fa-star"></i>'.repeat(item.stars || 5)}</div>
-                            <p>"${item.text}"</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">${item.initials || 'A'}</div>
-                                <div><strong>${item.name}</strong><span>${item.role}</span></div>
+                const tag = sec.querySelector('.section-tag');
+                if (tag) tag.textContent = f.tag;
+                const h2 = sec.querySelector('h2');
+                if (h2) h2.innerHTML = f.headline;
+                const desc = sec.querySelector('.section-desc');
+                if (desc) desc.textContent = f.description;
+
+                const list = sec.querySelector('.faq-list');
+                if (list && f.items) {
+                    list.innerHTML = f.items.map((item, i) => `
+                        <div class="faq-item" data-animate="fade-up" data-delay="${(i + 1) * 50}">
+                            <button class="faq-question">
+                                <span>${item.question}</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>${item.answer}</p>
                             </div>
                         </div>
                     `).join('');
+                    
+                    // Bind toggle accordion logic
+                    list.querySelectorAll('.faq-question').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const item = btn.parentElement;
+                            const active = list.querySelector('.faq-item.active');
+                            if (active && active !== item) {
+                                active.classList.remove('active');
+                            }
+                            item.classList.toggle('active');
+                        });
+                    });
                 }
+            }
+        }
+
+        // Careers Page
+        if (cms.careers) {
+            const car = cms.careers;
+            const jobGrid = document.getElementById('jobGrid');
+            if (jobGrid && car.items) {
+                jobGrid.innerHTML = car.items.map((item, i) => `
+                    <div class="career-card glass-card" data-animate="fade-up" data-delay="${(i + 1) * 100}">
+                        <div class="career-badge">${item.type}</div>
+                        <h3>${item.title}</h3>
+                        <p class="career-loc" style="color: var(--blue-600); font-weight: 500; font-size: 0.9rem; margin-bottom: 10px;"><i class="fas fa-location-dot"></i> ${item.location}</p>
+                        <p style="color: var(--gray-600); font-size: 0.95rem; line-height: 1.6;">${item.description}</p>
+                        <a href="https://wa.me/${(car.whatsapp || cms.contact?.phone || '917014298350').replace(/\D/g, '')}?text=Hi%20Grovia,%20I%20am%20interested%20in%20the%20${encodeURIComponent(item.title)}%20position." target="_blank" class="btn btn-outline" style="margin-top: 15px; width: 100%; text-align: center; display: inline-block;">Apply via WhatsApp <i class="fab fa-whatsapp"></i></a>
+                    </div>
+                `).join('');
             }
         }
 
