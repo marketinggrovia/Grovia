@@ -46,13 +46,17 @@ const DEFAULTS = {
     ]
   },
   about: {
-    tag: "About Grovia",
-    headline: 'Helping Businesses Grow Their <span class="gradient-text">Online Presence</span>',
-    description: "Grovia is a digital marketing company in jaipur helping businesses grow their business and make their presence on search engines and social platforms through our customized digital marketing services in jaipur. Our digital marketing agency in jaipur works with start ups, local businesses and growing brands as per their budgets and business needs. We focus on strong online presence and long term growth of business.",
+    tag: "ABOUT US",
+    headline: 'Helping Businesses Grow <span class="gradient-text">smarter</span> with Digital marketing',
+    description: "Digital marketing is not just about getting leads or clicks but its main focus is connecting the right audience through strategic digital marketing solutions that build brand awareness, attract customers and help to achieve sustainable growth. Grovia is jaipur-based digital marketing agency helping startups, local business, and brands build their strong online presence through customised digital marketing channels.",
+    story: "We notice that every local business and start ups want their online presence but they often don't know where to begin and what digital marketing services are right for their business. That’s why Grovia was created. We understand and learn about the business type and requirement, discuss about the budget first and then suggest the best digital marketing solutions tailored to your business budget. We believe that every local business and start ups should also have a strong online presence and achieve growth.",
+    mission: "Our mission is to help local business start ups and growing brands create a strong online presence through customised digital marketing solutions increasing leads, drive website traffic, increasing brand awareness and achieving sustainable growth.",
+    vision: "Our vision is to become the leading digital marketing company in jaipur. As in today's digital world there is a rise in AI-powered search, Voice searches, AI overviews and changing customer behaviour. Our vision is to help businesses stay digitally visible, remain consistent, and ready for future by adapting advanced digital marketing strategies.",
     cards: [
-      { icon: "fas fa-rocket", title: "For Startups & Local Brands", text: "We work closely with startups, local businesses, and growing brands tailored to their specific budgets." },
-      { icon: "fas fa-bullseye", title: "Customized Growth Plans", text: "No generic templates. Every strategy is designed around your unique business goals and audience." },
-      { icon: "fas fa-chart-pie", title: "Long-Term Growth Focus", text: "We prioritize building a sustained online presence that drives continuous traffic, leads, and sales." }
+      { icon: "fas fa-robot", title: "Future ready digital marketing strategies", text: "We notice that nowadays search is changing with AI like AI powered answers, voice searches, AI overviews. We focus on digital strategies which help businesses grow digitally not only for today but for future also." },
+      { icon: "fas fa-sliders", title: "Customised digital marketing solutions", text: "We believe not all businesses are the same. That's why at Grovia we understand and learn the needs and requirements of business then suggest the best digital marketing solutions in your budget." },
+      { icon: "fas fa-chart-line", title: "Long term growth", text: "Grovia not only focuses on completing projects but we focus on long term growth of your business." },
+      { icon: "fas fa-magnifying-glass-chart", title: "Competitor and market analysis", text: "We will do competitor analysis and learn about market trends before working on any project because we work on every project with proper data and reach." }
     ],
     counters: [
       { number: 150, suffix: "+", label: "Clients Served" },
