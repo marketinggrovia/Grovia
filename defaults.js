@@ -182,7 +182,7 @@ const DEFAULTS = {
     tag: "Industries We Serve",
     headline: 'Tailored Marketing for <span class="gradient-text">Your Sector</span>',
     description: "We understand that every business has different goals, customers and challenges. As a best digital marketing company in jaipur we provide customised digital marketing strategies that match your industry not using the same approach for every industry we serve. From increasing online traffic, to building your social media presence, increasing leads, organic traffic and sales, Our digital marketing agency aims to grow your business online.",
-    callout: "If you want digital marketing services for your business and increase your sales, leads, profits, enquiries or bookings connect with our digital marketing company in jaipur today and get the best digital marketing solutions tailored to your business.",
+    callout: "If you want digital marketing services near me for your business and increase your sales, leads, profits, enquiries or bookings connect with our digital marketing company in jaipur today and get the best digital marketing solutions tailored to your business.",
     items: [
       {
         icon: "fas fa-user-doctor",
