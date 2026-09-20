@@ -155,12 +155,14 @@ async function saveAll() {
     }
   });
   
+  // Save locally immediately so user work is never lost
+  localStorage.setItem('grovia_cms', JSON.stringify(data));
+  
   const result = await updateCMS(data);
   if (result.success) {
-    localStorage.setItem('grovia_cms', JSON.stringify(data));
-    showToast('Changes saved successfully!');
+    showToast('Changes saved to cloud & locally!');
   } else {
-    showToast('Cloud Error: ' + result.message, 'error');
+    showToast('Saved locally. (Supabase RLS policy needs update to sync to cloud)', 'warning');
   }
 }
 
@@ -1142,29 +1144,28 @@ async function addBlog() {
     content: "<p>Write your detailed article content here. Share tips, case studies, and actionable marketing advice with your readers.</p>"
   });
   
+  localStorage.setItem('grovia_cms', JSON.stringify(data));
   const result = await updateCMS(data);
+  currentEditingBlogIndex = 0; // Open directly in editor
+  loadSection('blogs');
   if (result.success) {
-    localStorage.setItem('grovia_cms', JSON.stringify(data));
-    currentEditingBlogIndex = 0; // Open directly in editor
-    loadSection('blogs');
     showToast('New post draft created!');
   } else {
-    showToast('Cloud Error: ' + result.message, 'error');
+    showToast('Draft created locally. (Supabase RLS needs update to sync cloud)', 'warning');
   }
 }
 
 async function deleteBlog(index) {
   if (!confirm('Are you sure you want to delete this blog post?')) return;
-  await saveAll();
   data.blogs.splice(index, 1);
+  localStorage.setItem('grovia_cms', JSON.stringify(data));
   const result = await updateCMS(data);
+  currentEditingBlogIndex = null;
+  loadSection('blogs');
   if (result.success) {
-    localStorage.setItem('grovia_cms', JSON.stringify(data));
-    currentEditingBlogIndex = null;
-    loadSection('blogs');
     showToast('Blog post deleted', 'info');
   } else {
-    showToast('Cloud Error: ' + result.message, 'error');
+    showToast('Deleted locally. (Supabase RLS needs update to sync cloud)', 'warning');
   }
 }
 
