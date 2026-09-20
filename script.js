@@ -455,6 +455,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initTiltCards();
     initParallax();
     initContactForm();
+    initAnalyticsTracker();
 
     // Hide Loader
     const loader = document.getElementById('loader');
@@ -682,4 +683,56 @@ function initSmoothScroll() {
             if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
         });
     });
+}
+
+// === CLIENT-SIDE WEBSITE ANALYTICS TRACKER ===
+function initAnalyticsTracker() {
+    try {
+        const path = window.location.pathname.split('/').pop() || 'index.html';
+        if (path.includes('admin')) return; // Do not track admin panel visits
+
+        // 1. Get or create visitor ID
+        let vid = localStorage.getItem('grovia_visitor_id');
+        if (!vid) {
+            vid = 'v_' + Math.random().toString(36).substring(2, 9) + Date.now().toString(36);
+            localStorage.setItem('grovia_visitor_id', vid);
+        }
+
+        // 2. Identify device type
+        let device = 'Desktop';
+        const ua = navigator.userAgent;
+        if (/tablet|ipad|playbook|silk/i.test(ua) || (window.innerWidth <= 1024 && window.innerWidth > 768)) {
+            device = 'Tablet';
+        } else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle/i.test(ua) || window.innerWidth <= 768) {
+            device = 'Mobile';
+        }
+
+        // 3. Referral source
+        let referrer = document.referrer ? (new URL(document.referrer)).hostname : 'Direct';
+        if (referrer.includes(window.location.hostname)) referrer = 'Internal Navigation';
+        else if (referrer.includes('google')) referrer = 'Google Search (Organic)';
+        else if (referrer.includes('instagram') || referrer.includes('facebook') || referrer.includes('linkedin')) referrer = 'Social Media';
+
+        // 4. Record event
+        const pageTitle = document.title.replace(' | Grovia Marketing', '').replace(' | Grovia', '');
+        const eventItem = {
+            id: Date.now() + Math.random().toString(36).substring(2, 5),
+            visitorId: vid,
+            page: path + (window.location.search || ''),
+            pageTitle: pageTitle,
+            referrer: referrer,
+            device: device,
+            timestamp: new Date().toISOString()
+        };
+
+        const logs = JSON.parse(localStorage.getItem('grovia_pageviews_log') || '[]');
+        logs.unshift(eventItem);
+        if (logs.length > 300) logs.pop();
+        localStorage.setItem('grovia_pageviews_log', JSON.stringify(logs));
+
+        // 5. Update live active heartbeat
+        localStorage.setItem('grovia_last_active_ping', Date.now().toString());
+    } catch (e) {
+        console.warn('Analytics logging notice:', e);
+    }
 }

@@ -169,20 +169,26 @@
             const cms = getCMSData();
             if (!cms || !cms.blogs) return;
 
+            const activeBlogs = cms.blogs.filter(b => !b.status || b.status === 'Active' || b.status === 'published');
             const grid = document.getElementById('blogGrid');
-            grid.innerHTML = cms.blogs.map((b, i) => `
+            if (activeBlogs.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);"><h3>No blog posts published yet.</h3><p>Check back soon for new insights!</p></div>`;
+                return;
+            }
+
+            grid.innerHTML = activeBlogs.map((b, i) => `
                 <div class="blog-card" data-animate="fade-up" data-delay="${i * 100}">
                     <div class="blog-card-img">
                         <img src="${b.image}" alt="${b.title}">
-                        <span class="blog-card-badge">${b.category}</span>
+                        <span class="blog-card-badge">${b.category || 'Marketing'}</span>
                     </div>
                     <div class="blog-card-content">
                         <div class="blog-card-meta">
-                            <span><i class="far fa-calendar"></i> ${b.date}</span>
-                            <span><i class="far fa-user"></i> ${b.author}</span>
+                            <span><i class="far fa-calendar"></i> ${b.date || 'Recent'}</span>
+                            <span><i class="far fa-user"></i> ${b.author || 'Grovia'}</span>
                         </div>
                         <h3>${b.title}</h3>
-                        <p>${b.excerpt}</p>
+                        <p>${b.smallDescription || b.excerpt || ''}</p>
                         <a href="blog-detail.html?id=${b.id}" class="blog-card-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>

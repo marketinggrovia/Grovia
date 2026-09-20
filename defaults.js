@@ -310,22 +310,32 @@ const DEFAULTS = {
     {
       id: 1,
       title: "How to Choose the Best Digital Marketing Company in Jaipur",
+      smallDescription: "Learn how customized digital marketing strategies tailored to your industry can transform your local business online presence.",
+      excerpt: "Learn how customized digital marketing strategies tailored to your industry can transform your local business online presence.",
+      metaTitle: "Best Digital Marketing Company in Jaipur | Grovia Guide",
+      metaKeywords: "digital marketing jaipur, seo agency jaipur, best marketing company",
+      metaDescription: "A complete guide on choosing the best digital marketing agency in Jaipur for high ROI.",
+      status: "Active",
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
       date: "May 1, 2026",
       author: "Admin",
       category: "Digital Marketing",
-      excerpt: "Learn how customized digital marketing strategies tailored to your industry can transform your local business online presence.",
-      content: "Full blog content goes here."
+      content: "<p>Choosing the right digital marketing partner can make or break your local business growth. Jaipur is rapidly becoming a hub for enterprising brands, startups, and established enterprises moving into the digital arena.</p><h3>1. Define Your Marketing Goals</h3><p>Before hiring an agency, be clear about whether you need organic SEO ranking, social media management, or high-intent paid ad conversions.</p><h3>2. Check Proven Track Records</h3><p>Look for case studies and transparent reporting. A trustworthy agency provides tangible metrics like ROI, lead volume, and organic visibility growth.</p>"
     },
     {
       id: 2,
       title: "SEO vs Social Media Marketing: What Does Your Business Need?",
+      smallDescription: "Discover the differences between organic search engine optimization and targeted social media marketing for local Jaipur brands.",
+      excerpt: "Discover the differences between organic search engine optimization and targeted social media marketing for local Jaipur brands.",
+      metaTitle: "SEO vs SMM: Which is Better for Your Business? | Grovia",
+      metaKeywords: "seo vs smm, social media marketing, local seo jaipur",
+      metaDescription: "Understand when to invest in SEO versus Social Media Marketing for optimal brand visibility.",
+      status: "Active",
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
       date: "April 25, 2026",
       author: "Admin",
       category: "SEO & SMM",
-      excerpt: "Discover the differences between organic search engine optimization and targeted social media marketing for local Jaipur brands.",
-      content: "Full blog content goes here."
+      content: "<p>Both Search Engine Optimization (SEO) and Social Media Marketing (SMM) play pivotal roles in digital growth. While SEO captures high-intent customers searching on Google, SMM builds brand affinity, trust, and direct engagement.</p><h3>When to Choose SEO</h3><p>SEO is best for long-term compound traffic, local search visibility on Google Maps, and sustainable customer acquisition without recurring ad spends.</p><h3>When to Choose SMM</h3><p>Social media is ideal for fast brand awareness, product launches, visual storytelling, and retargeting interested prospects.</p>"
     }
   ]
 };

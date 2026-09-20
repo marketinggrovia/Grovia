@@ -407,17 +407,29 @@
 
             if (blog) {
                 // Update SEO Details
-                document.title = `${blog.title} | Grovia Marketing`;
-                document.getElementById('metaDesc').setAttribute('content', blog.excerpt || blog.title);
+                document.title = blog.metaTitle || `${blog.title} | Grovia Marketing`;
+                const metaDescEl = document.getElementById('metaDesc');
+                if (metaDescEl) metaDescEl.setAttribute('content', blog.metaDescription || blog.smallDescription || blog.excerpt || blog.title);
+                
+                // Add or update meta keywords if provided
+                if (blog.metaKeywords) {
+                    let kwMeta = document.querySelector('meta[name="keywords"]');
+                    if (!kwMeta) {
+                        kwMeta = document.createElement('meta');
+                        kwMeta.name = 'keywords';
+                        document.head.appendChild(kwMeta);
+                    }
+                    kwMeta.content = blog.metaKeywords;
+                }
                 
                 // Populate DOM
-                document.getElementById('blogCategory').textContent = blog.category;
+                document.getElementById('blogCategory').textContent = blog.category || 'Digital Marketing';
                 document.getElementById('blogTitle').textContent = blog.title;
-                document.getElementById('blogDate').textContent = blog.date;
-                document.getElementById('blogAuthor').textContent = blog.author;
-                document.getElementById('blogImage').src = blog.image;
+                document.getElementById('blogDate').textContent = blog.date || 'Recently Updated';
+                document.getElementById('blogAuthor').textContent = blog.author || 'Grovia Team';
+                document.getElementById('blogImage').src = blog.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f';
                 document.getElementById('blogImage').alt = blog.title;
-                document.getElementById('blogBody').innerHTML = blog.content;
+                document.getElementById('blogBody').innerHTML = blog.content || '<p>No content available for this post.</p>';
 
                 // Setup Social Sharing Links
                 const currentUrl = encodeURIComponent(window.location.href);
