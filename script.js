@@ -37,7 +37,32 @@ async function applyCMS() {
         const cms = await initCMS();
         if (!cms) return;
 
-        // Global WhatsApp Floating Button
+        // 1. Dynamic SEO Metadata Injection for Current Page
+        try {
+            if (cms.seo) {
+                const fullPath = window.location.pathname.split('/').pop().toLowerCase();
+                let pageKey = fullPath.replace('.html', '') || 'index';
+                if (pageKey === '') pageKey = 'index';
+                const pageSEO = cms.seo[pageKey] || cms.seo.index;
+                if (pageSEO) {
+                    if (pageSEO.title && !window.location.search.includes('id=')) {
+                        document.title = pageSEO.title;
+                    }
+                    const metaDesc = document.querySelector('meta[name="description"]');
+                    if (metaDesc && pageSEO.description && !window.location.search.includes('id=')) {
+                        metaDesc.setAttribute('content', pageSEO.description);
+                    }
+                    const ogTitle = document.querySelector('meta[property="og:title"]');
+                    if (ogTitle && pageSEO.title) ogTitle.setAttribute('content', pageSEO.title);
+                    const ogDesc = document.querySelector('meta[property="og:description"]');
+                    if (ogDesc && pageSEO.description) ogDesc.setAttribute('content', pageSEO.description);
+                    const ogImage = document.querySelector('meta[property="og:image"]');
+                    if (ogImage && pageSEO.ogImage) ogImage.setAttribute('content', pageSEO.ogImage);
+                }
+            }
+        } catch (e) {}
+
+        // 2. Global WhatsApp Floating Button
         try {
             if (cms.contact && cms.contact.phone && !document.querySelector('.whatsapp-float')) {
                 const waBtn = document.createElement('a');
@@ -49,7 +74,7 @@ async function applyCMS() {
             }
         } catch (e) {}
 
-        // Navigation Visibility
+        // 3. Navigation Visibility
         try {
             if (cms.navigation) {
                 const n = cms.navigation;
@@ -81,22 +106,26 @@ async function applyCMS() {
             }
         } catch (e) {}
 
-        // General
+        // 4. General Brand Settings
         if (cms.general) {
             const g = cms.general;
-            document.querySelectorAll('.nav-logo span').forEach(el => el.textContent = g.brandName);
-            document.querySelectorAll('.nav-logo-img, .loader-logo-img').forEach(el => el.src = g.logo);
+            if (g.brandName) document.querySelectorAll('.nav-logo span').forEach(el => el.textContent = g.brandName);
+            if (g.logo) document.querySelectorAll('.nav-logo-img, .loader-logo-img').forEach(el => el.src = g.logo);
+            if (g.formspreeId) {
+                const forms = document.querySelectorAll('form#contactForm, form#auditForm');
+                forms.forEach(f => f.action = `https://formspree.io/f/${g.formspreeId}`);
+            }
         }
 
-        // Hero
+        // 5. Hero Section (Home)
         if (cms.hero) {
             const h = cms.hero;
             const badge = document.querySelector('.hero-badge');
-            if (badge) badge.innerHTML = '<span class="badge-dot"></span>' + h.badge;
+            if (badge && h.badge) badge.innerHTML = '<span class="badge-dot"></span>' + h.badge;
             const h1 = document.querySelector('.hero h1');
-            if (h1) h1.innerHTML = h.headline;
+            if (h1 && h.headline) h1.innerHTML = h.headline;
             const sub = document.querySelector('.hero-sub');
-            if (sub) sub.textContent = h.subheadline;
+            if (sub && h.subheadline) sub.textContent = h.subheadline;
             if (h.stats) {
                 const statsContainer = document.querySelector('.hero-stats');
                 if (statsContainer) {
@@ -108,17 +137,17 @@ async function applyCMS() {
             }
         }
 
-        // Why Trust
+        // 6. Why Trust Us
         if (cms.whyTrust) {
             const wt = cms.whyTrust;
             const sec = document.getElementById('why-trust');
             if (sec) {
                 const tag = sec.querySelector('.section-tag');
-                if (tag) tag.textContent = wt.tag;
+                if (tag && wt.tag) tag.textContent = wt.tag;
                 const h2 = sec.querySelector('h2');
-                if (h2) h2.innerHTML = wt.headline;
+                if (h2 && wt.headline) h2.innerHTML = wt.headline;
                 const desc = sec.querySelector('.section-desc');
-                if (desc) desc.textContent = wt.description;
+                if (desc && wt.description) desc.textContent = wt.description;
                 
                 const grid = document.getElementById('whyTrustGrid');
                 if (grid && wt.items) {
@@ -133,17 +162,17 @@ async function applyCMS() {
             }
         }
 
-        // About
+        // 7. About Us Section & About Page
         if (cms.about) {
             const a = cms.about;
             const sec = document.getElementById('about');
             if (sec) {
                 const tag = sec.querySelector('.section-tag');
-                if (tag) tag.textContent = a.tag;
+                if (tag && a.tag) tag.textContent = a.tag;
                 const h2 = sec.querySelector('h2');
-                if (h2) h2.innerHTML = a.headline;
+                if (h2 && a.headline) h2.innerHTML = a.headline;
                 const desc = sec.querySelector('.section-desc');
-                if (desc) desc.textContent = a.description;
+                if (desc && a.description) desc.textContent = a.description;
                 if (a.cards) {
                     const grid = sec.querySelector('.about-grid');
                     if (grid) {
@@ -165,17 +194,17 @@ async function applyCMS() {
             }
         }
 
-        // Why Choose Us
+        // 8. Why Choose Us
         if (cms.whyus) {
             const w = cms.whyus;
             const sec = document.getElementById('why-us');
             if (sec) {
                 const tag = sec.querySelector('.section-tag');
-                if (tag) tag.textContent = w.tag;
+                if (tag && w.tag) tag.textContent = w.tag;
                 const h2 = sec.querySelector('h2');
-                if (h2) h2.innerHTML = w.headline;
+                if (h2 && w.headline) h2.innerHTML = w.headline;
                 const desc = sec.querySelector('.section-desc');
-                if (desc) desc.textContent = w.description;
+                if (desc && w.description) desc.textContent = w.description;
                 
                 const grid = sec.querySelector('.why-grid');
                 if (grid && w.items) {
@@ -190,17 +219,17 @@ async function applyCMS() {
             }
         }
 
-        // Our Process
+        // 9. Our Process
         if (cms.process) {
             const pr = cms.process;
             const sec = document.getElementById('process');
             if (sec) {
                 const tag = sec.querySelector('.section-tag');
-                if (tag) tag.textContent = pr.tag;
+                if (tag && pr.tag) tag.textContent = pr.tag;
                 const h2 = sec.querySelector('h2');
-                if (h2) h2.innerHTML = pr.headline;
+                if (h2 && pr.headline) h2.innerHTML = pr.headline;
                 const desc = sec.querySelector('.section-desc');
-                if (desc) desc.textContent = pr.description;
+                if (desc && pr.description) desc.textContent = pr.description;
 
                 const stepsContainer = document.getElementById('processSteps');
                 if (stepsContainer && pr.steps) {
@@ -217,17 +246,17 @@ async function applyCMS() {
             }
         }
 
-        // Industries We Serve
+        // 10. Industries We Serve
         if (cms.industries) {
             const ind = cms.industries;
             const sec = document.getElementById('industries');
             if (sec) {
                 const tag = sec.querySelector('.section-tag');
-                if (tag) tag.textContent = ind.tag;
+                if (tag && ind.tag) tag.textContent = ind.tag;
                 const h2 = sec.querySelector('h2');
-                if (h2) h2.innerHTML = ind.headline;
+                if (h2 && ind.headline) h2.innerHTML = ind.headline;
                 const desc = sec.querySelector('.section-desc');
-                if (desc) desc.textContent = ind.description;
+                if (desc && ind.description) desc.textContent = ind.description;
 
                 const grid = document.getElementById('industriesGrid');
                 if (grid && ind.items) {
@@ -246,7 +275,7 @@ async function applyCMS() {
             }
         }
 
-        // Services
+        // 11. Services Section & Dropdown Navigation
         if (cms.services) {
             const s = cms.services;
             const sec = document.getElementById('services');
@@ -271,29 +300,29 @@ async function applyCMS() {
             }
         }
 
-        // Audit
+        // 12. Audit Section
         if (cms.audit) {
             const au = cms.audit;
             const sec = document.getElementById('audit');
             if (sec) {
                 const tag = sec.querySelector('.section-tag');
-                if (tag) tag.textContent = au.tag;
+                if (tag && au.tag) tag.textContent = au.tag;
                 const h2 = sec.querySelector('h2');
-                if (h2) h2.innerHTML = au.headline;
+                if (h2 && au.headline) h2.innerHTML = au.headline;
                 const desc = sec.querySelector('.section-desc');
-                if (desc) desc.textContent = au.description;
+                if (desc && au.description) desc.textContent = au.description;
             }
         }
 
-        // Portfolio
+        // 13. Portfolio & Case Studies
         if (cms.portfolio) {
             const p = cms.portfolio;
             const sec = document.getElementById('portfolio');
             if (sec) {
                 const tag = sec.querySelector('.section-tag');
-                if (tag) tag.textContent = p.tag;
+                if (tag && p.tag) tag.textContent = p.tag;
                 const h2 = sec.querySelector('h2');
-                if (h2) h2.innerHTML = p.headline;
+                if (h2 && p.headline) h2.innerHTML = p.headline;
                 if (p.items) {
                     const grid = sec.querySelector('.portfolio-grid');
                     if (grid) {
@@ -315,23 +344,24 @@ async function applyCMS() {
             }
         }
 
-        // Blog
+        // 14. Blog Posts Grid (Filtered by Active Status)
         if (cms.blogs) {
             const grid = document.querySelector('.blog-grid');
             if (grid) {
-                grid.innerHTML = cms.blogs.map((post, i) => `
+                const activeBlogs = cms.blogs.filter(b => !b.status || b.status === 'Active' || b.status === 'published');
+                grid.innerHTML = activeBlogs.map((post, i) => `
                     <div class="blog-card" data-animate="fade-up" data-delay="${i * 100}">
                         <div class="blog-card-img">
                             <img src="${post.image}" alt="${post.title}">
-                            <span class="blog-card-badge">${post.category}</span>
+                            <span class="blog-card-badge">${post.category || 'Marketing'}</span>
                         </div>
                         <div class="blog-card-content">
                             <div class="blog-card-meta">
-                                <span><i class="far fa-calendar"></i> ${post.date}</span>
-                                <span><i class="far fa-user"></i> ${post.author}</span>
+                                <span><i class="far fa-calendar"></i> ${post.date || 'Recent'}</span>
+                                <span><i class="far fa-user"></i> ${post.author || 'Grovia'}</span>
                             </div>
                             <h3>${post.title}</h3>
-                            <p>${post.excerpt}</p>
+                            <p>${post.smallDescription || post.excerpt || ''}</p>
                             <a href="blog-detail.html?id=${post.id}" class="blog-card-link">Read More <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
@@ -339,7 +369,7 @@ async function applyCMS() {
             }
         }
 
-        // Testimonials
+        // 15. Testimonials Slider
         if (cms.testimonials) {
             const t = cms.testimonials;
             const track = document.getElementById('testimonialTrack');
@@ -357,17 +387,17 @@ async function applyCMS() {
             }
         }
 
-        // FAQ
+        // 16. FAQ Section
         if (cms.faq) {
             const f = cms.faq;
             const sec = document.getElementById('faq');
             if (sec) {
                 const tag = sec.querySelector('.section-tag');
-                if (tag) tag.textContent = f.tag;
+                if (tag && f.tag) tag.textContent = f.tag;
                 const h2 = sec.querySelector('h2');
-                if (h2) h2.innerHTML = f.headline;
+                if (h2 && f.headline) h2.innerHTML = f.headline;
                 const desc = sec.querySelector('.section-desc');
-                if (desc) desc.textContent = f.description;
+                if (desc && f.description) desc.textContent = f.description;
 
                 const list = sec.querySelector('.faq-list');
                 if (list && f.items) {
@@ -398,7 +428,7 @@ async function applyCMS() {
             }
         }
 
-        // Careers Page
+        // 17. Careers Page
         if (cms.careers) {
             const car = cms.careers;
             const jobGrid = document.getElementById('jobGrid');
@@ -415,7 +445,57 @@ async function applyCMS() {
             }
         }
 
-        // Socials & Footer Sync
+        // 18. Instagram / Social Feed
+        if (cms.socialFeed) {
+            const sf = cms.socialFeed;
+            const sec = document.getElementById('social-feed');
+            if (sec) {
+                const tag = sec.querySelector('.section-tag');
+                if (tag && sf.tag) tag.textContent = sf.tag;
+                const h2 = sec.querySelector('h2');
+                if (h2 && sf.headline) h2.innerHTML = sf.headline;
+                const desc = sec.querySelector('.section-desc');
+                if (desc && sf.description) desc.textContent = sf.description;
+                const grid = sec.querySelector('.social-grid');
+                if (grid && sf.items) {
+                    grid.innerHTML = sf.items.map((item, i) => `
+                        <a href="${item.link || '#'}" target="_blank" class="social-item" data-animate="fade-up" data-delay="${(i + 1) * 100}">
+                            <img src="${item.image}" alt="Instagram Post">
+                            <div class="social-overlay">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                        </a>
+                    `).join('');
+                }
+            }
+        }
+
+        // 19. Contact Section & Details
+        if (cms.contact) {
+            const c = cms.contact;
+            const sec = document.getElementById('contact');
+            if (sec) {
+                const details = sec.querySelector('.contact-details');
+                if (details) {
+                    details.innerHTML = `
+                        <div class="contact-item"><i class="fas fa-phone"></i>
+                            <div><strong>Phone</strong><span><a href="tel:${(c.phone||'').replace(/\s/g, '')}" style="color:inherit;text-decoration:none;">${c.phone || '+91 70142 98350'}</a></span></div>
+                        </div>
+                        <div class="contact-item"><i class="fas fa-envelope"></i>
+                            <div><strong>Email</strong><span><a href="mailto:${c.email||'hello@groviamarketing.com'}" style="color:inherit;text-decoration:none;">${c.email || 'hello@groviamarketing.com'}</a></span></div>
+                        </div>
+                        <div class="contact-item"><i class="fas fa-location-dot"></i>
+                            <div><strong>Address</strong><span>${c.address || 'Jaipur, Rajasthan, India'}</span></div>
+                        </div>
+                    `;
+                }
+            }
+            document.querySelectorAll('.footer-phone').forEach(el => { el.href = `tel:${(c.phone||'').replace(/\s/g, '')}`; el.innerHTML = `<i class="fas fa-phone"></i> ${c.phone}`; });
+            document.querySelectorAll('.footer-email').forEach(el => { el.href = `mailto:${c.email}`; el.innerHTML = `<i class="fas fa-envelope"></i> ${c.email}`; });
+            document.querySelectorAll('.footer-address').forEach(el => { el.href = c.mapLink || '#'; el.innerHTML = `<i class="fas fa-location-dot"></i> ${c.address}`; });
+        }
+
+        // 20. Social Links Sync (Footer & Header)
         if (cms.socials) {
             const s = cms.socials;
             const socialMap = { '.social-fb': s.facebook, '.social-ig': s.instagram, '.social-li': s.linkedin, '.social-tw': s.twitter, '.social-pn': s.pinterest, '.social-gmb': s.gmb };
@@ -425,12 +505,6 @@ async function applyCMS() {
                     else { link.style.display = 'none'; }
                 });
             });
-        }
-        if (cms.contact) {
-            const c = cms.contact;
-            document.querySelectorAll('.footer-phone').forEach(el => { el.href = `tel:${c.phone.replace(/\s/g, '')}`; el.innerHTML = `<i class="fas fa-phone"></i> ${c.phone}`; });
-            document.querySelectorAll('.footer-email').forEach(el => { el.href = `mailto:${c.email}`; el.innerHTML = `<i class="fas fa-envelope"></i> ${c.email}`; });
-            document.querySelectorAll('.footer-address').forEach(el => { el.href = c.mapLink || '#'; el.innerHTML = `<i class="fas fa-location-dot"></i> ${c.address}`; });
         }
         
     } catch (err) {
