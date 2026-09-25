@@ -110,7 +110,20 @@ async function applyCMS() {
         if (cms.general) {
             const g = cms.general;
             if (g.brandName) document.querySelectorAll('.nav-logo span').forEach(el => el.textContent = g.brandName);
-            if (g.logo) document.querySelectorAll('.nav-logo-img, .loader-logo-img').forEach(el => el.src = g.logo);
+            if (g.logo) {
+                document.querySelectorAll('.nav-logo-img, .loader-logo-img, .footer-logo-img').forEach(el => el.src = g.logo);
+            }
+            if (g.favicon) {
+                let favicons = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]');
+                if (favicons.length > 0) {
+                    favicons.forEach(el => el.href = g.favicon);
+                } else {
+                    const fav = document.createElement('link');
+                    fav.rel = 'icon';
+                    fav.href = g.favicon;
+                    document.head.appendChild(fav);
+                }
+            }
             if (g.formspreeId) {
                 const forms = document.querySelectorAll('form#contactForm, form#auditForm');
                 forms.forEach(f => f.action = `https://formspree.io/f/${g.formspreeId}`);
