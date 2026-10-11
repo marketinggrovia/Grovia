@@ -139,6 +139,22 @@ async function applyCMS() {
             if (h1 && h.headline) h1.innerHTML = h.headline;
             const sub = document.querySelector('.hero-sub');
             if (sub && h.subheadline) sub.textContent = h.subheadline;
+            const btn1 = document.querySelector('.hero-buttons a:first-child');
+            if (btn1 && h.btn1Text) btn1.innerHTML = h.btn1Text + ' <i class="fas fa-arrow-right"></i>';
+            const btn2 = document.querySelector('.hero-buttons a:last-child');
+            if (btn2 && h.btn2Text) btn2.innerHTML = h.btn2Text + ' <i class="fas fa-chevron-down"></i>';
+            const mainImg = document.querySelector('.hero-main-img');
+            if (mainImg && h.heroImage) mainImg.src = h.heroImage;
+            const stat1 = document.querySelector('.floating-stat.stat-1');
+            if (stat1) {
+                if (h.floatStat1Number && stat1.querySelector('strong')) stat1.querySelector('strong').textContent = h.floatStat1Number;
+                if (h.floatStat1Label && stat1.querySelector('span')) stat1.querySelector('span').textContent = h.floatStat1Label;
+            }
+            const stat2 = document.querySelector('.floating-stat.stat-2');
+            if (stat2) {
+                if (h.floatStat2Number && stat2.querySelector('strong')) stat2.querySelector('strong').textContent = h.floatStat2Number;
+                if (h.floatStat2Label && stat2.querySelector('span')) stat2.querySelector('span').textContent = h.floatStat2Label;
+            }
             if (h.stats) {
                 const statsContainer = document.querySelector('.hero-stats');
                 if (statsContainer) {
@@ -162,6 +178,17 @@ async function applyCMS() {
                 const desc = sec.querySelector('.section-desc');
                 if (desc && wt.description) desc.textContent = wt.description;
                 
+                // Partners Ticker
+                if (wt.partners) {
+                    const track = sec.querySelector('.logo-ticker-track');
+                    if (track) {
+                        const itemsHTML = wt.partners.map(p => 
+                            `<div class="ticker-item"><i class="${p.icon || 'fab fa-google'}"></i> ${p.name}</div>`
+                        ).join('');
+                        track.innerHTML = itemsHTML + itemsHTML;
+                    }
+                }
+
                 const grid = document.getElementById('whyTrustGrid');
                 if (grid && wt.items) {
                     grid.innerHTML = wt.items.map((item, i) => `
@@ -385,6 +412,13 @@ async function applyCMS() {
         // 15. Testimonials Slider
         if (cms.testimonials) {
             const t = cms.testimonials;
+            const sec = document.querySelector('.trust-testimonials');
+            if (sec) {
+                const tag = sec.querySelector('.section-tag');
+                if (tag && t.tag) tag.textContent = t.tag;
+                const h3 = sec.querySelector('h3');
+                if (h3 && t.headline) h3.innerHTML = t.headline;
+            }
             const track = document.getElementById('testimonialTrack');
             if (track && t.items) {
                 track.innerHTML = t.items.map(item => `
@@ -397,6 +431,9 @@ async function applyCMS() {
                         </div>
                     </div>
                 `).join('');
+                if (typeof initTestimonialSlider === 'function') {
+                    initTestimonialSlider();
+                }
             }
         }
 
@@ -488,6 +525,17 @@ async function applyCMS() {
             const c = cms.contact;
             const sec = document.getElementById('contact');
             if (sec) {
+                const tag = sec.querySelector('.section-tag');
+                if (tag && c.tag) tag.textContent = c.tag;
+                const h2 = sec.querySelector('h2');
+                if (h2 && c.headline) h2.innerHTML = c.headline;
+                const desc = sec.querySelector('p');
+                if (desc && c.description) desc.textContent = c.description;
+                const formTitle = sec.querySelector('.contact-form h3');
+                if (formTitle && c.formTitle) formTitle.textContent = c.formTitle;
+                const submitBtn = sec.querySelector('.contact-form button[type="submit"]');
+                if (submitBtn && c.buttonText) submitBtn.innerHTML = c.buttonText + ' <i class="fas fa-paper-plane"></i>';
+
                 const details = sec.querySelector('.contact-details');
                 if (details) {
                     details.innerHTML = `
@@ -506,6 +554,15 @@ async function applyCMS() {
             document.querySelectorAll('.footer-phone').forEach(el => { el.href = `tel:${(c.phone||'').replace(/\s/g, '')}`; el.innerHTML = `<i class="fas fa-phone"></i> ${c.phone}`; });
             document.querySelectorAll('.footer-email').forEach(el => { el.href = `mailto:${c.email}`; el.innerHTML = `<i class="fas fa-envelope"></i> ${c.email}`; });
             document.querySelectorAll('.footer-address').forEach(el => { el.href = c.mapLink || '#'; el.innerHTML = `<i class="fas fa-location-dot"></i> ${c.address}`; });
+        }
+
+        // 20. Footer Content
+        if (cms.footer) {
+            const f = cms.footer;
+            const brandP = document.querySelector('.footer-brand p');
+            if (brandP && f.brandText) brandP.textContent = f.brandText;
+            const copyP = document.querySelector('.footer-bottom p');
+            if (copyP && f.copyright) copyP.innerHTML = f.copyright;
         }
 
         // 20. Social Links Sync (Footer & Header)

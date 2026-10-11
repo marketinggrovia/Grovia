@@ -3,6 +3,7 @@ const DEFAULTS = {
     brandName: "Grovia",
     fullName: "Grovia Marketing",
     logo: "logo.jpeg",
+    favicon: "favicon.png",
     formspreeId: "xvonzvze"
   },
   navigation: {
@@ -24,20 +25,35 @@ const DEFAULTS = {
   },
   hero: {
     badge: "#1 Digital Marketing Agency in Jaipur",
-    headline: 'Grovia - Trusted Digital marketing company in Jaipur',
+    headline: 'Grovia - Trusted Digital <span class="gradient-text">marketing company</span> in Jaipur',
     subheadline: 'Grovia is a digital marketing company in Jaipur offering customised digital marketing services as per your business type and budget. Our services include SEO, social media marketing, Google ads and Meta ads, website development, branding, content writing and many more services to help your business grow online. Looking for trusted digital marketing company in jaipur? Contact us today and tell us about your requirements. We will work together to provide you with the best digital marketing solutions according to your business needs.',
     btn1Text: "Get Started",
+    btn1Link: "contact.html",
     btn2Text: "View Services",
+    btn2Link: "services.html",
     stats: [
       { number: 150, suffix: "+", label: "Happy Clients" },
       { number: 300, suffix: "+", label: "Projects Done" },
       { number: 98, suffix: "%", label: "Success Rate" }
-    ]
+    ],
+    heroImage: "hero-image.webp",
+    floatStat1Number: "+180%",
+    floatStat1Label: "Revenue Growth",
+    floatStat2Number: "380%",
+    floatStat2Label: "ROAS"
   },
   whyTrust: {
-    tag: "Why Trust Grovia",
-    headline: 'Credibility Built on <span class="gradient-text">Performance & Transparency</span>',
+    tag: "Why Trust Us",
+    headline: 'Credibility Built on <span class="gradient-text">Performance</span>',
     description: "We don't just promise results; we hold ourselves accountable. Here is why leading companies trust us with their growth.",
+    partners: [
+      { icon: "fab fa-google", name: "Google Ads Partner" },
+      { icon: "fab fa-meta", name: "Meta Business Partner" },
+      { icon: "fab fa-shopify", name: "Shopify Partner" },
+      { icon: "fab fa-hubspot", name: "HubSpot Gold Partner" },
+      { icon: "fab fa-wordpress", name: "WP Engine Partner" },
+      { icon: "fab fa-salesforce", name: "Salesforce Partner" }
+    ],
     items: [
       { icon: "fas fa-sliders", title: "Customised Solutions", text: "Tailored digital marketing strategies crafted specifically for your business model and budget." },
       { icon: "fas fa-handshake", title: "Affordable Prices", text: "No rigid packages. We discuss your unique requirements and provide flexible pricing options." },
@@ -45,10 +61,45 @@ const DEFAULTS = {
       { icon: "fas fa-shield-halved", title: "Complete Agency Services", text: "End-to-end expertise in SEO, SMM, Meta/Google Ads, Web Dev, Content, WhatsApp & Email marketing." }
     ]
   },
+  testimonials: {
+    tag: "What Our Clients Say",
+    headline: 'What Our <span class="gradient-text">Clients Say</span>',
+    description: "Real feedback from businesses that achieved scalable online growth with Grovia Marketing.",
+    items: [
+      {
+        stars: 5,
+        text: "Grovia completely revamped our online presence. Our local enquiries went up by 250% in just 3 months!",
+        name: "Rahul Sharma",
+        role: "Founder, Jaipur Handicrafts",
+        initials: "RS"
+      },
+      {
+        stars: 5,
+        text: "The PPC and Meta Ads campaigns designed by Grovia delivered exceptional quality leads while reducing our cost per acquisition.",
+        name: "Priya Patel",
+        role: "Marketing Head, Luxe Realty",
+        initials: "PP"
+      },
+      {
+        stars: 5,
+        text: "Their SEO team worked magic on our rankings. We are now ranking on the first page of Google for all our major target keywords in Jaipur.",
+        name: "Amit Verma",
+        role: "CEO, EduTech Solutions",
+        initials: "AV"
+      },
+      {
+        stars: 5,
+        text: "Transparent reporting, dedicated communication, and true performance. The best digital marketing partner we have worked with.",
+        name: "Neha Gupta",
+        role: "Director, Organic Aura",
+        initials: "NG"
+      }
+    ]
+  },
   about: {
-    tag: "ABOUT US",
-    headline: 'Helping Businesses Grow <span class="gradient-text">smarter</span> with Digital marketing',
-    description: "Digital marketing is not just about getting leads or clicks but its main focus is connecting the right audience through strategic digital marketing solutions that build brand awareness, attract customers and help to achieve sustainable growth. Grovia is jaipur-based digital marketing agency helping startups, local business, and brands build their strong online presence through customised digital marketing channels.",
+    tag: "Who We Are",
+    headline: 'Real People Delivering <span class="gradient-text">Real Results</span>',
+    description: "We are a dynamic marketing agency blending cutting-edge technology with creative expertise to shape unparalleled digital experiences.",
     story: "We notice that every local business and start ups want their online presence but they often don't know where to begin and what digital marketing services are right for their business. That’s why Grovia was created. We understand and learn about the business type and requirement, discuss about the budget first and then suggest the best digital marketing solutions tailored to your business budget. We believe that every local business and start ups should also have a strong online presence and achieve growth.",
     mission: "Our mission is to help local business start ups and growing brands create a strong online presence through customised digital marketing solutions increasing leads, drive website traffic, increasing brand awareness and achieving sustainable growth.",
     vision: "Our vision is to become the leading digital marketing company in jaipur. As in today's digital world there is a rise in AI-powered search, Voice searches, AI overviews and changing customer behaviour. Our vision is to help businesses stay digitally visible, remain consistent, and ready for future by adapting advanced digital marketing strategies.",
@@ -67,8 +118,8 @@ const DEFAULTS = {
   },
   services: {
     tag: "Our Services",
-    headline: 'Customised Digital Marketing <span class="gradient-text">Services</span>',
-    description: "If you are searching for the best digital marketing services in Jaipur for your business within your budget then get in touch with us today and discuss your requirements with us.",
+    headline: 'Solutions That <span class="gradient-text">Drive Growth</span>',
+    description: "From strategy to execution, we provide end-to-end digital marketing solutions tailored to your business goals.",
     items: [
       {
         id: "seo",
@@ -115,9 +166,9 @@ const DEFAULTS = {
     ]
   },
   whyus: {
-    tag: "Why Choose Us",
-    headline: 'Why Choose <span class="gradient-text">Grovia</span>',
-    description: "As a Digital marketing agency in jaipur we believe every business is different and want to acheive different goals. That's why we discuss the needs and requirements of our clients and guide them with customised digital marketing solutions as per their business types.",
+    tag: "Why Grovia",
+    headline: 'Why Brands <span class="gradient-text">Choose Us</span>',
+    description: "We combine strategy, creativity, and technology to deliver results that exceed expectations.",
     items: [
       {
         number: "01",
@@ -148,8 +199,8 @@ const DEFAULTS = {
   },
   process: {
     tag: "Our Process",
-    headline: 'Our 5-Step <span class="gradient-text">Process</span>',
-    description: "From initial contact to project completion, we ensure seamless communication and timely delivery.",
+    headline: 'A Proven Roadmap to <span class="gradient-text">Success</span>',
+    description: "No guesswork. Just a structured, iterative workflow designed to drive continuous growth.",
     steps: [
       {
         step: "01",
@@ -180,8 +231,8 @@ const DEFAULTS = {
   },
   industries: {
     tag: "Industries We Serve",
-    headline: 'Tailored Marketing for <span class="gradient-text">Your Sector</span>',
-    description: "We understand that every business has different goals, customers and challenges. As a best digital marketing company in jaipur we provide customised digital marketing strategies that match your industry not using the same approach for every industry we serve. From increasing online traffic, to building your social media presence, increasing leads, organic traffic and sales, Our digital marketing agency aims to grow your business online.",
+    headline: 'Specialized Marketing for <span class="gradient-text">Your Sector</span>',
+    description: "We understand that every business has different goals, customers and challenges. As a best digital marketing company in jaipur we provide customised digital marketing strategies that match your industry not using the same approach for every industry we serve.",
     callout: "If you want digital marketing services near me for your business and increase your sales, leads, profits, enquiries or bookings connect with our digital marketing company in jaipur today and get the best digital marketing solutions tailored to your business.",
     items: [
       {
@@ -216,16 +267,48 @@ const DEFAULTS = {
     headline: 'Featured <span class="gradient-text">Case Studies</span>',
     description: "Real results from real campaigns. See how we've helped brands grow their digital presence.",
     items: [
-      { category: "SEO Campaign", title: "Local Healthcare Clinic SEO", color: "linear-gradient(135deg, #0a4da2, #38bdf8)", metrics: [{ value: "+280%", label: "Organic Traffic" }, { value: "3.5x", label: "Patient Enquiries" }] },
-      { category: "Real Estate PPC", title: "Luxury Property Lead Gen", color: "linear-gradient(135deg, #1e3a6e, #60a5fa)", metrics: [{ value: "140+", label: "Qualified Buyers" }, { value: "-35%", label: "Cost Per Lead" }] },
-      { category: "Clothing Brand SMM", title: "Fashion Apparel Sales", color: "linear-gradient(135deg, #0f4c81, #7dd3fc)", metrics: [{ value: "4.2x", label: "ROAS" }, { value: "+180%", label: "Online Sales" }] },
-      { category: "Interior Design", title: "Custom Web & Branding", color: "linear-gradient(135deg, #1a365d, #93c5fd)", metrics: [{ value: "#1", label: "Google Ranking" }, { value: "+210%", label: "Bookings" }] }
+      {
+        category: "SEO Campaign",
+        title: "Local Healthcare Clinic SEO",
+        color: "linear-gradient(135deg, #0a4da2, #38bdf8)",
+        metrics: [
+          { value: "+280%", label: "Organic Traffic" },
+          { value: "3.5x", label: "Patient Enquiries" }
+        ]
+      },
+      {
+        category: "Real Estate PPC",
+        title: "Luxury Property Lead Gen",
+        color: "linear-gradient(135deg, #1e3a6e, #60a5fa)",
+        metrics: [
+          { value: "140+", label: "Qualified Buyers" },
+          { value: "-35%", label: "Cost Per Lead" }
+        ]
+      },
+      {
+        category: "Clothing Brand SMM",
+        title: "Fashion Apparel Sales",
+        color: "linear-gradient(135deg, #0f4c81, #7dd3fc)",
+        metrics: [
+          { value: "4.2x", label: "ROAS" },
+          { value: "+180%", label: "Online Sales" }
+        ]
+      },
+      {
+        category: "Interior Design",
+        title: "Custom Web & Branding",
+        color: "linear-gradient(135deg, #1a365d, #93c5fd)",
+        metrics: [
+          { value: "#1", label: "Google Ranking" },
+          { value: "+210%", label: "Bookings" }
+        ]
+      }
     ]
   },
   faq: {
     tag: "FAQ",
     headline: 'Frequently <span class="gradient-text">Asked Questions</span>',
-    description: "Find clear answers to common questions about our customized digital marketing services in Jaipur.",
+    description: "Find answers to common questions about our digital marketing services.",
     items: [
       {
         question: "What digital marketing services do you offer?",
@@ -250,18 +333,19 @@ const DEFAULTS = {
     ]
   },
   contact: {
-    tag: "Contact Us Now",
-    headline: 'Looking for digital marketing services <span class="gradient-text">near me?</span>',
-    description: "Let’s grow your business together with customised digital marketing solutions and plans. Feel free to contact us today.",
+    tag: "Ready to Grow?",
+    headline: 'Let\'s Build Your <span class="gradient-text">Growth Engine</span>',
+    description: "Claim your free 30-minute growth strategy consultation call. No pressure, no sales pitches—just actionable value to help your business scale.",
     phone: "+91 70142 98350",
     email: "hello@groviamarketing.com",
     address: "Jaipur, Rajasthan, India",
-    formTitle: "Contact Us Now",
+    formTitle: "Get Free Strategy Call",
+    buttonText: "Send Message",
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14232.46321287!2d75.76023!3d26.91243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db4145749f7b1%3A0x6b772412891b00e!2sJaipur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1714570000000!5m2!1sen!2sin",
     mapLink: "https://goo.gl/maps/Jaipur"
   },
   footer: {
-    brandText: "Empowering startups and growing brands with customised digital marketing solutions that drive real online growth.",
+    brandText: "Empowering brands with innovative digital marketing solutions that drive real, measurable growth.",
     copyright: "© 2026 Grovia Marketing. All rights reserved."
   },
   billing: { items: [] },

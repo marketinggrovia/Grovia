@@ -269,9 +269,31 @@ function renderAudit(d) {
     </div>`;
 }
 
+function syncData() {
+  const section = currentSection;
+  const fields = document.querySelectorAll('[data-field]');
+  fields.forEach(f => {
+    const path = f.dataset.field.split('.');
+    let obj = data[section];
+    if (!obj) { data[section] = JSON.parse(JSON.stringify(DEFAULTS[section] || {})); obj = data[section]; }
+    for (let i = 0; i < path.length - 1; i++) {
+      const key = isNaN(path[i]) ? path[i] : parseInt(path[i]);
+      if (!obj[key]) obj[key] = isNaN(path[i+1]) ? {} : [];
+      obj = obj[key];
+    }
+    const lastKey = isNaN(path[path.length-1]) ? path[path.length-1] : parseInt(path[path.length-1]);
+    if (f.type === 'checkbox') {
+      obj[lastKey] = f.checked;
+    } else {
+      obj[lastKey] = f.type === 'number' ? Number(f.value) : f.value;
+    }
+  });
+}
+
 function renderHero(d) {
+  d = d || DEFAULTS.hero;
   return `
-    <div class="admin-card"><h3><i class="fas fa-heading"></i> Content</h3>
+    <div class="admin-card"><h3><i class="fas fa-heading"></i> Main Hero Content</h3>
       ${fieldHTML('Badge Text','badge',d.badge)}
       ${fieldHTML('Headline (HTML allowed)','headline',d.headline)}
       ${fieldHTML('Subheadline','subheadline',d.subheadline,'textarea')}
@@ -280,8 +302,19 @@ function renderHero(d) {
         ${fieldHTML('Button 2 Text','btn2Text',d.btn2Text)}
       </div>
     </div>
-    <div class="admin-card"><h3><i class="fas fa-chart-bar"></i> Hero Stats</h3>
-      ${d.stats.map((s,i) => `<div class="repeater-item"><div class="item-header"><h4>Stat ${i+1}</h4></div>
+    <div class="admin-card"><h3><i class="fas fa-image"></i> Hero Image & Floating Cards</h3>
+      ${fieldHTML('Hero Main Image URL / Path','heroImage',d.heroImage || 'hero-image.webp')}
+      <div class="field-row">
+        ${fieldHTML('Floating Stat 1 Value','floatStat1Number',d.floatStat1Number || '+180%')}
+        ${fieldHTML('Floating Stat 1 Label','floatStat1Label',d.floatStat1Label || 'Revenue Growth')}
+      </div>
+      <div class="field-row">
+        ${fieldHTML('Floating Stat 2 Value','floatStat2Number',d.floatStat2Number || '380%')}
+        ${fieldHTML('Floating Stat 2 Label','floatStat2Label',d.floatStat2Label || 'ROAS')}
+      </div>
+    </div>
+    <div class="admin-card"><h3><i class="fas fa-chart-bar"></i> Hero Key Stats</h3>
+      ${(d.stats||[]).map((s,i) => `<div class="repeater-item"><div class="item-header"><h4>Stat ${i+1}</h4></div>
         <div class="field-row-3">
           ${fieldHTML('Number',`stats.${i}.number`,s.number,'number')}
           ${fieldHTML('Suffix',`stats.${i}.suffix`,s.suffix)}
@@ -290,131 +323,251 @@ function renderHero(d) {
     </div>`;
 }
 
+function renderWhyTrust(d) {
+  d = d || DEFAULTS.whyTrust;
+  return `
+    <div class="admin-card"><h3><i class="fas fa-shield-halved"></i> Section Header</h3>
+      ${fieldHTML('Section Tag','tag',d.tag)}
+      ${fieldHTML('Headline (HTML allowed)','headline',d.headline)}
+      ${fieldHTML('Description','description',d.description,'textarea')}
+    </div>
+    <div class="admin-card"><h3><i class="fas fa-handshake"></i> Partner Ticker</h3>
+      <p style="margin-bottom:15px; color:var(--text-muted); font-size:0.85rem;">Partners shown in the infinite marquee slider</p>
+      ${(d.partners||[]).map((p,i) => `
+        <div class="repeater-item"><div class="item-header"><h4>${p.name || 'Partner ' + (i+1)}</h4>
+          <button class="btn-danger btn-sm" onclick="removeItem('whyTrust','partners',${i})"><i class="fas fa-trash"></i></button></div>
+          <div class="field-row">
+            ${fieldHTML('Icon Class (FontAwesome)',`partners.${i}.icon`,p.icon)}
+            ${fieldHTML('Partner Name',`partners.${i}.name`,p.name)}
+          </div>
+        </div>
+      `).join('')}
+      <button class="add-btn" onclick="addItem('whyTrust','partners',{icon:'fab fa-google',name:'New Partner'})"><i class="fas fa-plus"></i> Add Partner</button>
+    </div>
+    <div class="admin-card"><h3><i class="fas fa-th-large"></i> Trust Feature Cards</h3>
+      ${(d.items||[]).map((item,i) => `
+        <div class="repeater-item"><div class="item-header"><h4>${item.title || 'Card ' + (i+1)}</h4>
+          <button class="btn-danger btn-sm" onclick="removeItem('whyTrust','items',${i})"><i class="fas fa-trash"></i></button></div>
+          <div class="field-row">
+            ${fieldHTML('Icon Class',`items.${i}.icon`,item.icon)}
+            ${fieldHTML('Title',`items.${i}.title`,item.title)}
+          </div>
+          ${fieldHTML('Description',`items.${i}.text`,item.text,'textarea')}
+        </div>
+      `).join('')}
+      <button class="add-btn" onclick="addItem('whyTrust','items',{icon:'fas fa-shield-halved',title:'New Trust Item',text:'Description'})"><i class="fas fa-plus"></i> Add Trust Card</button>
+    </div>`;
+}
+
 function renderAbout(d) {
+  d = d || DEFAULTS.about;
   return `
     <div class="admin-card"><h3><i class="fas fa-heading"></i> Section Header</h3>
       ${fieldHTML('Tag',`tag`,d.tag)}
-      ${fieldHTML('Headline (HTML)',`headline`,d.headline)}
+      ${fieldHTML('Headline (HTML allowed)',`headline`,d.headline)}
       ${fieldHTML('Description',`description`,d.description,'textarea')}
     </div>
     <div class="admin-card"><h3><i class="fas fa-th-large"></i> Feature Cards</h3>
-      ${d.cards.map((c,i) => `<div class="repeater-item"><div class="item-header"><h4>${c.title}</h4>
-        <button class="btn-danger btn-sm" onclick="removeItem('about','cards',${i})"><i class="fas fa-trash"></i></button></div>
-        <div class="field-row-3">
-          ${fieldHTML('Icon Class',`cards.${i}.icon`,c.icon)}
-          ${fieldHTML('Title',`cards.${i}.title`,c.title)}
-          ${fieldHTML('Text',`cards.${i}.text`,c.text)}
-        </div></div>`).join('')}
+      ${(d.cards||[]).map((c,i) => `
+        <div class="repeater-item"><div class="item-header"><h4>${c.title}</h4>
+          <button class="btn-danger btn-sm" onclick="removeItem('about','cards',${i})"><i class="fas fa-trash"></i></button></div>
+          <div class="field-row-3">
+            ${fieldHTML('Icon Class',`cards.${i}.icon`,c.icon)}
+            ${fieldHTML('Title',`cards.${i}.title`,c.title)}
+            ${fieldHTML('Text',`cards.${i}.text`,c.text)}
+          </div>
+        </div>`).join('')}
       <button class="add-btn" onclick="addItem('about','cards',{icon:'fas fa-star',title:'New Card',text:'Description'})"><i class="fas fa-plus"></i> Add Card</button>
     </div>
     <div class="admin-card"><h3><i class="fas fa-sort-numeric-up"></i> Counter Stats</h3>
-      ${d.counters.map((c,i) => `<div class="repeater-item"><div class="item-header"><h4>${c.label}</h4>
-        <button class="btn-danger btn-sm" onclick="removeItem('about','counters',${i})"><i class="fas fa-trash"></i></button></div>
-        <div class="field-row-3">
-          ${fieldHTML('Number',`counters.${i}.number`,c.number,'number')}
-          ${fieldHTML('Suffix',`counters.${i}.suffix`,c.suffix)}
-          ${fieldHTML('Label',`counters.${i}.label`,c.label)}
-        </div></div>`).join('')}
+      ${(d.counters||[]).map((c,i) => `
+        <div class="repeater-item"><div class="item-header"><h4>${c.label}</h4>
+          <button class="btn-danger btn-sm" onclick="removeItem('about','counters',${i})"><i class="fas fa-trash"></i></button></div>
+          <div class="field-row-3">
+            ${fieldHTML('Number',`counters.${i}.number`,c.number,'number')}
+            ${fieldHTML('Suffix',`counters.${i}.suffix`,c.suffix)}
+            ${fieldHTML('Label',`counters.${i}.label`,c.label)}
+          </div>
+        </div>`).join('')}
       <button class="add-btn" onclick="addItem('about','counters',{number:0,suffix:'+',label:'New Stat'})"><i class="fas fa-plus"></i> Add Counter</button>
     </div>`;
 }
 
 function renderServices(d) {
+  d = d || DEFAULTS.services;
   return `
     <div class="admin-card"><h3><i class="fas fa-heading"></i> Section Header</h3>
       ${fieldHTML('Tag',`tag`,d.tag)}
-      ${fieldHTML('Headline (HTML)',`headline`,d.headline)}
+      ${fieldHTML('Headline (HTML allowed)',`headline`,d.headline)}
       ${fieldHTML('Description',`description`,d.description,'textarea')}
     </div>
     <div class="admin-card"><h3><i class="fas fa-cogs"></i> Service Cards</h3>
-      ${d.items.map((s,i) => `<div class="repeater-item"><div class="item-header"><h4>${s.title}</h4>
-        <button class="btn-danger btn-sm" onclick="removeItem('services','items',${i})"><i class="fas fa-trash"></i></button></div>
-        <div class="field-row">
-          ${fieldHTML('Unique ID (no spaces)',`items.${i}.id`,s.id)}
-          ${fieldHTML('Icon Class',`items.${i}.icon`,s.icon)}
-        </div>
-        ${fieldHTML('Title',`items.${i}.title`,s.title)}
-        ${fieldHTML('Short Summary (Homepage)',`items.${i}.text`,s.text,'textarea')}
-        ${fieldHTML('Detailed Page Content (HTML allowed)',`items.${i}.fullContent`,s.fullContent,'textarea', 'rows="6"')}
-      </div>`).join('')}
+      ${(d.items||[]).map((s,i) => `
+        <div class="repeater-item"><div class="item-header"><h4>${s.title}</h4>
+          <button class="btn-danger btn-sm" onclick="removeItem('services','items',${i})"><i class="fas fa-trash"></i></button></div>
+          <div class="field-row">
+            ${fieldHTML('Unique ID (no spaces)',`items.${i}.id`,s.id)}
+            ${fieldHTML('Icon Class',`items.${i}.icon`,s.icon)}
+          </div>
+          ${fieldHTML('Title',`items.${i}.title`,s.title)}
+          ${fieldHTML('Short Summary (Homepage)',`items.${i}.text`,s.text,'textarea')}
+          ${fieldHTML('Detailed Page Content (HTML allowed)',`items.${i}.fullContent`,s.fullContent,'textarea', 'rows="6"')}
+        </div>`).join('')}
       <button class="add-btn" onclick="addItem('services','items',{id:'new-service',icon:'fas fa-gem',title:'New Service',text:'Short description',fullContent:'Detailed description for the separate page.'})"><i class="fas fa-plus"></i> Add Service</button>
     </div>`;
 }
 
 function renderWhyUs(d) {
+  d = d || DEFAULTS.whyus;
   return `
     <div class="admin-card"><h3><i class="fas fa-heading"></i> Section Header</h3>
       ${fieldHTML('Tag',`tag`,d.tag)}
-      ${fieldHTML('Headline (HTML)',`headline`,d.headline)}
+      ${fieldHTML('Headline (HTML allowed)',`headline`,d.headline)}
       ${fieldHTML('Description',`description`,d.description,'textarea')}
     </div>
     <div class="admin-card"><h3><i class="fas fa-star"></i> Reason Cards</h3>
-      ${d.items.map((w,i) => `<div class="repeater-item"><div class="item-header"><h4>${w.title}</h4>
-        <button class="btn-danger btn-sm" onclick="removeItem('whyus','items',${i})"><i class="fas fa-trash"></i></button></div>
-        <div class="field-row-3">
-          ${fieldHTML('Number',`items.${i}.number`,w.number)}
-          ${fieldHTML('Title',`items.${i}.title`,w.title)}
-          ${fieldHTML('Text',`items.${i}.text`,w.text)}
-        </div></div>`).join('')}
-      <button class="add-btn" onclick="addItem('whyus','items',{number:'05',title:'New Reason',text:'Description'})"><i class="fas fa-plus"></i> Add Reason</button>
+      ${(d.items||[]).map((w,i) => `
+        <div class="repeater-item"><div class="item-header"><h4>${w.title}</h4>
+          <button class="btn-danger btn-sm" onclick="removeItem('whyus','items',${i})"><i class="fas fa-trash"></i></button></div>
+          <div class="field-row-3">
+            ${fieldHTML('Number',`items.${i}.number`,w.number)}
+            ${fieldHTML('Title',`items.${i}.title`,w.title)}
+            ${fieldHTML('Text',`items.${i}.text`,w.text)}
+          </div>
+        </div>`).join('')}
+      <button class="add-btn" onclick="addItem('whyus','items',{number:'06',title:'New Reason',text:'Description'})"><i class="fas fa-plus"></i> Add Reason</button>
+    </div>`;
+}
+
+function renderProcess(d) {
+  d = d || DEFAULTS.process;
+  return `
+    <div class="admin-card"><h3><i class="fas fa-route"></i> Section Header</h3>
+      ${fieldHTML('Section Tag','tag',d.tag)}
+      ${fieldHTML('Headline (HTML allowed)','headline',d.headline)}
+      ${fieldHTML('Description','description',d.description,'textarea')}
+    </div>
+    <div class="admin-card"><h3><i class="fas fa-list-ol"></i> Process Steps</h3>
+      ${(d.steps||[]).map((s,i) => `
+        <div class="repeater-item"><div class="item-header"><h4>Step ${s.step || (i+1)}: ${s.title || ''}</h4>
+          <button class="btn-danger btn-sm" onclick="removeItem('process','steps',${i})"><i class="fas fa-trash"></i></button></div>
+          <div class="field-row">
+            ${fieldHTML('Step Number (e.g. 01)',`steps.${i}.step`,s.step)}
+            ${fieldHTML('Step Title',`steps.${i}.title`,s.title)}
+          </div>
+          ${fieldHTML('Step Description',`steps.${i}.text`,s.text,'textarea')}
+        </div>
+      `).join('')}
+      <button class="add-btn" onclick="addItem('process','steps',{step:'06',title:'New Step',text:'Step description'})"><i class="fas fa-plus"></i> Add Process Step</button>
+    </div>`;
+}
+
+function renderIndustries(d) {
+  d = d || DEFAULTS.industries;
+  return `
+    <div class="admin-card"><h3><i class="fas fa-building"></i> Section Header</h3>
+      ${fieldHTML('Section Tag','tag',d.tag)}
+      ${fieldHTML('Headline (HTML allowed)','headline',d.headline)}
+      ${fieldHTML('Description','description',d.description,'textarea')}
+      ${fieldHTML('Bottom Callout Banner Text','callout',d.callout,'textarea')}
+    </div>
+    <div class="admin-card"><h3><i class="fas fa-th-large"></i> Industry Cards</h3>
+      ${(d.items||[]).map((item,i) => `
+        <div class="repeater-item"><div class="item-header"><h4>${item.title || 'Industry ' + (i+1)}</h4>
+          <button class="btn-danger btn-sm" onclick="removeItem('industries','items',${i})"><i class="fas fa-trash"></i></button></div>
+          <div class="field-row">
+            ${fieldHTML('Icon Class',`items.${i}.icon`,item.icon)}
+            ${fieldHTML('Industry Title',`items.${i}.title`,item.title)}
+          </div>
+          ${fieldHTML('Description',`items.${i}.text`,item.text,'textarea')}
+        </div>
+      `).join('')}
+      <button class="add-btn" onclick="addItem('industries','items',{icon:'fas fa-briefcase',title:'New Industry',text:'Industry description'})"><i class="fas fa-plus"></i> Add Industry</button>
     </div>`;
 }
 
 function renderPortfolio(d) {
+  d = d || DEFAULTS.portfolio;
   return `
     <div class="admin-card"><h3><i class="fas fa-heading"></i> Section Header</h3>
       ${fieldHTML('Tag',`tag`,d.tag)}
-      ${fieldHTML('Headline (HTML)',`headline`,d.headline)}
+      ${fieldHTML('Headline (HTML allowed)',`headline`,d.headline)}
       ${fieldHTML('Description',`description`,d.description,'textarea')}
     </div>
     <div class="admin-card"><h3><i class="fas fa-briefcase"></i> Case Studies</h3>
-      ${d.items.map((p,i) => `<div class="repeater-item"><div class="item-header"><h4>${p.title}</h4>
-        <button class="btn-danger btn-sm" onclick="removeItem('portfolio','items',${i})"><i class="fas fa-trash"></i></button></div>
-        <div class="field-row">${fieldHTML('Category',`items.${i}.category`,p.category)}${fieldHTML('Title',`items.${i}.title`,p.title)}</div>
-        <div class="field-row">${fieldHTML('Metric 1 Value',`items.${i}.metric1`,p.metric1)}${fieldHTML('Metric 1 Label',`items.${i}.metric1Label`,p.metric1Label)}</div>
-        <div class="field-row">${fieldHTML('Metric 2 Value',`items.${i}.metric2`,p.metric2)}${fieldHTML('Metric 2 Label',`items.${i}.metric2Label`,p.metric2Label)}</div>
-        ${fieldHTML('CSS Gradient',`items.${i}.gradient`,p.gradient)}
-      </div>`).join('')}
-      <button class="add-btn" onclick="addItem('portfolio','items',{category:'New',title:'Case Study',metric1:'+100%',metric1Label:'Growth',metric2:'+50%',metric2Label:'ROI',gradient:'linear-gradient(135deg,#0a4da2,#38bdf8)'})"><i class="fas fa-plus"></i> Add Case Study</button>
+      ${(d.items||[]).map((p,i) => {
+        const m1 = (p.metrics && p.metrics[0]) || { value: p.metric1 || '', label: p.metric1Label || '' };
+        const m2 = (p.metrics && p.metrics[1]) || { value: p.metric2 || '', label: p.metric2Label || '' };
+        const color = p.color || p.gradient || 'linear-gradient(135deg, #0a4da2, #38bdf8)';
+        return `
+        <div class="repeater-item"><div class="item-header"><h4>${p.title || 'Case Study ' + (i+1)}</h4>
+          <button class="btn-danger btn-sm" onclick="removeItem('portfolio','items',${i})"><i class="fas fa-trash"></i></button></div>
+          <div class="field-row">
+            ${fieldHTML('Category',`items.${i}.category`,p.category)}
+            ${fieldHTML('Title',`items.${i}.title`,p.title)}
+          </div>
+          <div class="field-row">
+            ${fieldHTML('Metric 1 Value',`items.${i}.metrics.0.value`,m1.value)}
+            ${fieldHTML('Metric 1 Label',`items.${i}.metrics.0.label`,m1.label)}
+          </div>
+          <div class="field-row">
+            ${fieldHTML('Metric 2 Value',`items.${i}.metrics.1.value`,m2.value)}
+            ${fieldHTML('Metric 2 Label',`items.${i}.metrics.1.label`,m2.label)}
+          </div>
+          ${fieldHTML('CSS Gradient / Background',`items.${i}.color`,color)}
+        </div>`;
+      }).join('')}
+      <button class="add-btn" onclick="addItem('portfolio','items',{category:'New Category',title:'New Case Study',color:'linear-gradient(135deg, #0a4da2, #38bdf8)',metrics:[{value:'+100%',label:'Growth'},{value:'2x',label:'ROI'}]})"><i class="fas fa-plus"></i> Add Case Study</button>
     </div>`;
 }
 
 function renderTestimonials(d) {
+  d = d || DEFAULTS.testimonials;
   return `
     <div class="admin-card"><h3><i class="fas fa-heading"></i> Section Header</h3>
       ${fieldHTML('Tag',`tag`,d.tag)}
-      ${fieldHTML('Headline (HTML)',`headline`,d.headline)}
+      ${fieldHTML('Headline (HTML allowed)',`headline`,d.headline)}
       ${fieldHTML('Description',`description`,d.description,'textarea')}
     </div>
     <div class="admin-card"><h3><i class="fas fa-quote-right"></i> Client Reviews</h3>
-      ${d.items.map((t,i) => `<div class="repeater-item"><div class="item-header"><h4>${t.name}</h4>
-        <button class="btn-danger btn-sm" onclick="removeItem('testimonials','items',${i})"><i class="fas fa-trash"></i></button></div>
-        ${fieldHTML('Review Text',`items.${i}.text`,t.text,'textarea')}
-        <div class="field-row">${fieldHTML('Name',`items.${i}.name`,t.name)}${fieldHTML('Role',`items.${i}.role`,t.role)}</div>
-        <div class="field-row">${fieldHTML('Initials',`items.${i}.initials`,t.initials)}${fieldHTML('Stars (1-5)',`items.${i}.stars`,t.stars,'number')}</div>
-      </div>`).join('')}
-      <button class="add-btn" onclick="addItem('testimonials','items',{stars:5,text:'Great service!',name:'New Client',role:'CEO, Company',initials:'NC'})"><i class="fas fa-plus"></i> Add Testimonial</button>
+      ${(d.items||[]).map((t,i) => `
+        <div class="repeater-item"><div class="item-header"><h4>${t.name || 'Client ' + (i+1)}</h4>
+          <button class="btn-danger btn-sm" onclick="removeItem('testimonials','items',${i})"><i class="fas fa-trash"></i></button></div>
+          ${fieldHTML('Review Text',`items.${i}.text`,t.text,'textarea')}
+          <div class="field-row">
+            ${fieldHTML('Client Name',`items.${i}.name`,t.name)}
+            ${fieldHTML('Role & Company',`items.${i}.role`,t.role)}
+          </div>
+          <div class="field-row">
+            ${fieldHTML('Initials / Avatar',`items.${i}.initials`,t.initials)}
+            ${fieldHTML('Stars (1-5)',`items.${i}.stars`,t.stars,'number')}
+          </div>
+        </div>`).join('')}
+      <button class="add-btn" onclick="addItem('testimonials','items',{stars:5,text:'Outstanding results and dedication!',name:'New Client',role:'CEO, Company',initials:'NC'})"><i class="fas fa-plus"></i> Add Testimonial</button>
     </div>`;
 }
 
 function renderContact(d) {
+  d = d || DEFAULTS.contact;
   return `
     <div class="admin-card"><h3><i class="fas fa-heading"></i> Section Header</h3>
       ${fieldHTML('Tag',`tag`,d.tag)}
-      ${fieldHTML('Headline (HTML)',`headline`,d.headline)}
+      ${fieldHTML('Headline (HTML allowed)',`headline`,d.headline)}
       ${fieldHTML('Description',`description`,d.description,'textarea')}
     </div>
-    <div class="admin-card"><h3><i class="fas fa-address-card"></i> Contact Details</h3>
-      ${fieldHTML('Phone',`phone`,d.phone)}
-      ${fieldHTML('Email',`email`,d.email)}
-      ${fieldHTML('Address',`address`,d.address)}
+    <div class="admin-card"><h3><i class="fas fa-address-card"></i> Contact Details & Form</h3>
+      <div class="field-row">
+        ${fieldHTML('Phone Number',`phone`,d.phone)}
+        ${fieldHTML('Email Address',`email`,d.email)}
+      </div>
+      ${fieldHTML('Office Address',`address`,d.address)}
       ${fieldHTML('Form Title', 'formTitle', d.formTitle)}
-      ${fieldHTML('Map Embed URL (Iframe src)', 'mapEmbed', d.mapEmbed)}
-      ${fieldHTML('Google Maps Link', 'mapLink', d.mapLink)}
+      ${fieldHTML('Button Text', 'buttonText', d.buttonText || 'Send Message')}
     </div>`;
 }
 
 function renderFooter(d) {
+  d = d || DEFAULTS.footer;
   return `
     <div class="admin-card"><h3><i class="fas fa-columns"></i> Footer Content</h3>
       ${fieldHTML('Brand Description',`brandText`,d.brandText,'textarea')}
@@ -423,20 +576,23 @@ function renderFooter(d) {
 }
 
 function renderGeneral(d) {
+  d = d || DEFAULTS.general;
   return `
     <div class="admin-card"><h3><i class="fas fa-globe"></i> Branding</h3>
       ${fieldHTML('Short Brand Name', 'brandName', d.brandName)}
       ${fieldHTML('Full Brand Name', 'fullName', d.fullName)}
-      ${fieldHTML('Logo URL', 'logo', d.logo)}
+      ${fieldHTML('Logo URL / Path', 'logo', d.logo)}
+      ${fieldHTML('Favicon URL / Path', 'favicon', d.favicon || 'favicon.png')}
       <div style="margin-top:20px; padding:15px; background:rgba(10, 77, 162, 0.05); border-radius:8px; border:1px solid rgba(10, 77, 162, 0.1)">
         <h4 style="margin-bottom:10px; color:var(--primary)"><i class="fas fa-paper-plane"></i> Formspree Integration</h4>
-        <p style="font-size:0.85rem; margin-bottom:10px; color:var(--text-muted)">Get your Formspree ID at <a href="https://formspree.io" target="_blank" style="color:var(--primary)">formspree.io</a> to receive form submissions at groviamarketing@zohomail.in.</p>
+        <p style="font-size:0.85rem; margin-bottom:10px; color:var(--text-muted)">Get your Formspree ID at <a href="https://formspree.io" target="_blank" style="color:var(--primary)">formspree.io</a> to receive form submissions.</p>
         ${fieldHTML('Formspree ID', 'formspreeId', d.formspreeId)}
       </div>
     </div>`;
 }
 
 function renderSocials(d) {
+  d = d || DEFAULTS.socials;
   return `
     <div class="admin-card"><h3><i class="fas fa-share-nodes"></i> Social Profiles</h3>
       <p style="margin-bottom:16px;color:var(--text-muted)">Enter full URLs for your social media profiles.</p>
@@ -450,9 +606,14 @@ function renderSocials(d) {
 }
 
 function renderSettings(d) {
+  d = d || DEFAULTS.settings;
   return `
     <div class="admin-card"><h3><i class="fas fa-lock"></i> Security</h3>
-      ${fieldHTML('Admin Password',`password`,d.password,'text')}
+      ${fieldHTML('Admin PIN / Password',`password`,d.password,'text')}
+    </div>
+    <div class="admin-card"><h3><i class="fas fa-sync-alt"></i> Sync with Website Frontpage Defaults</h3>
+      <p style="margin-bottom:16px;color:var(--text-muted)">Restore all admin sections to match the exact live frontpage content and default schemas.</p>
+      <button class="btn-primary" onclick="syncAllToDefaults()"><i class="fas fa-sync"></i> Reset All Sections to Frontpage Content</button>
     </div>
     <div class="admin-card"><h3><i class="fas fa-database"></i> Data Management</h3>
       <p style="margin-bottom:16px;color:var(--text-muted)">Export or import all website content as JSON.</p>
@@ -465,13 +626,38 @@ function renderSettings(d) {
     </div>`;
 }
 
+async function syncAllToDefaults() {
+  if (confirm('This will update all admin panel content to match the live website frontpage defaults. Proceed?')) {
+    data = JSON.parse(JSON.stringify(DEFAULTS));
+    localStorage.setItem('grovia_cms', JSON.stringify(data));
+    const result = await updateCMS(data);
+    loadSection(currentSection);
+    showToast('Admin panel synced with live frontpage content!');
+  }
+}
+
 // === REPEATER HELPERS ===
 function addItem(section, arrayKey, template) {
-  saveAll();
-  if (!data[section]) data[section] = JSON.parse(JSON.stringify(DEFAULTS[section]));
+  syncData();
+  if (!data[section]) data[section] = JSON.parse(JSON.stringify(DEFAULTS[section] || {}));
+  if (!Array.isArray(data[section][arrayKey])) data[section][arrayKey] = [];
   data[section][arrayKey].push(template);
-  saveData(); loadSection(section);
+  localStorage.setItem('grovia_cms', JSON.stringify(data));
+  updateCMS(data);
+  loadSection(section);
   showToast('Item added');
+}
+
+function removeItem(section, arrayKey, index) {
+  if (!confirm('Remove this item?')) return;
+  syncData();
+  if (data[section] && Array.isArray(data[section][arrayKey])) {
+    data[section][arrayKey].splice(index, 1);
+    localStorage.setItem('grovia_cms', JSON.stringify(data));
+    updateCMS(data);
+    loadSection(section);
+    showToast('Item removed');
+  }
 }
 
 function renderSEO(d) {
